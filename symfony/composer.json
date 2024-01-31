@@ -1,0 +1,11 @@
+{
+    "config": {
+        "allow-plugins": {
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
+    },
+    "require": {
+        "sensio/framework-extra-bundle": "^6.2"
+    }
+}
