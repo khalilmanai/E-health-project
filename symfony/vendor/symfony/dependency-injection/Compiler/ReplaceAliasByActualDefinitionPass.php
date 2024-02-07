@@ -24,14 +24,23 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ReplaceAliasByActualDefinitionPass extends AbstractRecursivePass
 {
-    protected bool $skipScalars = true;
+    private $replacements;
+    private $autoAliasServicePass;
 
-    private array $replacements;
+    /**
+     * @internal to be removed in Symfony 6.0
+     *
+     * @return $this
+     */
+    public function setAutoAliasServicePass(AutoAliasServicePass $autoAliasServicePass): self
+    {
+        $this->autoAliasServicePass = $autoAliasServicePass;
+
+        return $this;
+    }
 
     /**
      * Process the Container to replace aliases with service definitions.
-     *
-     * @return void
      *
      * @throws InvalidArgumentException if the service definition does not exist
      */
@@ -40,6 +49,11 @@ class ReplaceAliasByActualDefinitionPass extends AbstractRecursivePass
         // First collect all alias targets that need to be replaced
         $seenAliasTargets = [];
         $replacements = [];
+
+        $privateAliases = $this->autoAliasServicePass ? $this->autoAliasServicePass->getPrivateAliases() : [];
+        foreach ($privateAliases as $target) {
+            $target->setDeprecated('symfony/dependency-injection', '5.4', 'Accessing the "%alias_id%" service directly from the container is deprecated, use dependency injection instead.');
+        }
 
         foreach ($container->getAliases() as $definitionId => $target) {
             $targetId = (string) $target;
@@ -89,7 +103,10 @@ class ReplaceAliasByActualDefinitionPass extends AbstractRecursivePass
         $this->replacements = [];
     }
 
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    /**
+     * {@inheritdoc}
+     */
+    protected function processValue($value, bool $isRoot = false)
     {
         if ($value instanceof Reference && isset($this->replacements[$referenceId = (string) $value])) {
             // Perform the replacement

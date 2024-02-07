@@ -12,7 +12,6 @@
 namespace Symfony\Bundle\FrameworkBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Secrets\AbstractVault;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -29,11 +28,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @internal
  */
-#[AsCommand(name: 'secrets:remove', description: 'Remove a secret from the vault')]
 final class SecretsRemoveCommand extends Command
 {
-    private AbstractVault $vault;
-    private ?AbstractVault $localVault;
+    protected static $defaultName = 'secrets:remove';
+    protected static $defaultDescription = 'Remove a secret from the vault';
+
+    private $vault;
+    private $localVault;
 
     public function __construct(AbstractVault $vault, ?AbstractVault $localVault = null)
     {
@@ -43,9 +44,10 @@ final class SecretsRemoveCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
+    protected function configure()
     {
         $this
+            ->setDescription(self::$defaultDescription)
             ->addArgument('name', InputArgument::REQUIRED, 'The name of the secret')
             ->addOption('local', 'l', InputOption::VALUE_NONE, 'Update the local vault.')
             ->setHelp(<<<'EOF'

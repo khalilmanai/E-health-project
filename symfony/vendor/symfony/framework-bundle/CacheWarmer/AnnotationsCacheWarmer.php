@@ -22,32 +22,28 @@ use Symfony\Component\Cache\Adapter\PhpArrayAdapter;
  * and declared in DI bundle extensions using the addAnnotatedClassesToCache method.
  *
  * @author Titouan Galopin <galopintitouan@gmail.com>
- *
- * @deprecated since Symfony 6.4 without replacement
  */
 class AnnotationsCacheWarmer extends AbstractPhpFileCacheWarmer
 {
+    private $annotationReader;
+    private $excludeRegexp;
+    private $debug;
+
     /**
      * @param string $phpArrayFile The PHP file where annotations are cached
      */
-    public function __construct(
-        private readonly Reader $annotationReader,
-        string $phpArrayFile,
-        private readonly ?string $excludeRegexp = null,
-        private readonly bool $debug = false,
-        /* bool $triggerDeprecation = true, */
-    ) {
-        if (\func_num_args() < 5 || func_get_arg(4)) {
-            trigger_deprecation('symfony/framework-bundle', '6.4', 'The "%s" class is deprecated without replacement.', __CLASS__);
-        }
-
+    public function __construct(Reader $annotationReader, string $phpArrayFile, ?string $excludeRegexp = null, bool $debug = false)
+    {
         parent::__construct($phpArrayFile);
+        $this->annotationReader = $annotationReader;
+        $this->excludeRegexp = $excludeRegexp;
+        $this->debug = $debug;
     }
 
     /**
-     * @param string|null $buildDir
+     * {@inheritdoc}
      */
-    protected function doWarmUp(string $cacheDir, ArrayAdapter $arrayAdapter /* , string $buildDir = null */): bool
+    protected function doWarmUp(string $cacheDir, ArrayAdapter $arrayAdapter)
     {
         $annotatedClassPatterns = $cacheDir.'/annotations.map';
 
@@ -75,21 +71,21 @@ class AnnotationsCacheWarmer extends AbstractPhpFileCacheWarmer
     /**
      * @return string[] A list of classes to preload on PHP 7.4+
      */
-    protected function warmUpPhpArrayAdapter(PhpArrayAdapter $phpArrayAdapter, array $values): array
+    protected function warmUpPhpArrayAdapter(PhpArrayAdapter $phpArrayAdapter, array $values)
     {
         // make sure we don't cache null values
-        $values = array_filter($values, fn ($val) => null !== $val);
+        $values = array_filter($values, function ($val) { return null !== $val; });
 
         return parent::warmUpPhpArrayAdapter($phpArrayAdapter, $values);
     }
 
-    private function readAllComponents(Reader $reader, string $class): void
+    private function readAllComponents(Reader $reader, string $class)
     {
         $reflectionClass = new \ReflectionClass($class);
 
         try {
             $reader->getClassAnnotations($reflectionClass);
-        } catch (AnnotationException) {
+        } catch (AnnotationException $e) {
             /*
              * Ignore any AnnotationException to not break the cache warming process if an Annotation is badly
              * configured or could not be found / read / etc.
@@ -103,14 +99,14 @@ class AnnotationsCacheWarmer extends AbstractPhpFileCacheWarmer
         foreach ($reflectionClass->getMethods() as $reflectionMethod) {
             try {
                 $reader->getMethodAnnotations($reflectionMethod);
-            } catch (AnnotationException) {
+            } catch (AnnotationException $e) {
             }
         }
 
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {
             try {
                 $reader->getPropertyAnnotations($reflectionProperty);
-            } catch (AnnotationException) {
+            } catch (AnnotationException $e) {
             }
         }
     }

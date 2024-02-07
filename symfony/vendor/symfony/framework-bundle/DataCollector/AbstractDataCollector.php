@@ -23,6 +23,11 @@ abstract class AbstractDataCollector extends DataCollector implements TemplateAw
         return static::class;
     }
 
+    public function reset(): void
+    {
+        $this->data = [];
+    }
+
     public static function getTemplate(): ?string
     {
         return null;

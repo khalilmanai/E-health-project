@@ -19,7 +19,7 @@ namespace Symfony\Component\DependencyInjection;
 interface EnvVarLoaderInterface
 {
     /**
-     * @return array<string|\Stringable> Key/value pairs that can be accessed using the regular "%env()%" syntax
+     * @return string[] Key/value pairs that can be accessed using the regular "%env()%" syntax
      */
     public function loadEnvVars(): array;
 }

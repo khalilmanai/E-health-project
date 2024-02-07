@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class TestBrowserToken extends AbstractToken
 {
-    private string $firewallName;
+    private $firewallName;
 
     public function __construct(array $roles = [], ?UserInterface $user = null, string $firewallName = 'main')
     {
@@ -39,7 +39,7 @@ class TestBrowserToken extends AbstractToken
         return $this->firewallName;
     }
 
-    public function getCredentials(): mixed
+    public function getCredentials()
     {
         return null;
     }

@@ -11,7 +11,6 @@
 
 namespace Symfony\Bundle\FrameworkBundle\Command;
 
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -26,11 +25,13 @@ use Symfony\Component\HttpKernel\CacheClearer\Psr6CacheClearer;
  *
  * @author Pierre du Plessis <pdples@gmail.com>
  */
-#[AsCommand(name: 'cache:pool:delete', description: 'Delete an item from a cache pool')]
 final class CachePoolDeleteCommand extends Command
 {
-    private Psr6CacheClearer $poolClearer;
-    private ?array $poolNames;
+    protected static $defaultName = 'cache:pool:delete';
+    protected static $defaultDescription = 'Delete an item from a cache pool';
+
+    private $poolClearer;
+    private $poolNames;
 
     /**
      * @param string[]|null $poolNames
@@ -43,13 +44,17 @@ final class CachePoolDeleteCommand extends Command
         $this->poolNames = $poolNames;
     }
 
-    protected function configure(): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
     {
         $this
             ->setDefinition([
                 new InputArgument('pool', InputArgument::REQUIRED, 'The cache pool from which to delete an item'),
                 new InputArgument('key', InputArgument::REQUIRED, 'The cache key to delete from the pool'),
             ])
+            ->setDescription(self::$defaultDescription)
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> deletes an item from a given cache pool.
 
@@ -59,6 +64,9 @@ EOF
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

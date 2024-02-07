@@ -35,9 +35,11 @@ trait PriorityTaggedServiceTrait
      * @see https://bugs.php.net/53710
      * @see https://bugs.php.net/60926
      *
+     * @param string|TaggedIteratorArgument $tagName
+     *
      * @return Reference[]
      */
-    private function findAndSortTaggedServices(string|TaggedIteratorArgument $tagName, ContainerBuilder $container, array $exclude = []): array
+    private function findAndSortTaggedServices($tagName, ContainerBuilder $container): array
     {
         $indexAttribute = $defaultIndexMethod = $needsIndexes = $defaultPriorityMethod = null;
 
@@ -46,7 +48,6 @@ trait PriorityTaggedServiceTrait
             $defaultIndexMethod = $tagName->getDefaultIndexMethod();
             $needsIndexes = $tagName->needsIndexes();
             $defaultPriorityMethod = $tagName->getDefaultPriorityMethod() ?? 'getDefaultPriority';
-            $exclude = array_merge($exclude, $tagName->getExclude());
             $tagName = $tagName->getTag();
         }
 
@@ -54,16 +55,12 @@ trait PriorityTaggedServiceTrait
         $services = [];
 
         foreach ($container->findTaggedServiceIds($tagName, true) as $serviceId => $attributes) {
-            if (\in_array($serviceId, $exclude, true)) {
-                continue;
-            }
-
             $defaultPriority = null;
             $defaultIndex = null;
             $definition = $container->getDefinition($serviceId);
             $class = $definition->getClass();
             $class = $container->getParameterBag()->resolveValue($class) ?: null;
-            $checkTaggedItem = !$definition->hasTag($definition->isAutoconfigured() ? 'container.ignore_attributes' : $tagName);
+            $checkTaggedItem = !$definition->hasTag(80000 <= \PHP_VERSION_ID && $definition->isAutoconfigured() ? 'container.ignore_attributes' : $tagName);
 
             foreach ($attributes as $attribute) {
                 $index = $priority = null;
@@ -73,7 +70,7 @@ trait PriorityTaggedServiceTrait
                 } elseif (null === $defaultPriority && $defaultPriorityMethod && $class) {
                     $defaultPriority = PriorityTaggedServiceUtil::getDefault($container, $serviceId, $class, $defaultPriorityMethod, $tagName, 'priority', $checkTaggedItem);
                 }
-                $priority ??= $defaultPriority ??= 0;
+                $priority = $priority ?? $defaultPriority ?? $defaultPriority = 0;
 
                 if (null === $indexAttribute && !$defaultIndexMethod && !$needsIndexes) {
                     $services[] = [$priority, ++$i, null, $serviceId, null];
@@ -85,13 +82,13 @@ trait PriorityTaggedServiceTrait
                 } elseif (null === $defaultIndex && $defaultPriorityMethod && $class) {
                     $defaultIndex = PriorityTaggedServiceUtil::getDefault($container, $serviceId, $class, $defaultIndexMethod ?? 'getDefaultName', $tagName, $indexAttribute, $checkTaggedItem);
                 }
-                $index ??= $defaultIndex ??= $serviceId;
+                $index = $index ?? $defaultIndex ?? $defaultIndex = $serviceId;
 
                 $services[] = [$priority, ++$i, $index, $serviceId, $class];
             }
         }
 
-        uasort($services, static fn ($a, $b) => $b[0] <=> $a[0] ?: $a[1] <=> $b[1]);
+        uasort($services, static function ($a, $b) { return $b[0] <=> $a[0] ?: $a[1] <=> $b[1]; });
 
         $refs = [];
         foreach ($services as [, , $index, $serviceId, $class]) {
@@ -119,7 +116,10 @@ trait PriorityTaggedServiceTrait
  */
 class PriorityTaggedServiceUtil
 {
-    public static function getDefault(ContainerBuilder $container, string $serviceId, string $class, string $defaultMethod, string $tagName, ?string $indexAttribute, bool $checkTaggedItem): string|int|null
+    /**
+     * @return string|int|null
+     */
+    public static function getDefault(ContainerBuilder $container, string $serviceId, string $class, string $defaultMethod, string $tagName, ?string $indexAttribute, bool $checkTaggedItem)
     {
         if (!($r = $container->getReflectionClass($class)) || (!$checkTaggedItem && !$r->hasMethod($defaultMethod))) {
             return null;

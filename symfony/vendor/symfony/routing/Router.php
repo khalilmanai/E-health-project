@@ -37,26 +37,67 @@ use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
  */
 class Router implements RouterInterface, RequestMatcherInterface
 {
-    protected UrlMatcherInterface|RequestMatcherInterface $matcher;
-    protected UrlGeneratorInterface $generator;
-    protected RequestContext $context;
-    protected LoaderInterface $loader;
-    protected RouteCollection $collection;
-    protected mixed $resource;
-    protected array $options = [];
-    protected ?LoggerInterface $logger;
-    protected ?string $defaultLocale;
+    /**
+     * @var UrlMatcherInterface|null
+     */
+    protected $matcher;
 
-    private ConfigCacheFactoryInterface $configCacheFactory;
+    /**
+     * @var UrlGeneratorInterface|null
+     */
+    protected $generator;
+
+    /**
+     * @var RequestContext
+     */
+    protected $context;
+
+    /**
+     * @var LoaderInterface
+     */
+    protected $loader;
+
+    /**
+     * @var RouteCollection|null
+     */
+    protected $collection;
+
+    /**
+     * @var mixed
+     */
+    protected $resource;
+
+    /**
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * @var LoggerInterface|null
+     */
+    protected $logger;
+
+    /**
+     * @var string|null
+     */
+    protected $defaultLocale;
+
+    /**
+     * @var ConfigCacheFactoryInterface|null
+     */
+    private $configCacheFactory;
 
     /**
      * @var ExpressionFunctionProviderInterface[]
      */
-    private array $expressionLanguageProviders = [];
+    private $expressionLanguageProviders = [];
 
-    private static ?array $cache = [];
+    private static $cache = [];
 
-    public function __construct(LoaderInterface $loader, mixed $resource, array $options = [], ?RequestContext $context = null, ?LoggerInterface $logger = null, ?string $defaultLocale = null)
+    /**
+     * @param mixed $resource The main resource to load
+     */
+    public function __construct(LoaderInterface $loader, $resource, array $options = [], ?RequestContext $context = null, ?LoggerInterface $logger = null, ?string $defaultLocale = null)
     {
         $this->loader = $loader;
         $this->resource = $resource;
@@ -83,7 +124,7 @@ class Router implements RouterInterface, RequestMatcherInterface
      *
      * @throws \InvalidArgumentException When unsupported option is provided
      */
-    public function setOptions(array $options): void
+    public function setOptions(array $options)
     {
         $this->options = [
             'cache_dir' => null,
@@ -114,9 +155,11 @@ class Router implements RouterInterface, RequestMatcherInterface
     /**
      * Sets an option.
      *
+     * @param mixed $value The value
+     *
      * @throws \InvalidArgumentException
      */
-    public function setOption(string $key, mixed $value): void
+    public function setOption(string $key, $value)
     {
         if (!\array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
@@ -128,9 +171,11 @@ class Router implements RouterInterface, RequestMatcherInterface
     /**
      * Gets an option value.
      *
+     * @return mixed
+     *
      * @throws \InvalidArgumentException
      */
-    public function getOption(string $key): mixed
+    public function getOption(string $key)
     {
         if (!\array_key_exists($key, $this->options)) {
             throw new \InvalidArgumentException(sprintf('The Router does not support the "%s" option.', $key));
@@ -139,24 +184,37 @@ class Router implements RouterInterface, RequestMatcherInterface
         return $this->options[$key];
     }
 
-    public function getRouteCollection(): RouteCollection
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouteCollection()
     {
-        return $this->collection ??= $this->loader->load($this->resource, $this->options['resource_type']);
+        if (null === $this->collection) {
+            $this->collection = $this->loader->load($this->resource, $this->options['resource_type']);
+        }
+
+        return $this->collection;
     }
 
-    public function setContext(RequestContext $context): void
+    /**
+     * {@inheritdoc}
+     */
+    public function setContext(RequestContext $context)
     {
         $this->context = $context;
 
-        if (isset($this->matcher)) {
+        if (null !== $this->matcher) {
             $this->getMatcher()->setContext($context);
         }
-        if (isset($this->generator)) {
+        if (null !== $this->generator) {
             $this->getGenerator()->setContext($context);
         }
     }
 
-    public function getContext(): RequestContext
+    /**
+     * {@inheritdoc}
+     */
+    public function getContext()
     {
         return $this->context;
     }
@@ -164,22 +222,31 @@ class Router implements RouterInterface, RequestMatcherInterface
     /**
      * Sets the ConfigCache factory to use.
      */
-    public function setConfigCacheFactory(ConfigCacheFactoryInterface $configCacheFactory): void
+    public function setConfigCacheFactory(ConfigCacheFactoryInterface $configCacheFactory)
     {
         $this->configCacheFactory = $configCacheFactory;
     }
 
-    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
+    /**
+     * {@inheritdoc}
+     */
+    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH)
     {
         return $this->getGenerator()->generate($name, $parameters, $referenceType);
     }
 
-    public function match(string $pathinfo): array
+    /**
+     * {@inheritdoc}
+     */
+    public function match(string $pathinfo)
     {
         return $this->getMatcher()->match($pathinfo);
     }
 
-    public function matchRequest(Request $request): array
+    /**
+     * {@inheritdoc}
+     */
+    public function matchRequest(Request $request)
     {
         $matcher = $this->getMatcher();
         if (!$matcher instanceof RequestMatcherInterface) {
@@ -192,10 +259,12 @@ class Router implements RouterInterface, RequestMatcherInterface
 
     /**
      * Gets the UrlMatcher or RequestMatcher instance associated with this Router.
+     *
+     * @return UrlMatcherInterface|RequestMatcherInterface
      */
-    public function getMatcher(): UrlMatcherInterface|RequestMatcherInterface
+    public function getMatcher()
     {
-        if (isset($this->matcher)) {
+        if (null !== $this->matcher) {
             return $this->matcher;
         }
 
@@ -233,10 +302,12 @@ class Router implements RouterInterface, RequestMatcherInterface
 
     /**
      * Gets the UrlGenerator instance associated with this Router.
+     *
+     * @return UrlGeneratorInterface
      */
-    public function getGenerator(): UrlGeneratorInterface
+    public function getGenerator()
     {
-        if (isset($this->generator)) {
+        if (null !== $this->generator) {
             return $this->generator;
         }
 
@@ -267,17 +338,23 @@ class Router implements RouterInterface, RequestMatcherInterface
         return $this->generator;
     }
 
-    public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider): void
+    public function addExpressionLanguageProvider(ExpressionFunctionProviderInterface $provider)
     {
         $this->expressionLanguageProviders[] = $provider;
     }
 
-    protected function getGeneratorDumperInstance(): GeneratorDumperInterface
+    /**
+     * @return GeneratorDumperInterface
+     */
+    protected function getGeneratorDumperInstance()
     {
         return new $this->options['generator_dumper_class']($this->getRouteCollection());
     }
 
-    protected function getMatcherDumperInstance(): MatcherDumperInterface
+    /**
+     * @return MatcherDumperInterface
+     */
+    protected function getMatcherDumperInstance()
     {
         return new $this->options['matcher_dumper_class']($this->getRouteCollection());
     }
@@ -288,12 +365,16 @@ class Router implements RouterInterface, RequestMatcherInterface
      */
     private function getConfigCacheFactory(): ConfigCacheFactoryInterface
     {
-        return $this->configCacheFactory ??= new ConfigCacheFactory($this->options['debug']);
+        if (null === $this->configCacheFactory) {
+            $this->configCacheFactory = new ConfigCacheFactory($this->options['debug']);
+        }
+
+        return $this->configCacheFactory;
     }
 
     private static function getCompiledRoutes(string $path): array
     {
-        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOL) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg', 'embed'], true) || filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOL))) {
+        if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(\ini_get('opcache.enable'), \FILTER_VALIDATE_BOOLEAN) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(\ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOLEAN))) {
             self::$cache = null;
         }
 
@@ -301,6 +382,10 @@ class Router implements RouterInterface, RequestMatcherInterface
             return require $path;
         }
 
-        return self::$cache[$path] ??= require $path;
+        if (isset(self::$cache[$path])) {
+            return self::$cache[$path];
+        }
+
+        return self::$cache[$path] = require $path;
     }
 }

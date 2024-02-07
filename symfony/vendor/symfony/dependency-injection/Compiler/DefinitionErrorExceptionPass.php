@@ -25,10 +25,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class DefinitionErrorExceptionPass extends AbstractRecursivePass
 {
-    protected bool $skipScalars = true;
-
-    private array $erroredDefinitions = [];
-    private array $sourceReferences = [];
+    private $erroredDefinitions = [];
+    private $sourceReferences = [];
 
     /**
      * @return void
@@ -56,7 +54,10 @@ class DefinitionErrorExceptionPass extends AbstractRecursivePass
         }
     }
 
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    /**
+     * {@inheritdoc}
+     */
+    protected function processValue($value, bool $isRoot = false)
     {
         if ($value instanceof ArgumentInterface) {
             parent::processValue($value->getValues());
@@ -66,7 +67,7 @@ class DefinitionErrorExceptionPass extends AbstractRecursivePass
 
         if ($value instanceof Reference && $this->currentId !== $targetId = (string) $value) {
             if (ContainerInterface::RUNTIME_EXCEPTION_ON_INVALID_REFERENCE === $value->getInvalidBehavior()) {
-                $this->sourceReferences[$targetId][$this->currentId] ??= true;
+                $this->sourceReferences[$targetId][$this->currentId] ?? $this->sourceReferences[$targetId][$this->currentId] = true;
             } else {
                 $this->sourceReferences[$targetId][$this->currentId] = false;
             }
@@ -74,7 +75,7 @@ class DefinitionErrorExceptionPass extends AbstractRecursivePass
             return $value;
         }
 
-        if (!$value instanceof Definition || !$value->hasErrors() || $value->hasTag('container.error')) {
+        if (!$value instanceof Definition || !$value->hasErrors()) {
             return parent::processValue($value, $isRoot);
         }
 

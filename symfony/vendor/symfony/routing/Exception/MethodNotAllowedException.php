@@ -20,13 +20,19 @@ namespace Symfony\Component\Routing\Exception;
  */
 class MethodNotAllowedException extends \RuntimeException implements ExceptionInterface
 {
-    protected array $allowedMethods = [];
+    protected $allowedMethods = [];
 
     /**
      * @param string[] $allowedMethods
      */
-    public function __construct(array $allowedMethods, string $message = '', int $code = 0, ?\Throwable $previous = null)
+    public function __construct(array $allowedMethods, ?string $message = '', int $code = 0, ?\Throwable $previous = null)
     {
+        if (null === $message) {
+            trigger_deprecation('symfony/routing', '5.3', 'Passing null as $message to "%s()" is deprecated, pass an empty string instead.', __METHOD__);
+
+            $message = '';
+        }
+
         $this->allowedMethods = array_map('strtoupper', $allowedMethods);
 
         parent::__construct($message, $code, $previous);
@@ -37,7 +43,7 @@ class MethodNotAllowedException extends \RuntimeException implements ExceptionIn
      *
      * @return string[]
      */
-    public function getAllowedMethods(): array
+    public function getAllowedMethods()
     {
         return $this->allowedMethods;
     }

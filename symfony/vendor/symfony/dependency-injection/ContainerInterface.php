@@ -12,7 +12,7 @@
 namespace Symfony\Component\DependencyInjection;
 
 use Psr\Container\ContainerInterface as PsrContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
@@ -31,42 +31,54 @@ interface ContainerInterface extends PsrContainerInterface
     public const IGNORE_ON_UNINITIALIZED_REFERENCE = 4;
 
     /**
-     * @return void
+     * Sets a service.
      */
     public function set(string $id, ?object $service);
 
     /**
-     * @template B of self::*_REFERENCE
+     * Gets a service.
      *
-     * @param B $invalidBehavior
+     * @param string $id              The service identifier
+     * @param int    $invalidBehavior The behavior when the service does not exist
      *
-     * @psalm-return (B is self::EXCEPTION_ON_INVALID_REFERENCE|self::RUNTIME_EXCEPTION_ON_INVALID_REFERENCE ? object : object|null)
+     * @return object|null
      *
      * @throws ServiceCircularReferenceException When a circular reference is detected
      * @throws ServiceNotFoundException          When the service is not defined
      *
      * @see Reference
      */
-    public function get(string $id, int $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE): ?object;
+    public function get(string $id, int $invalidBehavior = self::EXCEPTION_ON_INVALID_REFERENCE);
 
-    public function has(string $id): bool;
+    /**
+     * @return bool
+     */
+    public function has(string $id);
 
     /**
      * Check for whether or not a service has been initialized.
+     *
+     * @return bool
      */
-    public function initialized(string $id): bool;
+    public function initialized(string $id);
 
     /**
      * @return array|bool|string|int|float|\UnitEnum|null
      *
-     * @throws ParameterNotFoundException if the parameter is not defined
+     * @throws InvalidArgumentException if the parameter is not defined
      */
     public function getParameter(string $name);
 
-    public function hasParameter(string $name): bool;
+    /**
+     * @return bool
+     */
+    public function hasParameter(string $name);
 
     /**
-     * @return void
+     * Sets a parameter.
+     *
+     * @param string                                     $name  The parameter name
+     * @param array|bool|string|int|float|\UnitEnum|null $value The parameter value
      */
-    public function setParameter(string $name, array|bool|string|int|float|\UnitEnum|null $value);
+    public function setParameter(string $name, $value);
 }

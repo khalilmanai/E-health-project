@@ -28,7 +28,7 @@ use Symfony\Component\Validator\ValidatorBuilder;
  */
 class ValidatorCacheWarmer extends AbstractPhpFileCacheWarmer
 {
-    private ValidatorBuilder $validatorBuilder;
+    private $validatorBuilder;
 
     /**
      * @param string $phpArrayFile The PHP file where metadata are cached
@@ -40,10 +40,14 @@ class ValidatorCacheWarmer extends AbstractPhpFileCacheWarmer
     }
 
     /**
-     * @param string|null $buildDir
+     * {@inheritdoc}
      */
-    protected function doWarmUp(string $cacheDir, ArrayAdapter $arrayAdapter /* , string $buildDir = null */): bool
+    protected function doWarmUp(string $cacheDir, ArrayAdapter $arrayAdapter)
     {
+        if (!method_exists($this->validatorBuilder, 'getLoaders')) {
+            return false;
+        }
+
         $loaders = $this->validatorBuilder->getLoaders();
         $metadataFactory = new LazyLoadingMetadataFactory(new LoaderChain($loaders), $arrayAdapter);
 
@@ -53,7 +57,7 @@ class ValidatorCacheWarmer extends AbstractPhpFileCacheWarmer
                     if ($metadataFactory->hasMetadataFor($mappedClass)) {
                         $metadataFactory->getMetadataFor($mappedClass);
                     }
-                } catch (AnnotationException) {
+                } catch (AnnotationException $e) {
                     // ignore failing annotations
                 } catch (\Exception $e) {
                     $this->ignoreAutoloadException($mappedClass, $e);
@@ -67,10 +71,10 @@ class ValidatorCacheWarmer extends AbstractPhpFileCacheWarmer
     /**
      * @return string[] A list of classes to preload on PHP 7.4+
      */
-    protected function warmUpPhpArrayAdapter(PhpArrayAdapter $phpArrayAdapter, array $values): array
+    protected function warmUpPhpArrayAdapter(PhpArrayAdapter $phpArrayAdapter, array $values)
     {
         // make sure we don't cache null values
-        $values = array_filter($values, fn ($val) => null !== $val);
+        $values = array_filter($values, function ($val) { return null !== $val; });
 
         return parent::warmUpPhpArrayAdapter($phpArrayAdapter, $values);
     }

@@ -27,12 +27,10 @@ class ServiceConfigurator extends AbstractServiceConfigurator
     use Traits\CallTrait;
     use Traits\ClassTrait;
     use Traits\ConfiguratorTrait;
-    use Traits\ConstructorTrait;
     use Traits\DecorateTrait;
     use Traits\DeprecateTrait;
     use Traits\FactoryTrait;
     use Traits\FileTrait;
-    use Traits\FromCallableTrait;
     use Traits\LazyTrait;
     use Traits\ParentTrait;
     use Traits\PropertyTrait;
@@ -43,11 +41,11 @@ class ServiceConfigurator extends AbstractServiceConfigurator
 
     public const FACTORY = 'services';
 
-    private ContainerBuilder $container;
-    private array $instanceof;
-    private bool $allowParent;
-    private ?string $path;
-    private bool $destructed = false;
+    private $container;
+    private $instanceof;
+    private $allowParent;
+    private $path;
+    private $destructed = false;
 
     public function __construct(ContainerBuilder $container, array $instanceof, bool $allowParent, ServicesConfigurator $parent, Definition $definition, ?string $id, array $defaultTags, ?string $path = null)
     {

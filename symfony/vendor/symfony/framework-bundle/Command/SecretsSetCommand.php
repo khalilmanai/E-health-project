@@ -12,7 +12,6 @@
 namespace Symfony\Bundle\FrameworkBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Secrets\AbstractVault;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -30,11 +29,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @internal
  */
-#[AsCommand(name: 'secrets:set', description: 'Set a secret in the vault')]
 final class SecretsSetCommand extends Command
 {
-    private AbstractVault $vault;
-    private ?AbstractVault $localVault;
+    protected static $defaultName = 'secrets:set';
+    protected static $defaultDescription = 'Set a secret in the vault';
+
+    private $vault;
+    private $localVault;
 
     public function __construct(AbstractVault $vault, ?AbstractVault $localVault = null)
     {
@@ -44,9 +45,10 @@ final class SecretsSetCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
+    protected function configure()
     {
         $this
+            ->setDescription(self::$defaultDescription)
             ->addArgument('name', InputArgument::REQUIRED, 'The name of the secret')
             ->addArgument('file', InputArgument::OPTIONAL, 'A file where to read the secret from or "-" for reading from STDIN')
             ->addOption('local', 'l', InputOption::VALUE_NONE, 'Update the local vault.')

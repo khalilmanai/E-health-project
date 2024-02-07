@@ -16,10 +16,12 @@ interface RequestContextAwareInterface
     /**
      * Sets the request context.
      */
-    public function setContext(RequestContext $context): void;
+    public function setContext(RequestContext $context);
 
     /**
      * Gets the request context.
+     *
+     * @return RequestContext
      */
-    public function getContext(): RequestContext;
+    public function getContext();
 }

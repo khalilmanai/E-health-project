@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 trait BuildDebugContainerTrait
 {
-    protected ContainerBuilder $container;
+    protected $containerBuilder;
 
     /**
      * Loads the ContainerBuilder from the cache.
@@ -35,16 +35,16 @@ trait BuildDebugContainerTrait
      */
     protected function getContainerBuilder(KernelInterface $kernel): ContainerBuilder
     {
-        if (isset($this->container)) {
-            return $this->container;
+        if ($this->containerBuilder) {
+            return $this->containerBuilder;
         }
 
-        if (!$kernel->isDebug() || !$kernel->getContainer()->getParameter('debug.container.dump') || !(new ConfigCache($kernel->getContainer()->getParameter('debug.container.dump'), true))->isFresh()) {
+        if (!$kernel->isDebug() || !(new ConfigCache($kernel->getContainer()->getParameter('debug.container.dump'), true))->isFresh()) {
             $buildContainer = \Closure::bind(function () {
                 $this->initializeBundles();
 
                 return $this->buildContainer();
-            }, $kernel, $kernel::class);
+            }, $kernel, \get_class($kernel));
             $container = $buildContainer();
             $container->getCompilerPassConfig()->setRemovingPasses([]);
             $container->getCompilerPassConfig()->setAfterRemovingPasses([]);
@@ -55,7 +55,7 @@ trait BuildDebugContainerTrait
                 $this->prepareContainer($containerBuilder);
 
                 return $containerBuilder;
-            }, $kernel, $kernel::class);
+            }, $kernel, \get_class($kernel));
             $container = $buildContainer();
             (new XmlFileLoader($container, new FileLocator()))->load($kernel->getContainer()->getParameter('debug.container.dump'));
             $locatorPass = new ServiceLocatorTagPass();
@@ -66,6 +66,6 @@ trait BuildDebugContainerTrait
             $container->getCompilerPassConfig()->setBeforeRemovingPasses([]);
         }
 
-        return $this->container = $container;
+        return $this->containerBuilder = $container;
     }
 }

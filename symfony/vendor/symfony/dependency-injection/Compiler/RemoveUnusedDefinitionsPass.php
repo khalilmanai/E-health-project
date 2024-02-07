@@ -22,14 +22,10 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class RemoveUnusedDefinitionsPass extends AbstractRecursivePass
 {
-    protected bool $skipScalars = true;
-
-    private array $connectedIds = [];
+    private $connectedIds = [];
 
     /**
      * Processes the ContainerBuilder to remove unused definitions.
-     *
-     * @return void
      */
     public function process(ContainerBuilder $container)
     {
@@ -76,7 +72,10 @@ class RemoveUnusedDefinitionsPass extends AbstractRecursivePass
         }
     }
 
-    protected function processValue(mixed $value, bool $isRoot = false): mixed
+    /**
+     * {@inheritdoc}
+     */
+    protected function processValue($value, bool $isRoot = false)
     {
         if (!$value instanceof Reference) {
             return parent::processValue($value, $isRoot);

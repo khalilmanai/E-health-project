@@ -12,7 +12,6 @@
 namespace Symfony\Bundle\FrameworkBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Secrets\AbstractVault;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -25,11 +24,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @internal
  */
-#[AsCommand(name: 'secrets:decrypt-to-local', description: 'Decrypt all secrets and stores them in the local vault')]
 final class SecretsDecryptToLocalCommand extends Command
 {
-    private AbstractVault $vault;
-    private ?AbstractVault $localVault;
+    protected static $defaultName = 'secrets:decrypt-to-local';
+    protected static $defaultDescription = 'Decrypt all secrets and stores them in the local vault';
+
+    private $vault;
+    private $localVault;
 
     public function __construct(AbstractVault $vault, ?AbstractVault $localVault = null)
     {
@@ -39,9 +40,10 @@ final class SecretsDecryptToLocalCommand extends Command
         parent::__construct();
     }
 
-    protected function configure(): void
+    protected function configure()
     {
         $this
+            ->setDescription(self::$defaultDescription)
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force overriding of secrets that already exist in the local vault')
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command decrypts all secrets and copies them in the local vault.
