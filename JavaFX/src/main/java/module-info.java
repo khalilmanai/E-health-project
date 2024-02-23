@@ -3,7 +3,12 @@ module com.example.demo {
     requires javafx.fxml;
 
     requires com.dlsc.formsfx;
+    requires java.sql;
+    requires jbcrypt;
+    requires java.mail;
 
-    opens com.example.demo to javafx.fxml;
-    exports com.example.demo;
+    opens com.example.app to javafx.fxml;
+    exports com.example.app;
+    exports com.example.app.utils;
+    opens com.example.app.utils to javafx.fxml;
 }
