@@ -1,0 +1,11 @@
+.card {
+    -fx-background-radius: 15;
+    -fx-padding: 10;
+    -fx-transition: transform 0.2s;
+}
+
+
+
+.shadow {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.0, 0, 4);
+}

@@ -1,0 +1,32 @@
+.button-81 {
+    -fx-background-color: #FCF8F4;
+    -fx-border-color: #e2e8f0;
+    -fx-border-width: 0;
+
+    -fx-text-fill: #0d172a;
+    -fx-cursor: hand;
+    -fx-font-family: "Basier circle", "Arial", sans-serif;
+    -fx-font-size: 1.1em;
+    -fx-font-weight: normal;
+    -fx-padding: 0.5em 1em;
+    -fx-alignment: center;
+    -fx-text-decoration: none #0d172a solid;
+    -fx-effect: dropshadow( one-pass-box , rgba(166, 175, 195, 0.25) , 0, 1, 0, 1);
+    -fx-background-insets: 0;
+    -fx-background-radius: 1.6em;
+    -fx-background: #fff;
+    -fx-min-height: 25; /* Set fixed minimum height */
+    -fx-max-height: 28; /* Set fixed maximum height */
+}
+
+.button-81:hover {
+    -fx-background-color: #1e293b;
+    -fx-text-fill: #fff;
+}
+
+@media (min-width: 500px) {
+    .button-81 {
+        -fx-font-size: 1.125em;
+        -fx-padding: 0.5em 2em; /* Adjusted padding for better appearance */
+    }
+}
