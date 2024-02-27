@@ -1,38 +1,31 @@
 package x.nutri.models;
 
 
-
-
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class Panier {
-    private int Id_panier,User_id,Totale,NombresProduits;
-    private List<Produit> produits;
+    private int User_id,Totale,NombresProduits;
+    private List<Produit> produits = new ArrayList<>();
 
     public Panier() {
         this.Totale = 0;
     }
-    public void addProduct(Produit produit, int quantite) {
+    public void addProduct(Produit produit) {
         this.produits.add(produit);
-        this.Totale += produit.getPrix() * quantite;
+        this.Totale += produit.getPrix() * produit.getQuantite();
+        this.NombresProduits = produits.size();
     }
 
-    public Panier(int id_panier, int user_id, int totale, int nombresProduits, List<Produit> produits) {
-        Id_panier = id_panier;
+    public Panier( int user_id, int totale, int nombresProduits, List<Produit> produits) {
+
         User_id = user_id;
         Totale = totale;
         NombresProduits = nombresProduits;
         this.produits = produits;
     }
 
-    public int getId_panier() {
-        return Id_panier;
-    }
 
-    public void setId_panier(int id_panier) {
-        Id_panier = id_panier;
-    }
 
     public int getUser_id() {
         return User_id;
@@ -59,7 +52,7 @@ public class Panier {
     }
 
     public int getNombresProduits() {
-        return NombresProduits;
+        return produits.size();
     }
 
     public void setNombresProduits(int nombresProduits) {
@@ -71,7 +64,7 @@ public class Panier {
     @Override
     public String toString() {
         return "Panier{" +
-                "Id_panier=" + Id_panier +
+
                 ", User_id=" + User_id +
                 ", Totale=" + Totale +
                 ", NombresProduits=" + NombresProduits +

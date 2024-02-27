@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="x.nutri.controllers.CardviewController">
+   <children>
+      <HBox fx:id="produit_Hbox" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="185.0" prefWidth="411.0">
+          <children>
+              <ImageView fx:id="prod_image" fitHeight="184.0" fitWidth="155.0" pickOnBounds="true" preserveRatio="true" />
+              <VBox prefHeight="158.0" prefWidth="245.0">
+                  <children>
+                      <Label fx:id="nom_card" prefHeight="31.0" prefWidth="246.0" text="Nom produit">
+                          <font>
+                              <Font name="System Bold" size="15.0" />
+                          </font>
+                      </Label>
+      
+                                  <Label fx:id="prix_card" prefHeight="31.0" prefWidth="246.0" text="Prix">
+                          <font>
+                              <Font name="System Bold" size="15.0" />
+                          </font>
+                      </Label>
+                  <TextField fx:id="quant" />
+                      <Button fx:id="id_addcart" onAction="#addToCart" alignment="CENTER" layoutX="10.0" layoutY="135.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="228.0" text="ADD TO CART">
+                          <font>
+                              <Font name="System Italic" size="14.0" />
+                          </font>
+                      </Button>
+      
+                  </children>
+              </VBox>
+          </children>
+      </HBox>
+   </children>
+</AnchorPane>

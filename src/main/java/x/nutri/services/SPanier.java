@@ -27,14 +27,14 @@ public class SPanier  {
         try  {
             pst = DBconnection.getInstance().getCnx().prepareStatement(qry);
             pst1 = DBconnection.getInstance().getCnx().prepareStatement(updateTotalQuery);
-            pst.setInt(1, cart.getId_panier());
+            //pst.setInt(1, cart.getId_panier());
             pst.setInt(2, product.getId_produit());
             pst.setInt(3, quantite);
 
             int rowsAffected = pst.executeUpdate();
             int Totale = product.getPrix() * quantite;
             pst1.setInt(1, Totale);
-            pst1.setInt(2, cart.getId_panier());
+            //pst1.setInt(2, cart.getId_panier());
             pst1.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Produit ajouté au panier avec succès !");

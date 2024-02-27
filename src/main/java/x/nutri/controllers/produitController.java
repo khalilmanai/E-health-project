@@ -20,11 +20,7 @@ public class produitController {
 
 
 
-        public void setData(Produit produit) {
-            namelabel .setText(produit.getProductName());
-            pricelabel.setText(produit.getPrix()+"DT");
-            // Vous pouvez définir l'image en fonction de votre implémentation
-        }
+
     }
 
 
