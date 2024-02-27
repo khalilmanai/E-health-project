@@ -11,7 +11,6 @@
 
 namespace Symfony\Bundle\FrameworkBundle\Command;
 
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,11 +33,13 @@ use Symfony\Component\HttpKernel\RebootableInterface;
  *
  * @final
  */
-#[AsCommand(name: 'cache:clear', description: 'Clear the cache')]
 class CacheClearCommand extends Command
 {
-    private CacheClearerInterface $cacheClearer;
-    private Filesystem $filesystem;
+    protected static $defaultName = 'cache:clear';
+    protected static $defaultDescription = 'Clear the cache';
+
+    private $cacheClearer;
+    private $filesystem;
 
     public function __construct(CacheClearerInterface $cacheClearer, ?Filesystem $filesystem = null)
     {
@@ -48,13 +49,17 @@ class CacheClearCommand extends Command
         $this->filesystem = $filesystem ?? new Filesystem();
     }
 
-    protected function configure(): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
     {
         $this
             ->setDefinition([
                 new InputOption('no-warmup', '', InputOption::VALUE_NONE, 'Do not warm up the cache'),
                 new InputOption('no-optional-warmers', '', InputOption::VALUE_NONE, 'Skip optional cache warmers (faster)'),
             ])
+            ->setDescription(self::$defaultDescription)
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command clears and warms up the application cache for a given environment
 and debug mode:
@@ -66,6 +71,9 @@ EOF
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $fs = $this->filesystem;
@@ -84,7 +92,7 @@ EOF
         }
 
         $useBuildDir = $realBuildDir !== $realCacheDir;
-        $oldBuildDir = substr($realBuildDir, 0, -1).(str_ends_with($realBuildDir, '~') ? '+' : '~');
+        $oldBuildDir = substr($realBuildDir, 0, -1).('~' === substr($realBuildDir, -1) ? '+' : '~');
         if ($useBuildDir) {
             $fs->remove($oldBuildDir);
 
@@ -114,7 +122,7 @@ EOF
 
         // the warmup cache dir name must have the same length as the real one
         // to avoid the many problems in serialized resources files
-        $warmupDir = substr($realBuildDir, 0, -1).(str_ends_with($realBuildDir, '_') ? '-' : '_');
+        $warmupDir = substr($realBuildDir, 0, -1).('_' === substr($realBuildDir, -1) ? '-' : '_');
 
         if ($output->isVerbose() && $fs->exists($warmupDir)) {
             $io->comment('Clearing outdated warmup directory...');
@@ -129,7 +137,7 @@ EOF
                 if ($output->isVerbose()) {
                     $io->comment('Warming up optional cache...');
                 }
-                $this->warmupOptionals($realCacheDir, $realBuildDir, $io);
+                $this->warmupOptionals($realCacheDir, $realBuildDir);
             }
         } else {
             $fs->mkdir($warmupDir);
@@ -144,7 +152,7 @@ EOF
                     if ($output->isVerbose()) {
                         $io->comment('Warming up optional cache...');
                     }
-                    $this->warmupOptionals($useBuildDir ? $realCacheDir : $warmupDir, $warmupDir, $io);
+                    $this->warmupOptionals($useBuildDir ? $realCacheDir : $warmupDir, $warmupDir);
                 }
             }
 
@@ -211,7 +219,7 @@ EOF
             }
         }
         foreach ($mounts as $mount) {
-            if (str_starts_with($dir, $mount)) {
+            if (0 === strpos($dir, $mount)) {
                 return true;
             }
         }
@@ -239,13 +247,13 @@ EOF
         }
     }
 
-    private function warmupOptionals(string $cacheDir, string $warmupDir, SymfonyStyle $io): void
+    private function warmupOptionals(string $cacheDir, string $warmupDir): void
     {
         $kernel = $this->getApplication()->getKernel();
         $warmer = $kernel->getContainer()->get('cache_warmer');
         // non optional warmers already ran during container compilation
         $warmer->enableOnlyOptionalWarmers();
-        $preload = (array) $warmer->warmUp($cacheDir, $warmupDir, $io);
+        $preload = (array) $warmer->warmUp($cacheDir);
 
         if ($preload && file_exists($preloadFile = $warmupDir.'/'.$kernel->getContainer()->getParameter('kernel.container_class').'.preload.php')) {
             Preloader::append($preloadFile, $preload);

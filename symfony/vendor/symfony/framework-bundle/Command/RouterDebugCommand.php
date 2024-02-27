@@ -12,7 +12,6 @@
 namespace Symfony\Bundle\FrameworkBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Console\Helper\DescriptorHelper;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -22,7 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\ErrorHandler\ErrorRenderer\FileLinkFormatter;
+use Symfony\Component\HttpKernel\Debug\FileLinkFormatter;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -34,13 +33,14 @@ use Symfony\Component\Routing\RouterInterface;
  *
  * @final
  */
-#[AsCommand(name: 'debug:router', description: 'Display current routes for an application')]
 class RouterDebugCommand extends Command
 {
     use BuildDebugContainerTrait;
 
-    private RouterInterface $router;
-    private ?FileLinkFormatter $fileLinkFormatter;
+    protected static $defaultName = 'debug:router';
+    protected static $defaultDescription = 'Display current routes for an application';
+    private $router;
+    private $fileLinkFormatter;
 
     public function __construct(RouterInterface $router, ?FileLinkFormatter $fileLinkFormatter = null)
     {
@@ -50,16 +50,19 @@ class RouterDebugCommand extends Command
         $this->fileLinkFormatter = $fileLinkFormatter;
     }
 
-    protected function configure(): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
     {
         $this
             ->setDefinition([
                 new InputArgument('name', InputArgument::OPTIONAL, 'A route name'),
                 new InputOption('show-controllers', null, InputOption::VALUE_NONE, 'Show assigned controllers in overview'),
-                new InputOption('show-aliases', null, InputOption::VALUE_NONE, 'Show aliases in overview'),
-                new InputOption('format', null, InputOption::VALUE_REQUIRED, sprintf('The output format ("%s")', implode('", "', $this->getAvailableFormatOptions())), 'txt'),
+                new InputOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (txt, xml, json, or md)', 'txt'),
                 new InputOption('raw', null, InputOption::VALUE_NONE, 'To output raw route(s)'),
             ])
+            ->setDescription(self::$defaultDescription)
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> displays the configured routes:
 
@@ -71,6 +74,8 @@ EOF
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @throws InvalidArgumentException When route does not exist
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -81,7 +86,9 @@ EOF
         $routes = $this->router->getRouteCollection();
         $container = null;
         if ($this->fileLinkFormatter) {
-            $container = fn () => $this->getContainerBuilder($this->getApplication()->getKernel());
+            $container = function () {
+                return $this->getContainerBuilder($this->getApplication()->getKernel());
+            };
         }
 
         if ($name) {
@@ -93,7 +100,6 @@ EOF
                     'format' => $input->getOption('format'),
                     'raw_text' => $input->getOption('raw'),
                     'show_controllers' => $input->getOption('show-controllers'),
-                    'show_aliases' => $input->getOption('show-aliases'),
                     'output' => $io,
                 ]);
 
@@ -122,7 +128,6 @@ EOF
                 'format' => $input->getOption('format'),
                 'raw_text' => $input->getOption('raw'),
                 'show_controllers' => $input->getOption('show-controllers'),
-                'show_aliases' => $input->getOption('show-aliases'),
                 'output' => $io,
                 'container' => $container,
             ]);
@@ -152,7 +157,8 @@ EOF
         }
 
         if ($input->mustSuggestOptionValuesFor('format')) {
-            $suggestions->suggestValues($this->getAvailableFormatOptions());
+            $helper = new DescriptorHelper();
+            $suggestions->suggestValues($helper->getFormats());
         }
     }
 
@@ -166,10 +172,5 @@ EOF
         }
 
         return $foundRoutes;
-    }
-
-    private function getAvailableFormatOptions(): array
-    {
-        return (new DescriptorHelper())->getFormats();
     }
 }

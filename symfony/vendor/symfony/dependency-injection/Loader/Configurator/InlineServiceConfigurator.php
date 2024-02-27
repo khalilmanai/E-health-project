@@ -23,7 +23,6 @@ class InlineServiceConfigurator extends AbstractConfigurator
     use Traits\BindTrait;
     use Traits\CallTrait;
     use Traits\ConfiguratorTrait;
-    use Traits\ConstructorTrait;
     use Traits\FactoryTrait;
     use Traits\FileTrait;
     use Traits\LazyTrait;
@@ -33,9 +32,9 @@ class InlineServiceConfigurator extends AbstractConfigurator
 
     public const FACTORY = 'service';
 
-    private string $id = '[inline]';
-    private bool $allowParent = true;
-    private ?string $path = null;
+    private $id = '[inline]';
+    private $allowParent = true;
+    private $path = null;
 
     public function __construct(Definition $definition)
     {

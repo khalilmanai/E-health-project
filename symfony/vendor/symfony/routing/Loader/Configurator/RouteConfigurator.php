@@ -22,7 +22,7 @@ class RouteConfigurator
     use Traits\HostTrait;
     use Traits\RouteTrait;
 
-    protected ?CollectionConfigurator $parentConfigurator;
+    protected $parentConfigurator;
 
     public function __construct(RouteCollection $collection, RouteCollection $route, string $name = '', ?CollectionConfigurator $parentConfigurator = null, ?array $prefixes = null)
     {
@@ -40,7 +40,7 @@ class RouteConfigurator
      *
      * @return $this
      */
-    final public function host(string|array $host): static
+    final public function host($host): self
     {
         $this->addHost($this->route, $host);
 

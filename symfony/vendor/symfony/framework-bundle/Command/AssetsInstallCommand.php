@@ -11,7 +11,6 @@
 
 namespace Symfony\Bundle\FrameworkBundle\Command;
 
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,15 +33,17 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * @final
  */
-#[AsCommand(name: 'assets:install', description: 'Install bundle\'s web assets under a public directory')]
 class AssetsInstallCommand extends Command
 {
     public const METHOD_COPY = 'copy';
     public const METHOD_ABSOLUTE_SYMLINK = 'absolute symlink';
     public const METHOD_RELATIVE_SYMLINK = 'relative symlink';
 
-    private Filesystem $filesystem;
-    private string $projectDir;
+    protected static $defaultName = 'assets:install';
+    protected static $defaultDescription = 'Install bundle\'s web assets under a public directory';
+
+    private $filesystem;
+    private $projectDir;
 
     public function __construct(Filesystem $filesystem, string $projectDir)
     {
@@ -52,7 +53,10 @@ class AssetsInstallCommand extends Command
         $this->projectDir = $projectDir;
     }
 
-    protected function configure(): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
     {
         $this
             ->setDefinition([
@@ -61,6 +65,7 @@ class AssetsInstallCommand extends Command
             ->addOption('symlink', null, InputOption::VALUE_NONE, 'Symlink the assets instead of copying them')
             ->addOption('relative', null, InputOption::VALUE_NONE, 'Make relative symlinks')
             ->addOption('no-cleanup', null, InputOption::VALUE_NONE, 'Do not remove the assets of the bundles that no longer exist')
+            ->setDescription(self::$defaultDescription)
             ->setHelp(<<<'EOT'
 The <info>%command.name%</info> command installs bundle assets into a given
 directory (e.g. the <comment>public</comment> directory).
@@ -84,6 +89,9 @@ EOT
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         /** @var KernelInterface $kernel */
@@ -196,7 +204,7 @@ EOT
         try {
             $this->symlink($originDir, $targetDir, true);
             $method = self::METHOD_RELATIVE_SYMLINK;
-        } catch (IOException) {
+        } catch (IOException $e) {
             $method = $this->absoluteSymlinkWithFallback($originDir, $targetDir);
         }
 
@@ -213,7 +221,7 @@ EOT
         try {
             $this->symlink($originDir, $targetDir);
             $method = self::METHOD_ABSOLUTE_SYMLINK;
-        } catch (IOException) {
+        } catch (IOException $e) {
             // fall back to copy
             $method = $this->hardCopy($originDir, $targetDir);
         }
@@ -226,7 +234,7 @@ EOT
      *
      * @throws IOException if link cannot be created
      */
-    private function symlink(string $originDir, string $targetDir, bool $relative = false): void
+    private function symlink(string $originDir, string $targetDir, bool $relative = false)
     {
         if ($relative) {
             $this->filesystem->mkdir(\dirname($targetDir));

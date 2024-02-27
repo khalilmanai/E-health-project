@@ -12,7 +12,6 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Symfony\Component\Config\Loader\ParamConfigurator;
-use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Argument\AbstractArgument;
 use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
 use Symfony\Component\DependencyInjection\Argument\ServiceClosureArgument;
@@ -27,16 +26,13 @@ abstract class AbstractConfigurator
     public const FACTORY = 'unknown';
 
     /**
-     * @var \Closure(mixed, bool):mixed|null
+     * @var callable(mixed, bool)|null
      */
     public static $valuePreProcessor;
 
     /** @internal */
-    protected Definition|Alias|null $definition = null;
+    protected $definition;
 
-    /**
-     * @return mixed
-     */
     public function __call(string $method, array $args)
     {
         if (method_exists($this, 'set'.$method)) {
@@ -46,14 +42,14 @@ abstract class AbstractConfigurator
         throw new \BadMethodCallException(sprintf('Call to undefined method "%s::%s()".', static::class, $method));
     }
 
-    public function __sleep(): array
+    /**
+     * @return array
+     */
+    public function __sleep()
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
-    /**
-     * @return void
-     */
     public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
@@ -62,11 +58,12 @@ abstract class AbstractConfigurator
     /**
      * Checks that a value is valid, optionally replacing Definition and Reference configurators by their configure value.
      *
-     * @param bool $allowServices whether Definition and Reference are allowed; by default, only scalars, arrays and enum are
+     * @param mixed $value
+     * @param bool  $allowServices whether Definition and Reference are allowed; by default, only scalars and arrays are
      *
      * @return mixed the value, optionally cast to a Definition/Reference
      */
-    public static function processValue(mixed $value, bool $allowServices = false): mixed
+    public static function processValue($value, $allowServices = false)
     {
         if (\is_array($value)) {
             foreach ($value as $k => $v) {
@@ -104,7 +101,6 @@ abstract class AbstractConfigurator
         switch (true) {
             case null === $value:
             case \is_scalar($value):
-            case $value instanceof \UnitEnum:
                 return $value;
 
             case $value instanceof ArgumentInterface:

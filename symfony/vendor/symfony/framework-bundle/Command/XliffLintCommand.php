@@ -11,7 +11,6 @@
 
 namespace Symfony\Bundle\FrameworkBundle\Command;
 
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Translation\Command\XliffLintCommand as BaseLintCommand;
 
 /**
@@ -23,9 +22,11 @@ use Symfony\Component\Translation\Command\XliffLintCommand as BaseLintCommand;
  *
  * @final
  */
-#[AsCommand(name: 'lint:xliff', description: 'Lint an XLIFF file and outputs encountered errors')]
 class XliffLintCommand extends BaseLintCommand
 {
+    protected static $defaultName = 'lint:xliff';
+    protected static $defaultDescription = 'Lints an XLIFF file and outputs encountered errors';
+
     public function __construct()
     {
         $directoryIteratorProvider = function ($directory, $default) {
@@ -36,12 +37,17 @@ class XliffLintCommand extends BaseLintCommand
             return $default($directory);
         };
 
-        $isReadableProvider = fn ($fileOrDirectory, $default) => str_starts_with($fileOrDirectory, '@') || $default($fileOrDirectory);
+        $isReadableProvider = function ($fileOrDirectory, $default) {
+            return str_starts_with($fileOrDirectory, '@') || $default($fileOrDirectory);
+        };
 
         parent::__construct(null, $directoryIteratorProvider, $isReadableProvider);
     }
 
-    protected function configure(): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
     {
         parent::configure();
 

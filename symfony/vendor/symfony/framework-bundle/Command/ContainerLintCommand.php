@@ -13,7 +13,6 @@ namespace Symfony\Bundle\FrameworkBundle\Command;
 
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,7 +20,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Compiler\CheckTypeDeclarationsPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
-use Symfony\Component\DependencyInjection\Compiler\ResolveFactoryClassPass;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
@@ -29,18 +27,30 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ParameterBag\EnvPlaceholderParameterBag;
 use Symfony\Component\HttpKernel\Kernel;
 
-#[AsCommand(name: 'lint:container', description: 'Ensure that arguments injected into services match type declarations')]
 final class ContainerLintCommand extends Command
 {
-    private ContainerBuilder $container;
+    protected static $defaultName = 'lint:container';
+    protected static $defaultDescription = 'Ensure that arguments injected into services match type declarations';
 
-    protected function configure(): void
+    /**
+     * @var ContainerBuilder
+     */
+    private $containerBuilder;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
     {
         $this
+            ->setDescription(self::$defaultDescription)
             ->setHelp('This command parses service definitions and ensures that injected values match the type declarations of each services\' class.')
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -71,14 +81,14 @@ final class ContainerLintCommand extends Command
 
     private function getContainerBuilder(): ContainerBuilder
     {
-        if (isset($this->container)) {
-            return $this->container;
+        if ($this->containerBuilder) {
+            return $this->containerBuilder;
         }
 
         $kernel = $this->getApplication()->getKernel();
         $kernelContainer = $kernel->getContainer();
 
-        if (!$kernel->isDebug() || !$kernelContainer->getParameter('debug.container.dump') || !(new ConfigCache($kernelContainer->getParameter('debug.container.dump'), true))->isFresh()) {
+        if (!$kernel->isDebug() || !(new ConfigCache($kernelContainer->getParameter('debug.container.dump'), true))->isFresh()) {
             if (!$kernel instanceof Kernel) {
                 throw new RuntimeException(sprintf('This command does not support the application kernel: "%s" does not extend "%s".', get_debug_type($kernel), Kernel::class));
             }
@@ -87,8 +97,10 @@ final class ContainerLintCommand extends Command
                 $this->initializeBundles();
 
                 return $this->buildContainer();
-            }, $kernel, $kernel::class);
+            }, $kernel, \get_class($kernel));
             $container = $buildContainer();
+
+            $skippedIds = [];
         } else {
             if (!$kernelContainer instanceof Container) {
                 throw new RuntimeException(sprintf('This command does not support the application container: "%s" does not extend "%s".', get_debug_type($kernelContainer), Container::class));
@@ -97,18 +109,26 @@ final class ContainerLintCommand extends Command
             (new XmlFileLoader($container = new ContainerBuilder($parameterBag = new EnvPlaceholderParameterBag()), new FileLocator()))->load($kernelContainer->getParameter('debug.container.dump'));
 
             $refl = new \ReflectionProperty($parameterBag, 'resolved');
+            $refl->setAccessible(true);
             $refl->setValue($parameterBag, true);
 
+            $skippedIds = [];
+            foreach ($container->getServiceIds() as $serviceId) {
+                if (str_starts_with($serviceId, '.errored.')) {
+                    $skippedIds[$serviceId] = true;
+                }
+            }
+
             $container->getCompilerPassConfig()->setBeforeOptimizationPasses([]);
-            $container->getCompilerPassConfig()->setOptimizationPasses([new ResolveFactoryClassPass()]);
+            $container->getCompilerPassConfig()->setOptimizationPasses([]);
             $container->getCompilerPassConfig()->setBeforeRemovingPasses([]);
         }
 
         $container->setParameter('container.build_hash', 'lint_container');
         $container->setParameter('container.build_id', 'lint_container');
 
-        $container->addCompilerPass(new CheckTypeDeclarationsPass(true), PassConfig::TYPE_AFTER_REMOVING, -100);
+        $container->addCompilerPass(new CheckTypeDeclarationsPass(true, $skippedIds), PassConfig::TYPE_AFTER_REMOVING, -100);
 
-        return $this->container = $container;
+        return $this->containerBuilder = $container;
     }
 }

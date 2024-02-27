@@ -20,26 +20,19 @@ use Symfony\Component\Config\Definition\NodeInterface;
  */
 class TreeBuilder implements NodeParentInterface
 {
-    /**
-     * @var NodeInterface|null
-     */
     protected $tree;
-
-    /**
-     * @var NodeDefinition
-     */
     protected $root;
 
     public function __construct(string $name, string $type = 'array', ?NodeBuilder $builder = null)
     {
-        $builder ??= new NodeBuilder();
+        $builder = $builder ?? new NodeBuilder();
         $this->root = $builder->node($name, $type)->setParent($this);
     }
 
     /**
      * @return NodeDefinition|ArrayNodeDefinition The root node (as an ArrayNodeDefinition when the type is 'array')
      */
-    public function getRootNode(): NodeDefinition|ArrayNodeDefinition
+    public function getRootNode(): NodeDefinition
     {
         return $this->root;
     }
@@ -47,16 +40,19 @@ class TreeBuilder implements NodeParentInterface
     /**
      * Builds the tree.
      *
+     * @return NodeInterface
+     *
      * @throws \RuntimeException
      */
-    public function buildTree(): NodeInterface
+    public function buildTree()
     {
-        return $this->tree ??= $this->root->getNode(true);
+        if (null !== $this->tree) {
+            return $this->tree;
+        }
+
+        return $this->tree = $this->root->getNode(true);
     }
 
-    /**
-     * @return void
-     */
     public function setPathSeparator(string $separator)
     {
         // unset last built as changing path separator changes all nodes

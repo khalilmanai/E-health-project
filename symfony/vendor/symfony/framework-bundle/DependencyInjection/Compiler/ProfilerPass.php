@@ -24,9 +24,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ProfilerPass implements CompilerPassInterface
 {
-    /**
-     * @return void
-     */
     public function process(ContainerBuilder $container)
     {
         if (false === $container->hasDefinition('profiler')) {
@@ -42,7 +39,8 @@ class ProfilerPass implements CompilerPassInterface
             $template = null;
 
             $collectorClass = $container->findDefinition($id)->getClass();
-            if (isset($attributes[0]['template']) || is_subclass_of($collectorClass, TemplateAwareDataCollectorInterface::class)) {
+            $isTemplateAware = is_subclass_of($collectorClass, TemplateAwareDataCollectorInterface::class);
+            if (isset($attributes[0]['template']) || $isTemplateAware) {
                 $idForTemplate = $attributes[0]['id'] ?? $collectorClass;
                 if (!$idForTemplate) {
                     throw new InvalidArgumentException(sprintf('Data collector service "%s" must have an id attribute in order to specify a template.', $id));

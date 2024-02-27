@@ -29,7 +29,6 @@ class Autoconfigure
         public ?bool $autowire = null,
         public ?array $properties = null,
         public array|string|null $configurator = null,
-        public ?string $constructor = null,
     ) {
     }
 }

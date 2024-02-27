@@ -24,8 +24,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class TranslationsCacheWarmer implements CacheWarmerInterface, ServiceSubscriberInterface
 {
-    private ContainerInterface $container;
-    private TranslatorInterface $translator;
+    private $container;
+    private $translator;
 
     public function __construct(ContainerInterface $container)
     {
@@ -34,27 +34,35 @@ class TranslationsCacheWarmer implements CacheWarmerInterface, ServiceSubscriber
     }
 
     /**
-     * @param string|null $buildDir
+     * {@inheritdoc}
+     *
+     * @return string[]
      */
-    public function warmUp(string $cacheDir /* , string $buildDir = null */): array
+    public function warmUp(string $cacheDir)
     {
-        $this->translator ??= $this->container->get('translator');
+        if (null === $this->translator) {
+            $this->translator = $this->container->get('translator');
+        }
 
         if ($this->translator instanceof WarmableInterface) {
-            $buildDir = 1 < \func_num_args() ? func_get_arg(1) : null;
-
-            return (array) $this->translator->warmUp($cacheDir, $buildDir);
+            return (array) $this->translator->warmUp($cacheDir);
         }
 
         return [];
     }
 
-    public function isOptional(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isOptional()
     {
         return true;
     }
 
-    public static function getSubscribedServices(): array
+    /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedServices()
     {
         return [
             'translator' => TranslatorInterface::class,

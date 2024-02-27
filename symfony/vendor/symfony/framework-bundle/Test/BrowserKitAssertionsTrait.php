@@ -47,13 +47,7 @@ trait BrowserKitAssertionsTrait
     {
         $constraint = new ResponseConstraint\ResponseIsRedirected();
         if ($expectedLocation) {
-            if (class_exists(ResponseConstraint\ResponseHeaderLocationSame::class)) {
-                $locationConstraint = new ResponseConstraint\ResponseHeaderLocationSame(self::getRequest(), $expectedLocation);
-            } else {
-                $locationConstraint = new ResponseConstraint\ResponseHeaderSame('Location', $expectedLocation);
-            }
-
-            $constraint = LogicalAnd::fromConstraints($constraint, $locationConstraint);
+            $constraint = LogicalAnd::fromConstraints($constraint, new ResponseConstraint\ResponseHeaderSame('Location', $expectedLocation));
         }
         if ($expectedCode) {
             $constraint = LogicalAnd::fromConstraints($constraint, new ResponseConstraint\ResponseStatusCodeSame($expectedCode));
@@ -162,7 +156,7 @@ trait BrowserKitAssertionsTrait
         self::assertThat(self::getClient(), $constraint, $message);
     }
 
-    protected static function getClient(?AbstractBrowser $newClient = null): ?AbstractBrowser
+    private static function getClient(?AbstractBrowser $newClient = null): ?AbstractBrowser
     {
         static $client;
 

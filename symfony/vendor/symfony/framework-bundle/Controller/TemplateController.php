@@ -23,7 +23,7 @@ use Twig\Environment;
  */
 class TemplateController
 {
-    private ?Environment $twig;
+    private $twig;
 
     public function __construct(?Environment $twig = null)
     {
@@ -38,12 +38,12 @@ class TemplateController
      * @param int|null  $sharedAge  Max age for shared (proxy) caching
      * @param bool|null $private    Whether or not caching should apply for client caches only
      * @param array     $context    The context (arguments) of the template
-     * @param int       $statusCode The HTTP status code to return with the response (200 "OK" by default)
+     * @param int       $statusCode The HTTP status code to return with the response. Defaults to 200
      */
     public function templateAction(string $template, ?int $maxAge = null, ?int $sharedAge = null, ?bool $private = null, array $context = [], int $statusCode = 200): Response
     {
         if (null === $this->twig) {
-            throw new \LogicException('You cannot use the TemplateController if the Twig Bundle is not available. Try running "composer require symfony/twig-bundle".');
+            throw new \LogicException('You cannot use the TemplateController if the Twig Bundle is not available.');
         }
 
         $response = new Response($this->twig->render($template, $context), $statusCode);
@@ -65,9 +65,6 @@ class TemplateController
         return $response;
     }
 
-    /**
-     * @param int $statusCode The HTTP status code (200 "OK" by default)
-     */
     public function __invoke(string $template, ?int $maxAge = null, ?int $sharedAge = null, ?bool $private = null, array $context = [], int $statusCode = 200): Response
     {
         return $this->templateAction($template, $maxAge, $sharedAge, $private, $context, $statusCode);

@@ -15,12 +15,9 @@ use Symfony\Component\Config\Resource\ClassExistenceResource;
 use Symfony\Component\Console\Descriptor\DescriptorInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\Alias;
-use Symfony\Component\DependencyInjection\Compiler\AnalyzeServiceReferencesPass;
-use Symfony\Component\DependencyInjection\Compiler\ServiceReferenceGraphEdge;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Route;
@@ -33,40 +30,60 @@ use Symfony\Component\Routing\RouteCollection;
  */
 abstract class Descriptor implements DescriptorInterface
 {
-    protected OutputInterface $output;
+    /**
+     * @var OutputInterface
+     */
+    protected $output;
 
-    public function describe(OutputInterface $output, mixed $object, array $options = []): void
+    /**
+     * {@inheritdoc}
+     */
+    public function describe(OutputInterface $output, $object, array $options = [])
     {
         $this->output = $output;
 
-        if ($object instanceof ContainerBuilder) {
-            (new AnalyzeServiceReferencesPass(false, false))->process($object);
-        }
-
-        $deprecatedParameters = [];
-        if ($object instanceof ContainerBuilder && isset($options['parameter']) && ($parameterBag = $object->getParameterBag()) instanceof ParameterBag) {
-            $deprecatedParameters = $parameterBag->allDeprecated();
-        }
-
-        match (true) {
-            $object instanceof RouteCollection => $this->describeRouteCollection($object, $options),
-            $object instanceof Route => $this->describeRoute($object, $options),
-            $object instanceof ParameterBag => $this->describeContainerParameters($object, $options),
-            $object instanceof ContainerBuilder && !empty($options['env-vars']) => $this->describeContainerEnvVars($this->getContainerEnvVars($object), $options),
-            $object instanceof ContainerBuilder && isset($options['group_by']) && 'tags' === $options['group_by'] => $this->describeContainerTags($object, $options),
-            $object instanceof ContainerBuilder && isset($options['id']) => $this->describeContainerService($this->resolveServiceDefinition($object, $options['id']), $options, $object),
-            $object instanceof ContainerBuilder && isset($options['parameter']) => $this->describeContainerParameter($object->resolveEnvPlaceholders($object->getParameter($options['parameter'])), $deprecatedParameters[$options['parameter']] ?? null, $options),
-            $object instanceof ContainerBuilder && isset($options['deprecations']) => $this->describeContainerDeprecations($object, $options),
-            $object instanceof ContainerBuilder => $this->describeContainerServices($object, $options),
-            $object instanceof Definition => $this->describeContainerDefinition($object, $options),
-            $object instanceof Alias => $this->describeContainerAlias($object, $options),
-            $object instanceof EventDispatcherInterface => $this->describeEventDispatcherListeners($object, $options),
-            \is_callable($object) => $this->describeCallable($object, $options),
-            default => throw new \InvalidArgumentException(sprintf('Object of type "%s" is not describable.', get_debug_type($object))),
-        };
-
-        if ($object instanceof ContainerBuilder) {
-            $object->getCompiler()->getServiceReferenceGraph()->clear();
+        switch (true) {
+            case $object instanceof RouteCollection:
+                $this->describeRouteCollection($object, $options);
+                break;
+            case $object instanceof Route:
+                $this->describeRoute($object, $options);
+                break;
+            case $object instanceof ParameterBag:
+                $this->describeContainerParameters($object, $options);
+                break;
+            case $object instanceof ContainerBuilder && !empty($options['env-vars']):
+                $this->describeContainerEnvVars($this->getContainerEnvVars($object), $options);
+                break;
+            case $object instanceof ContainerBuilder && isset($options['group_by']) && 'tags' === $options['group_by']:
+                $this->describeContainerTags($object, $options);
+                break;
+            case $object instanceof ContainerBuilder && isset($options['id']):
+                $this->describeContainerService($this->resolveServiceDefinition($object, $options['id']), $options, $object);
+                break;
+            case $object instanceof ContainerBuilder && isset($options['parameter']):
+                $this->describeContainerParameter($object->resolveEnvPlaceholders($object->getParameter($options['parameter'])), $options);
+                break;
+            case $object instanceof ContainerBuilder && isset($options['deprecations']):
+                $this->describeContainerDeprecations($object, $options);
+                break;
+            case $object instanceof ContainerBuilder:
+                $this->describeContainerServices($object, $options);
+                break;
+            case $object instanceof Definition:
+                $this->describeContainerDefinition($object, $options);
+                break;
+            case $object instanceof Alias:
+                $this->describeContainerAlias($object, $options);
+                break;
+            case $object instanceof EventDispatcherInterface:
+                $this->describeEventDispatcherListeners($object, $options);
+                break;
+            case \is_callable($object):
+                $this->describeCallable($object, $options);
+                break;
+            default:
+                throw new \InvalidArgumentException(sprintf('Object of type "%s" is not describable.', get_debug_type($object)));
         }
     }
 
@@ -75,18 +92,18 @@ abstract class Descriptor implements DescriptorInterface
         return $this->output;
     }
 
-    protected function write(string $content, bool $decorated = false): void
+    protected function write(string $content, bool $decorated = false)
     {
         $this->output->write($content, false, $decorated ? OutputInterface::OUTPUT_NORMAL : OutputInterface::OUTPUT_RAW);
     }
 
-    abstract protected function describeRouteCollection(RouteCollection $routes, array $options = []): void;
+    abstract protected function describeRouteCollection(RouteCollection $routes, array $options = []);
 
-    abstract protected function describeRoute(Route $route, array $options = []): void;
+    abstract protected function describeRoute(Route $route, array $options = []);
 
-    abstract protected function describeContainerParameters(ParameterBag $parameters, array $options = []): void;
+    abstract protected function describeContainerParameters(ParameterBag $parameters, array $options = []);
 
-    abstract protected function describeContainerTags(ContainerBuilder $container, array $options = []): void;
+    abstract protected function describeContainerTags(ContainerBuilder $builder, array $options = []);
 
     /**
      * Describes a container service by its name.
@@ -96,7 +113,7 @@ abstract class Descriptor implements DescriptorInterface
      *
      * @param Definition|Alias|object $service
      */
-    abstract protected function describeContainerService(object $service, array $options = [], ?ContainerBuilder $container = null): void;
+    abstract protected function describeContainerService(object $service, array $options = [], ?ContainerBuilder $builder = null);
 
     /**
      * Describes container services.
@@ -104,17 +121,17 @@ abstract class Descriptor implements DescriptorInterface
      * Common options are:
      * * tag: filters described services by given tag
      */
-    abstract protected function describeContainerServices(ContainerBuilder $container, array $options = []): void;
+    abstract protected function describeContainerServices(ContainerBuilder $builder, array $options = []);
 
-    abstract protected function describeContainerDeprecations(ContainerBuilder $container, array $options = []): void;
+    abstract protected function describeContainerDeprecations(ContainerBuilder $builder, array $options = []): void;
 
-    abstract protected function describeContainerDefinition(Definition $definition, array $options = [], ?ContainerBuilder $container = null): void;
+    abstract protected function describeContainerDefinition(Definition $definition, array $options = []);
 
-    abstract protected function describeContainerAlias(Alias $alias, array $options = [], ?ContainerBuilder $container = null): void;
+    abstract protected function describeContainerAlias(Alias $alias, array $options = [], ?ContainerBuilder $builder = null);
 
-    abstract protected function describeContainerParameter(mixed $parameter, ?array $deprecation, array $options = []): void;
+    abstract protected function describeContainerParameter($parameter, array $options = []);
 
-    abstract protected function describeContainerEnvVars(array $envs, array $options = []): void;
+    abstract protected function describeContainerEnvVars(array $envs, array $options = []);
 
     /**
      * Describes event dispatcher listeners.
@@ -122,18 +139,28 @@ abstract class Descriptor implements DescriptorInterface
      * Common options are:
      * * name: name of listened event
      */
-    abstract protected function describeEventDispatcherListeners(EventDispatcherInterface $eventDispatcher, array $options = []): void;
+    abstract protected function describeEventDispatcherListeners(EventDispatcherInterface $eventDispatcher, array $options = []);
 
-    abstract protected function describeCallable(mixed $callable, array $options = []): void;
+    /**
+     * Describes a callable.
+     *
+     * @param mixed $callable
+     */
+    abstract protected function describeCallable($callable, array $options = []);
 
-    protected function formatValue(mixed $value): string
+    /**
+     * Formats a value as string.
+     *
+     * @param mixed $value
+     */
+    protected function formatValue($value): string
     {
         if ($value instanceof \UnitEnum) {
             return ltrim(var_export($value, true), '\\');
         }
 
         if (\is_object($value)) {
-            return sprintf('object(%s)', $value::class);
+            return sprintf('object(%s)', \get_class($value));
         }
 
         if (\is_string($value)) {
@@ -143,7 +170,12 @@ abstract class Descriptor implements DescriptorInterface
         return preg_replace("/\n\s*/s", '', var_export($value, true));
     }
 
-    protected function formatParameter(mixed $value): string
+    /**
+     * Formats a parameter.
+     *
+     * @param mixed $value
+     */
+    protected function formatParameter($value): string
     {
         if ($value instanceof \UnitEnum) {
             return ltrim(var_export($value, true), '\\');
@@ -172,15 +204,18 @@ abstract class Descriptor implements DescriptorInterface
         return (string) $value;
     }
 
-    protected function resolveServiceDefinition(ContainerBuilder $container, string $serviceId): mixed
+    /**
+     * @return mixed
+     */
+    protected function resolveServiceDefinition(ContainerBuilder $builder, string $serviceId)
     {
-        if ($container->hasDefinition($serviceId)) {
-            return $container->getDefinition($serviceId);
+        if ($builder->hasDefinition($serviceId)) {
+            return $builder->getDefinition($serviceId);
         }
 
         // Some service IDs don't have a Definition, they're aliases
-        if ($container->hasAlias($serviceId)) {
-            return $container->getAlias($serviceId);
+        if ($builder->hasAlias($serviceId)) {
+            return $builder->getAlias($serviceId);
         }
 
         if ('service_container' === $serviceId) {
@@ -188,18 +223,18 @@ abstract class Descriptor implements DescriptorInterface
         }
 
         // the service has been injected in some special way, just return the service
-        return $container->get($serviceId);
+        return $builder->get($serviceId);
     }
 
-    protected function findDefinitionsByTag(ContainerBuilder $container, bool $showHidden): array
+    protected function findDefinitionsByTag(ContainerBuilder $builder, bool $showHidden): array
     {
         $definitions = [];
-        $tags = $container->findTags();
+        $tags = $builder->findTags();
         asort($tags);
 
         foreach ($tags as $tag) {
-            foreach ($container->findTaggedServiceIds($tag) as $serviceId => $attributes) {
-                $definition = $this->resolveServiceDefinition($container, $serviceId);
+            foreach ($builder->findTaggedServiceIds($tag) as $serviceId => $attributes) {
+                $definition = $this->resolveServiceDefinition($builder, $serviceId);
 
                 if ($showHidden xor '.' === ($serviceId[0] ?? null)) {
                     continue;
@@ -216,7 +251,7 @@ abstract class Descriptor implements DescriptorInterface
         return $definitions;
     }
 
-    protected function sortParameters(ParameterBag $parameters): array
+    protected function sortParameters(ParameterBag $parameters)
     {
         $parameters = $parameters->all();
         ksort($parameters);
@@ -224,7 +259,7 @@ abstract class Descriptor implements DescriptorInterface
         return $parameters;
     }
 
-    protected function sortServiceIds(array $serviceIds): array
+    protected function sortServiceIds(array $serviceIds)
     {
         asort($serviceIds);
 
@@ -243,7 +278,9 @@ abstract class Descriptor implements DescriptorInterface
                 }
             }
         }
-        uasort($maxPriority, fn ($a, $b) => $b <=> $a);
+        uasort($maxPriority, function ($a, $b) {
+            return $b <=> $a;
+        });
 
         return array_keys($maxPriority);
     }
@@ -260,22 +297,11 @@ abstract class Descriptor implements DescriptorInterface
 
     protected function sortByPriority(array $tag): array
     {
-        usort($tag, fn ($a, $b) => ($b['priority'] ?? 0) <=> ($a['priority'] ?? 0));
+        usort($tag, function ($a, $b) {
+            return ($b['priority'] ?? 0) <=> ($a['priority'] ?? 0);
+        });
 
         return $tag;
-    }
-
-    /**
-     * @return array<string, string[]>
-     */
-    protected function getReverseAliases(RouteCollection $routes): array
-    {
-        $reverseAliases = [];
-        foreach ($routes->getAliases() as $name => $alias) {
-            $reverseAliases[$alias->getId()][] = $name;
-        }
-
-        return $reverseAliases;
     }
 
     public static function getClassDescription(string $class, ?string &$resolvedClass = null): string
@@ -295,7 +321,7 @@ abstract class Descriptor implements DescriptorInterface
 
                 return trim(preg_replace('#\s*\n\s*\*\s*#', ' ', $docComment));
             }
-        } catch (\ReflectionException) {
+        } catch (\ReflectionException $e) {
         }
 
         return '';
@@ -307,7 +333,7 @@ abstract class Descriptor implements DescriptorInterface
             return [];
         }
 
-        if (!$container->getParameter('debug.container.dump') || !is_file($container->getParameter('debug.container.dump'))) {
+        if (!is_file($container->getParameter('debug.container.dump'))) {
             return [];
         }
 
@@ -316,10 +342,13 @@ abstract class Descriptor implements DescriptorInterface
         $envVars = array_unique($envVars[1]);
 
         $bag = $container->getParameterBag();
-        $getDefaultParameter = fn (string $name) => parent::get($name);
-        $getDefaultParameter = $getDefaultParameter->bindTo($bag, $bag::class);
+        $getDefaultParameter = function (string $name) {
+            return parent::get($name);
+        };
+        $getDefaultParameter = $getDefaultParameter->bindTo($bag, \get_class($bag));
 
         $getEnvReflection = new \ReflectionMethod($container, 'getEnv');
+        $getEnvReflection->setAccessible(true);
 
         $envs = [];
 
@@ -347,17 +376,5 @@ abstract class Descriptor implements DescriptorInterface
         ksort($envs);
 
         return array_values($envs);
-    }
-
-    protected function getServiceEdges(ContainerBuilder $container, string $serviceId): array
-    {
-        try {
-            return array_values(array_unique(array_map(
-                fn (ServiceReferenceGraphEdge $edge) => $edge->getSourceNode()->getId(),
-                $container->getCompiler()->getServiceReferenceGraph()->getNode($serviceId)->getInEdges()
-            )));
-        } catch (InvalidArgumentException $exception) {
-            return [];
-        }
     }
 }

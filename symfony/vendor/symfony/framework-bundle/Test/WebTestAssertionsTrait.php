@@ -15,5 +15,4 @@ trait WebTestAssertionsTrait
 {
     use BrowserKitAssertionsTrait;
     use DomCrawlerAssertionsTrait;
-    use HttpClientAssertionsTrait;
 }

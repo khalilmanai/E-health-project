@@ -28,12 +28,12 @@ class PassConfig
     public const TYPE_OPTIMIZE = 'optimization';
     public const TYPE_REMOVE = 'removing';
 
-    private MergeExtensionConfigurationPass $mergePass;
-    private array $afterRemovingPasses;
-    private array $beforeOptimizationPasses;
-    private array $beforeRemovingPasses = [];
-    private array $optimizationPasses;
-    private array $removingPasses;
+    private $mergePass;
+    private $afterRemovingPasses = [];
+    private $beforeOptimizationPasses = [];
+    private $beforeRemovingPasses = [];
+    private $optimizationPasses;
+    private $removingPasses;
 
     public function __construct()
     {
@@ -43,7 +43,6 @@ class PassConfig
             100 => [
                 new ResolveClassPass(),
                 new RegisterAutoconfigureAttributesPass(),
-                new AutowireAsDecoratorPass(),
                 new AttributeAutoconfigurationPass(),
                 new ResolveInstanceofConditionalsPass(),
                 new RegisterEnvVarProcessorsPass(),
@@ -52,7 +51,7 @@ class PassConfig
         ];
 
         $this->optimizationPasses = [[
-            new AutoAliasServicePass(),
+            $autoAliasServicePass = new AutoAliasServicePass(),
             new ValidateEnvPlaceholdersPass(),
             new ResolveDecoratorStackPass(),
             new ResolveChildDefinitionsPass(),
@@ -80,7 +79,7 @@ class PassConfig
 
         $this->removingPasses = [[
             new RemovePrivateAliasesPass(),
-            new ReplaceAliasByActualDefinitionPass(),
+            (new ReplaceAliasByActualDefinitionPass())->setAutoAliasServicePass($autoAliasServicePass),
             new RemoveAbstractDefinitionsPass(),
             new RemoveUnusedDefinitionsPass(),
             new AnalyzeServiceReferencesPass(),
@@ -90,15 +89,11 @@ class PassConfig
             new DefinitionErrorExceptionPass(),
         ]];
 
-        $this->afterRemovingPasses = [
-            0 => [
-                new ResolveHotPathPass(),
-                new ResolveNoPreloadPass(),
-                new AliasDeprecatedPublicServicesPass(),
-            ],
-            // Let build parameters be available as late as possible
-            -2048 => [new RemoveBuildParametersPass()],
-        ];
+        $this->afterRemovingPasses = [[
+            new ResolveHotPathPass(),
+            new ResolveNoPreloadPass(),
+            new AliasDeprecatedPublicServicesPass(),
+        ]];
     }
 
     /**
@@ -106,7 +101,7 @@ class PassConfig
      *
      * @return CompilerPassInterface[]
      */
-    public function getPasses(): array
+    public function getPasses()
     {
         return array_merge(
             [$this->mergePass],
@@ -120,8 +115,6 @@ class PassConfig
 
     /**
      * Adds a pass.
-     *
-     * @return void
      *
      * @throws InvalidArgumentException when a pass type doesn't exist
      */
@@ -145,7 +138,7 @@ class PassConfig
      *
      * @return CompilerPassInterface[]
      */
-    public function getAfterRemovingPasses(): array
+    public function getAfterRemovingPasses()
     {
         return $this->sortPasses($this->afterRemovingPasses);
     }
@@ -155,7 +148,7 @@ class PassConfig
      *
      * @return CompilerPassInterface[]
      */
-    public function getBeforeOptimizationPasses(): array
+    public function getBeforeOptimizationPasses()
     {
         return $this->sortPasses($this->beforeOptimizationPasses);
     }
@@ -165,7 +158,7 @@ class PassConfig
      *
      * @return CompilerPassInterface[]
      */
-    public function getBeforeRemovingPasses(): array
+    public function getBeforeRemovingPasses()
     {
         return $this->sortPasses($this->beforeRemovingPasses);
     }
@@ -175,7 +168,7 @@ class PassConfig
      *
      * @return CompilerPassInterface[]
      */
-    public function getOptimizationPasses(): array
+    public function getOptimizationPasses()
     {
         return $this->sortPasses($this->optimizationPasses);
     }
@@ -185,22 +178,21 @@ class PassConfig
      *
      * @return CompilerPassInterface[]
      */
-    public function getRemovingPasses(): array
+    public function getRemovingPasses()
     {
         return $this->sortPasses($this->removingPasses);
     }
 
     /**
      * Gets the Merge pass.
+     *
+     * @return CompilerPassInterface
      */
-    public function getMergePass(): CompilerPassInterface
+    public function getMergePass()
     {
         return $this->mergePass;
     }
 
-    /**
-     * @return void
-     */
     public function setMergePass(CompilerPassInterface $pass)
     {
         $this->mergePass = $pass;
@@ -210,8 +202,6 @@ class PassConfig
      * Sets the AfterRemoving passes.
      *
      * @param CompilerPassInterface[] $passes
-     *
-     * @return void
      */
     public function setAfterRemovingPasses(array $passes)
     {
@@ -222,8 +212,6 @@ class PassConfig
      * Sets the BeforeOptimization passes.
      *
      * @param CompilerPassInterface[] $passes
-     *
-     * @return void
      */
     public function setBeforeOptimizationPasses(array $passes)
     {
@@ -234,8 +222,6 @@ class PassConfig
      * Sets the BeforeRemoving passes.
      *
      * @param CompilerPassInterface[] $passes
-     *
-     * @return void
      */
     public function setBeforeRemovingPasses(array $passes)
     {
@@ -246,8 +232,6 @@ class PassConfig
      * Sets the Optimization passes.
      *
      * @param CompilerPassInterface[] $passes
-     *
-     * @return void
      */
     public function setOptimizationPasses(array $passes)
     {
@@ -258,8 +242,6 @@ class PassConfig
      * Sets the Removing passes.
      *
      * @param CompilerPassInterface[] $passes
-     *
-     * @return void
      */
     public function setRemovingPasses(array $passes)
     {

@@ -11,7 +11,6 @@
 
 namespace Symfony\Bundle\FrameworkBundle\Command;
 
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Completion\CompletionInput;
 use Symfony\Component\Console\Completion\CompletionSuggestions;
@@ -39,7 +38,6 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @final
  */
-#[AsCommand(name: 'debug:translation', description: 'Display translation messages information')]
 class TranslationDebugCommand extends Command
 {
     public const EXIT_CODE_GENERAL_ERROR = 64;
@@ -50,14 +48,17 @@ class TranslationDebugCommand extends Command
     public const MESSAGE_UNUSED = 1;
     public const MESSAGE_EQUALS_FALLBACK = 2;
 
-    private TranslatorInterface $translator;
-    private TranslationReaderInterface $reader;
-    private ExtractorInterface $extractor;
-    private ?string $defaultTransPath;
-    private ?string $defaultViewsPath;
-    private array $transPaths;
-    private array $codePaths;
-    private array $enabledLocales;
+    protected static $defaultName = 'debug:translation';
+    protected static $defaultDescription = 'Display translation messages information';
+
+    private $translator;
+    private $reader;
+    private $extractor;
+    private $defaultTransPath;
+    private $defaultViewsPath;
+    private $transPaths;
+    private $codePaths;
+    private $enabledLocales;
 
     public function __construct(TranslatorInterface $translator, TranslationReaderInterface $reader, ExtractorInterface $extractor, ?string $defaultTransPath = null, ?string $defaultViewsPath = null, array $transPaths = [], array $codePaths = [], array $enabledLocales = [])
     {
@@ -73,7 +74,10 @@ class TranslationDebugCommand extends Command
         $this->enabledLocales = $enabledLocales;
     }
 
-    protected function configure(): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
     {
         $this
             ->setDefinition([
@@ -84,6 +88,7 @@ class TranslationDebugCommand extends Command
                 new InputOption('only-unused', null, InputOption::VALUE_NONE, 'Display only unused messages'),
                 new InputOption('all', null, InputOption::VALUE_NONE, 'Load messages from all registered bundles'),
             ])
+            ->setDescription(self::$defaultDescription)
             ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command helps finding unused or missing translation
 messages and comparing them with the fallback ones by inspecting the
@@ -118,6 +123,9 @@ EOF
         ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -147,7 +155,7 @@ EOF
                 if ($this->defaultViewsPath) {
                     $codePaths[] = $this->defaultViewsPath;
                 }
-            } catch (\InvalidArgumentException) {
+            } catch (\InvalidArgumentException $e) {
                 // such a bundle does not exist, so treat the argument as path
                 $path = $input->getArgument('bundle');
 
@@ -180,7 +188,7 @@ EOF
         }
 
         // No defined or extracted messages
-        if (!$allMessages || null !== $domain && empty($allMessages[$domain])) {
+        if (empty($allMessages) || null !== $domain && empty($allMessages[$domain])) {
             $outputMessage = sprintf('No defined or extracted messages for locale "%s"', $locale);
 
             if (null !== $domain) {
@@ -212,14 +220,14 @@ EOF
                         $states[] = self::MESSAGE_MISSING;
 
                         if (!$input->getOption('only-unused')) {
-                            $exitCode |= self::EXIT_CODE_MISSING;
+                            $exitCode = $exitCode | self::EXIT_CODE_MISSING;
                         }
                     }
                 } elseif ($currentCatalogue->defines($messageId, $domain)) {
                     $states[] = self::MESSAGE_UNUSED;
 
                     if (!$input->getOption('only-missing')) {
-                        $exitCode |= self::EXIT_CODE_UNUSED;
+                        $exitCode = $exitCode | self::EXIT_CODE_UNUSED;
                     }
                 }
 
@@ -233,7 +241,7 @@ EOF
                     if ($fallbackCatalogue->defines($messageId, $domain) && $value === $fallbackCatalogue->get($messageId, $domain)) {
                         $states[] = self::MESSAGE_EQUALS_FALLBACK;
 
-                        $exitCode |= self::EXIT_CODE_FALLBACK;
+                        $exitCode = $exitCode | self::EXIT_CODE_FALLBACK;
 
                         break;
                     }

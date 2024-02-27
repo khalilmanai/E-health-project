@@ -38,7 +38,7 @@ class Translator extends BaseTranslator implements WarmableInterface
     /**
      * @var list<string>
      */
-    private array $resourceLocales;
+    private $resourceLocales;
 
     /**
      * Holds parameters from addResource() calls so we can defer the actual
@@ -46,22 +46,22 @@ class Translator extends BaseTranslator implements WarmableInterface
      *
      * @var array[]
      */
-    private array $resources = [];
+    private $resources = [];
 
     /**
      * @var string[][]
      */
-    private array $resourceFiles;
+    private $resourceFiles;
 
     /**
      * @var string[]
      */
-    private array $scannedDirectories;
+    private $scannedDirectories;
 
     /**
      * @var string[]
      */
-    private array $enabledLocales;
+    private $enabledLocales;
 
     /**
      * Constructor.
@@ -95,9 +95,11 @@ class Translator extends BaseTranslator implements WarmableInterface
     }
 
     /**
-     * @param string|null $buildDir
+     * {@inheritdoc}
+     *
+     * @return string[]
      */
-    public function warmUp(string $cacheDir /* , string $buildDir = null */): array
+    public function warmUp(string $cacheDir)
     {
         // skip warmUp when translator doesn't use cache
         if (null === $this->options['cache_dir']) {
@@ -118,7 +120,7 @@ class Translator extends BaseTranslator implements WarmableInterface
         return [];
     }
 
-    public function addResource(string $format, mixed $resource, string $locale, ?string $domain = null): void
+    public function addResource(string $format, $resource, string $locale, ?string $domain = null)
     {
         if ($this->resourceFiles) {
             $this->addResourceFiles();
@@ -126,7 +128,10 @@ class Translator extends BaseTranslator implements WarmableInterface
         $this->resources[] = [$format, $resource, $locale, $domain];
     }
 
-    protected function initializeCatalogue(string $locale): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function initializeCatalogue(string $locale)
     {
         $this->initialize();
         parent::initializeCatalogue($locale);
@@ -145,9 +150,6 @@ class Translator extends BaseTranslator implements WarmableInterface
         }
     }
 
-    /**
-     * @return void
-     */
     protected function initialize()
     {
         if ($this->resourceFiles) {
