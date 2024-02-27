@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.gluonhq.charm.glisten.control.CardPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="404.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AfficherReservation">
+   <children>
+      <AnchorPane prefHeight="404.0" prefWidth="241.0">
+         <children>
+            <ImageView fitHeight="42.0" fitWidth="34.0" layoutX="9.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/LOGO.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="239.0" fitWidth="235.0" layoutX="3.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/reserv.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="60.0" layoutY="16.0" text="Nutri">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="105.0" layoutY="16.0" text="NET" textFill="#007d6e">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Separator layoutX="247.0" orientation="VERTICAL" prefHeight="404.0" prefWidth="14.0" />
+      <CardPane layoutX="254.0" layoutY="-2.0" prefHeight="410.0" prefWidth="347.0">
+          <Label style="-fx-padding:10;" text="label1" />
+          <Label style="-fx-padding:10;" text="label2" />
+          <Label style="-fx-padding:10;" text="label3" />
+      </CardPane>
+   </children>
+</AnchorPane>
