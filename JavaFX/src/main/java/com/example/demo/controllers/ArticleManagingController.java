@@ -5,14 +5,20 @@ package com.example.demo.controllers;
  import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
   import javafx.event.ActionEvent;
+  import javafx.fxml.FXMLLoader;
   import javafx.fxml.Initializable;
  import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
+  import javafx.scene.Node;
+  import javafx.scene.Parent;
+  import javafx.scene.Scene;
+  import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
   import javafx.scene.control.TextField;
   import javafx.scene.control.cell.PropertyValueFactory;
+  import javafx.stage.Stage;
 
-import java.net.URL;
+  import java.io.IOException;
+  import java.net.URL;
   import java.sql.*;
   import java.util.ResourceBundle;
 
@@ -153,4 +159,18 @@ public class ArticleManagingController implements Initializable {
 
     }
 
+    public void gobackclick(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/demo/Articles-Service.fxml"));
+            Parent ArticlePane = fxmlLoader.load();
+            Scene articleScene = new Scene(ArticlePane);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(articleScene);
+            stage.show();
+
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+    }
 }

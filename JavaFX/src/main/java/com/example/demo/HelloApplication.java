@@ -16,7 +16,7 @@ public class HelloApplication extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         MyDataBase con=MyDataBase.getInstance();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ArticlesManaging.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Articles-Service.fxml"));
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("NutriNet");
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);

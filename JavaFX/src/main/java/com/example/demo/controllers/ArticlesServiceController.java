@@ -25,10 +25,9 @@ public class ArticlesServiceController {
   @FXML
     public void goToArticles(MouseEvent event) {
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ArticlesManaging.fxml"));
-      System.out.println(fxmlLoader.getLocation());
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/demo/ArticlesManaging.fxml"));
       Parent ArticlePane = fxmlLoader.load();
-      Scene articleScene = new Scene(ArticlePane);
+       Scene articleScene = new Scene(ArticlePane);
       Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       stage.setScene(articleScene);
       stage.show();

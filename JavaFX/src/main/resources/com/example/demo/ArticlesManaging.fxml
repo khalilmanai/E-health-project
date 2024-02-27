@@ -64,5 +64,6 @@
       <TextField fx:id="tf_titre1" layoutX="339.0" layoutY="308.0" style="-fx-background-radius: 25; -fx-pref-width: 150; -fx-pref-height: 30;" />
       <TextField fx:id="tf_sujet1" layoutX="339.0" layoutY="352.0" style="-fx-background-radius: 25; -fx-pref-width: 150; -fx-pref-height: 30;" />
       <TextField fx:id="tf_publishdate1" layoutX="339.0" layoutY="396.0" style="-fx-background-radius: 25; -fx-pref-height: 30; -fx-pref-width: 150;" />
+      <Button layoutX="102.0" layoutY="14.0" mnemonicParsing="false" onAction="#gobackclick" style="-fx-background-radius: 25; -fx-background-color: EC744A; -fx-text-fill: FFFFFF; -fx-pref-width: 150; -fx-pref-height: 40;" text="Go_Back" />
     </children>
 </AnchorPane>
