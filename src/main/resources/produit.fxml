@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="661.0" prefWidth="792.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddP">
+   <children>
+      <Label layoutX="28.0" layoutY="74.0" text="nom_prod  :" />
+      <Label layoutX="27.0" layoutY="152.0" text="quantité  :" />
+      <Label layoutX="24.0" layoutY="222.0" text="description  :" />
+      <Label layoutX="27.0" layoutY="303.0" text="prix  :" />
+      <Label layoutX="18.0" layoutY="472.0" text="cotegories  :" />
+      <TextField fx:id="id_nomp" layoutX="152.0" layoutY="67.0" />
+      <TextField fx:id="id_descprod" layoutX="152.0" layoutY="215.0" />
+      <Button fx:id="id_upimg" layoutX="156.0" layoutY="375.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="42.0" prefWidth="188.0" text="Upload Image" />
+      <Spinner fx:id="id_prixProd" layoutX="152.0" layoutY="296.0" />
+      <Spinner fx:id="id_quant" layoutX="152.0" layoutY="145.0" />
+      <ChoiceBox fx:id="id_catigo" layoutX="152.0" layoutY="465.0" prefHeight="41.0" prefWidth="188.0" />
+      <Button fx:id="id_addp" layoutX="27.0" layoutY="545.0" mnemonicParsing="false" onAction="#add_produit" text="Add" />
+      <ImageView fx:id="id_image" fitHeight="150.0" fitWidth="200.0" layoutX="476.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="id_image" fitHeight="213.0" fitWidth="240.0" layoutX="456.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="id_addcatbtn" layoutX="362.0" layoutY="465.0" mnemonicParsing="false" onAction="#ajouter_Cat" text="Add_Categorie" />
+      <Button fx:id="id_afficher" layoutX="101.0" layoutY="545.0" mnemonicParsing="false" onAction="#afficher_prod" text="Afficher" />
+   </children>
+</AnchorPane>

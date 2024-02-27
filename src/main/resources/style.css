@@ -1,0 +1,144 @@
+/* Global styles */
+.root {
+    -fx-background-color: #343a40;
+    -fx-font-family: 'Sofia Sans Condensed SemiBold', sans-serif;
+    -fx-font-size: 18px;
+}
+
+/* Button styles */
+.button {
+    -fx-background-color: #a71930;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #900a24;
+}
+
+/* Text field styles */
+.text-field {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 16px;
+    -fx-padding: 8px;
+    -fx-border-radius: 4px;
+}
+
+.text-field:focused {
+    -fx-background-color: #868b8f;
+}
+
+/* Label styles */
+.label {
+    -fx-text-fill: #000000; /* Couleur du texte en noir */
+    -fx-font-size: 19px;
+}
+
+/* Combo box styles */
+.combo-box {
+    -fx-background-color: #6c757d;
+    -fx-font-size: 15px;
+    -fx-padding: 8px;
+    -fx-border-radius: 4px;
+}
+
+.combo-box:focused {
+    -fx-background-color: #9E978E;
+}
+
+/* Check box styles */
+.check-box {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+}
+
+/* Progress bar styles */
+.progress-bar {
+    -fx-accent: #2ecc71;
+}
+
+/* Slider styles */
+.slider {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+}
+
+.slider .thumb {
+    -fx-background-color: #a71930;
+}
+
+/* Scroll bar styles */
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: #a71930;
+}
+
+/* Toolbar styles */
+.tool-bar {
+    -fx-background-color: #4f5257;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-padding: 8px;
+    -fx-border-radius: 4px;
+}
+
+/* Text area styles */
+.text-area {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
+    -fx-padding: 8px;
+    -fx-border-radius: 4px;
+}
+
+.text-area:focused {
+    -fx-background-color: #ffffff;
+}
+
+/* Table view styles */
+.table-view .column-header-background {
+    -fx-background-color: #262829;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: black;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: #f5f5f5;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #e8e8e8;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #757778;
+    -fx-text-fill: white;
+}
+
+/* Chart styles */
+.default-color0.chart-bar {
+    -fx-bar-fill: #900a24;
+}
+
+.chart-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 22px;
+}
+
+.chart-pie-label-line {
+    -fx-stroke: #900a24;
+    -fx-fill: #900a24;
+}
+
+.chart-pie-label {
+    -fx-fill: #ffffff;
+    -fx-font-size: 19px;
+}

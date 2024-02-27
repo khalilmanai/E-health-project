@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<AnchorPane fx:id="afficherprod" prefHeight="786.0" prefWidth="1366.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherProd">
+   <children>
+      <Button fx:id="back_id" mnemonicParsing="false" onAction="#back_to_add" prefHeight="42.0" prefWidth="82.0" text="Back" />
+      <ScrollPane hbarPolicy="ALWAYS" layoutY="43.0" prefHeight="1366.0" prefWidth="1366.0" vbarPolicy="ALWAYS">
+         <content>
+            <FlowPane fx:id="cardlyout" prefHeight="1366.0" prefWidth="1366.0" />
+         </content>
+      </ScrollPane>
+      <Button fx:id="reload_id" layoutX="85.0" layoutY="1.0" mnemonicParsing="false" onAction="#reload_page" text="reload" />
+   </children>
+</AnchorPane>
