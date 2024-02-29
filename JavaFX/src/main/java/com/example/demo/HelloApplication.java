@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
-    private static final int SCENE_WIDTH=900;
+    private static final int SCENE_WIDTH=1080;
     private static final int SCENE_HEIGHT=600;
 
     @Override
@@ -21,7 +21,7 @@ public class HelloApplication extends Application {
         primaryStage.setTitle("NutriNet");
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         primaryStage.show();
     }
 

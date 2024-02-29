@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="285.0" style="-fx-background-color: cbe69a; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.updateArticleController">
+   <children>
+      <Pane layoutX="8.0" layoutY="343.0" prefHeight="47.0" prefWidth="275.0">
+         <children>
+            <Button fx:id="buttonupdate" layoutX="115.0" layoutY="7.0" mnemonicParsing="false" onAction="#updateArtcile" prefHeight="33.0" prefWidth="75.0" style="-fx-background-color: EC744A; -fx-background-radius: 25; -fx-pref-width: 70; -fx-pref-height: 30; -fx-text-fill: FFFFFF;" text="Effectuer" />
+            <Button layoutX="202.0" layoutY="7.0" mnemonicParsing="false" onAction="#gobackclick" style="-fx-background-color: EC744A; -fx-background-radius: 25; -fx-pref-height: 30; -fx-pref-width: 70; -fx-text-fill: FFFFFF;" text="Annuler" />
+            <ImageView fitHeight="33.0" fitWidth="35.0" layoutX="5.0" layoutY="3.0">
+               <image>
+                  <Image url="@Images/LOGO.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+      <Pane layoutX="10.0" layoutY="49.0" prefHeight="39.0" prefWidth="265.0">
+         <children>
+            <Label layoutX="14.0" layoutY="11.0" style="-fx-font-family: arial; -fx-font-size: 13.5; -fx-font-style: italic;" text="Nouveau Titre" />
+            <TextField fx:id="tf_titre2" layoutX="108.0" layoutY="7.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="14.0" layoutY="100.0" prefHeight="39.0" prefWidth="275.0">
+         <children>
+            <Label layoutX="8.0" layoutY="12.0" style="-fx-font-family: arial; -fx-font-style: italic; -fx-font-size: 13.5;" text="Nouveau Sujet" />
+            <TextField fx:id="tf_sujet2" layoutX="103.0" layoutY="7.0" />
+         </children>
+      </Pane>
+      <ImageView fitHeight="33.0" fitWidth="35.0" layoutX="14.0" layoutY="14.0">
+         <image>
+            <Image url="@Images/apple.PNG" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

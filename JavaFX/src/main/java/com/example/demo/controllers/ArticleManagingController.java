@@ -2,7 +2,8 @@ package com.example.demo.controllers;
   import com.example.demo.models.Articles;
   import com.example.demo.services.ServiceArticles;
   import com.example.demo.utils.MyDataBase;
- import javafx.collections.FXCollections;
+  import javafx.animation.PauseTransition;
+  import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
   import javafx.event.ActionEvent;
   import javafx.fxml.FXMLLoader;
@@ -11,11 +12,11 @@ import javafx.collections.ObservableList;
   import javafx.scene.Node;
   import javafx.scene.Parent;
   import javafx.scene.Scene;
-  import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-  import javafx.scene.control.TextField;
+  import javafx.scene.control.*;
   import javafx.scene.control.cell.PropertyValueFactory;
+  import javafx.scene.paint.Color;
   import javafx.stage.Stage;
+  import javafx.util.Duration;
 
   import java.io.IOException;
   import java.net.URL;
@@ -77,6 +78,14 @@ public class ArticleManagingController implements Initializable {
         specialiste_id.setCellValueFactory(new PropertyValueFactory<Articles,Integer>("specialiste_id"));
         populateTableView();
     }
+    private Label alertLabel;
+    private void showAlert(String message, Color color) {
+        alertLabel.setText(message);
+        alertLabel.setTextFill(color);
+        PauseTransition visiblePause = new PauseTransition(Duration.seconds(5));
+        visiblePause.setOnFinished(event -> alertLabel.setText(""));
+        visiblePause.play();
+    }
 @FXML
     public void populateTableView( ){
         String query="SELECT * FROM `articles`";
@@ -107,15 +116,47 @@ public class ArticleManagingController implements Initializable {
 
     @FXML
     void addArtcile(ActionEvent event) {
-        String titre=tf_titre.getText();
-        String date_pub=tf_publishdate.getText();
-        int specia_id=  Integer.parseInt(tf_specialisteid.getText());
-        String sujet=tf_sujet.getText();
-        ServiceArticles sa=new ServiceArticles();
-        sa.add(new Articles(0,titre,sujet, date_pub,0,specia_id));
-        loadDate();
+//        String titre=tf_titre.getText();
+//        String date_pub=tf_publishdate.getText();
+//        int specia_id=  Integer.parseInt(tf_specialisteid.getText());
+//        String sujet=tf_sujet.getText();
+//        ServiceArticles sa=new ServiceArticles();
+//        sa.add(new Articles(0,titre,sujet, date_pub,0,specia_id));
+//        loadDate();
+            String titre = tf_titre.getText();
+            String date_pub = tf_publishdate.getText();
+            String specialiste_id_str = tf_specialisteid.getText();
+            String sujet = tf_sujet.getText();
 
-    }
+
+            if (titre.isEmpty() || date_pub.isEmpty() || specialiste_id_str.isEmpty() || sujet.isEmpty()) {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Please fill in all fields.");
+                alert.showAndWait();
+                return;
+            }
+
+            try {
+                int specialiste_id = Integer.parseInt(specialiste_id_str);
+
+
+                ServiceArticles sa = new ServiceArticles();
+                sa.add(new Articles(0, titre, sujet, date_pub, 0, specialiste_id));
+                loadDate();
+            } catch (NumberFormatException e) {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Specialiste ID must be a valid integer.");
+                alert.showAndWait();
+            }
+        }
+
+
 
     @FXML
     void deleteArticles(ActionEvent event) {

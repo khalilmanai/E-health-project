@@ -47,6 +47,23 @@ public class ServiceArticles implements Iservice<Articles> {
         }
         return list_articles;
     }
+    public ArrayList<Articles> getattribut() {
+        ArrayList<Articles> list_articles=new ArrayList();
+        String query="SELECT `title`, `topic`,`publish_date`, `views` FROM `articles`";
+        try{  Statement stm=con.createStatement();
+            ResultSet result=stm.executeQuery(query);
+            while (result.next())
+            {Articles a= new Articles();
+                a.setTitle(result.getString(1));
+                a.setTopic(result.getString(2));
+                a.setDate(String.valueOf(result.getDate(3)));
+                a.setViews(result.getInt(4));
+                list_articles.add(a);}   }
+        catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+        return list_articles;
+    }
 
     @Override
     public void update(Articles articles) {
@@ -64,6 +81,20 @@ public class ServiceArticles implements Iservice<Articles> {
     }
 
     catch(SQLException ex){System.out.println(ex.getMessage());}
+    }
+
+    public void updateCard(Articles articles) {
+        String query=
+                "UPDATE `articles` SET `title`=?,`topic`=? WHERE `article_id`=?";
+
+        try{PreparedStatement stm=con.prepareStatement(query);
+            stm.setString(1,articles.getTitle());
+            stm.setString(2, articles.getTopic());
+            stm.setInt(3,articles.getArticle_id());
+            stm.executeUpdate();
+        }
+
+        catch(SQLException ex){System.out.println(ex.getMessage());}
     }
 
     @Override

@@ -1,0 +1,9 @@
+.card-view {
+    -fx-background-radius: 25;
+     -fx-transition: transform 0.2s;
+    -fx-padding: 10;
+     -fx-background-color: #f0f0f0;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+
+}
