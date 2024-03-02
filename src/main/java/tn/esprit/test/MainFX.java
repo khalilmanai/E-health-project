@@ -8,14 +8,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class mainFX extends Application {
+public class MainFX extends Application {
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ajouterRestaurant.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/firstScreen.fxml"));
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);

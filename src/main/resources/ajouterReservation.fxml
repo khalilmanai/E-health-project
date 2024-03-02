@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -11,73 +12,85 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.AjouterReservationController">
    <children>
-      <AnchorPane layoutX="-1.0" prefHeight="401.0" prefWidth="228.0">
-         <children>
-            <ImageView fitHeight="185.0" fitWidth="234.0" layoutX="21.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/Reservation.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="42.0" fitWidth="34.0" layoutX="10.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/LOGO.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="61.0" layoutY="15.0" text="Nutri">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="106.0" layoutY="15.0" text="NET" textFill="#007d6e">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
+      <ImageView fitHeight="185.0" fitWidth="234.0" layoutX="20.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Reservation.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="42.0" fitWidth="34.0" layoutX="9.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/LOGO.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="60.0" layoutY="15.0" text="Nutri">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="105.0" layoutY="15.0" text="NET" textFill="#007d6e">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnHome" layoutX="9.0" layoutY="368.0" mnemonicParsing="false" onAction="#goToHome" style="-fx-background-color: #EC744A;" text="Home" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
       <Separator layoutX="226.0" layoutY="1.0" orientation="VERTICAL" prefHeight="401.0" prefWidth="11.0" />
-      <Label layoutX="276.0" layoutY="100.0" text="Nom du restaurant :" textFill="#007d6e">
+      <Label layoutX="267.0" layoutY="104.0" text="Nom du restaurant :" textFill="#007d6e">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="276.0" layoutY="138.0" text="Nom du client :" textFill="#007d6e">
+      <Label layoutX="267.0" layoutY="142.0" text="Nom du client :" textFill="#007d6e">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="276.0" layoutY="175.0" text="Téléphone :" textFill="#007d6e">
+      <Label layoutX="266.0" layoutY="179.0" text="Téléphone :" textFill="#007d6e">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="267.0" layoutY="212.0" text="Nombre de personnes :" textFill="#007d6e">
+      <Label layoutX="267.0" layoutY="216.0" text="Nombre de personnes :" textFill="#007d6e">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="270.0" layoutY="246.0" text="Date du réservation :" textFill="#007d6e">
+      <Label layoutX="267.0" layoutY="250.0" text="Date du réservation :" textFill="#007d6e">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="270.0" layoutY="285.0" text="Statut :" textFill="#007d6e">
+      <DatePicker fx:id="tfdate" layoutX="417.0" layoutY="247.0" />
+      <TextField fx:id="tfnomR" layoutX="417.0" layoutY="101.0" />
+      <TextField fx:id="tfnomC" layoutX="417.0" layoutY="139.0" />
+      <TextField fx:id="tftel" layoutX="417.0" layoutY="176.0" />
+      <TextField fx:id="tfnbr" layoutX="417.0" layoutY="213.0" />
+      <ButtonBar layoutX="370.0" layoutY="335.0" prefHeight="40.0" prefWidth="174.0">
+        <buttons>
+          <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#addReservation" style="-fx-background-color: #EC744A;" text="Ajouter" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button fx:id="btnClear" layoutX="280.0" layoutY="18.0" mnemonicParsing="false" onAction="#clearField" style="-fx-background-color: #EC744A;" text="Annuler" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+        </buttons>
+      </ButtonBar>
+      <Label layoutX="308.0" layoutY="42.0" text="Gestion des réservations" textFill="#ec744a">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+      <Label layoutX="267.0" layoutY="284.0" text="Statut :" textFill="#007d6e">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <DatePicker layoutX="417.0" layoutY="243.0" />
-      <MenuButton layoutX="400.0" layoutY="282.0" mnemonicParsing="false" text="En attente">
-        <items>
-          <MenuItem mnemonicParsing="false" text="R" />
-          <MenuItem mnemonicParsing="false" text="L" />
-        </items>
-      </MenuButton>
-      <TextField layoutX="417.0" layoutY="97.0" />
-      <TextField layoutX="417.0" layoutY="135.0" />
-      <TextField layoutX="417.0" layoutY="172.0" />
-      <TextField layoutX="417.0" layoutY="209.0" />
+      <RadioButton fx:id="tfstatut" layoutX="417.0" layoutY="285.0" mnemonicParsing="false" text="En attente" />
    </children>
 </AnchorPane>

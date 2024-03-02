@@ -3,28 +3,24 @@ package tn.esprit.test;
 
 import tn.esprit.models.Reservation;
 import tn.esprit.models.Restaurant;
-import tn.esprit.services.serviceReservation;
-import tn.esprit.services.serviceRestaurant;
-import tn.esprit.utils.MyDB;
+import tn.esprit.services.ServiceReservation;
+import tn.esprit.services.ServiceRestaurant;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import java.sql.*;
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
 
         // instances of service classes
-        serviceReservation sr = new serviceReservation();
-        serviceRestaurant service = new serviceRestaurant();
+        ServiceReservation sr = new ServiceReservation();
+        ServiceRestaurant service = new ServiceRestaurant();
 
 
         // add new reservation
 
         Reservation r1 = new Reservation();
-        r1.setId_Client(4);
         r1.setNom_Resto("Slayta");
         r1.setNom_Client("Abir");
         r1.setTel_Client(22222222);
@@ -35,7 +31,6 @@ public class Main {
 
 
         Reservation r2 = new Reservation();
-        r2.setId_Client(5);
         r2.setNom_Resto("ElBio");
         r2.setNom_Client("Mariem");
         r2.setTel_Client(33333333);
@@ -46,7 +41,6 @@ public class Main {
 
 
         Reservation r3 = new Reservation();
-        r3.setId_Client(1);
         r3.setNom_Resto("Ivy");
         r3.setNom_Client("Mariem");
         r3.setTel_Client(33333333);
@@ -76,7 +70,7 @@ public class Main {
 
         Restaurant rest3 = new Restaurant();
         rest3.setNom_Resto("Takeateasy");
-        rest3.setAdresse_Resto("Menzah9");
+        rest3.setAdresse_Resto("Menzah6");
         rest3.setTel_Resto(73333333);
         rest3.setDescription("abcdef");
         service.add(rest3);

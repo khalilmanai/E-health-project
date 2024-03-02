@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class Reservation implements iService {
     private int id_Reservation;
-    private int id_Client;
     private String nom_Resto;
     private String nom_Client;
     private int tel_Client;
@@ -20,9 +19,8 @@ public class Reservation implements iService {
 
     public Reservation(){}
 
-    public Reservation(int id_Client, String nom_Resto, String nom_Client, int tel_Client, int nbr_Personnes, String date_Reservation, String statut) {
+    public Reservation(String nom_Resto, String nom_Client, int tel_Client, int nbr_Personnes, String date_Reservation, String statut) {
       //  this.id_Reservation = id_Reservation;
-        this.id_Client = id_Client;
         this.nom_Client = nom_Client;
         this.nom_Resto = nom_Resto;
         this.tel_Client = tel_Client;
@@ -37,14 +35,6 @@ public class Reservation implements iService {
 
     public void setId_Reservation(int id_Reservation) {
         this.id_Reservation = id_Reservation;
-    }
-
-    public int getId_Client() {
-        return id_Client;
-    }
-
-    public void setId_Client(int id_Client) {
-        this.id_Client = id_Client;
     }
 
     public String getNom_Client() {
@@ -98,7 +88,6 @@ public class Reservation implements iService {
     @Override
     public String toString() {
         return "Reservation{" +
-                "id_Client=" + id_Client +
                 ", nom_Client='" + nom_Client + '\'' +
                 ", tel_Client=" + tel_Client +
                 ", nbr_Personnes=" + nbr_Personnes +

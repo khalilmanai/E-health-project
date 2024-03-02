@@ -7,7 +7,7 @@ import tn.esprit.utils.MyDB;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class serviceRestaurant implements iService<Restaurant> {
+public class ServiceRestaurant implements iService<Restaurant> {
     @Override
     public void add(Restaurant restaurant) {
         String req="INSERT INTO `restaurant`(`nom_Resto`, `adresse_Resto`, `tel_Resto`, `Description`) VALUES (?,?,?,?)";

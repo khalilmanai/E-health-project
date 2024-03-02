@@ -8,9 +8,12 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.ajouterRestaurantController">
+<AnchorPane prefHeight="400.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tn.esprit.controllers.AjouterRestaurantController">
    <children>
       <Label layoutX="283.0" layoutY="128.0" text="Nom  :" textFill="#007d6e">
          <font>
@@ -34,44 +37,39 @@
       <TextField fx:id="tftel" layoutX="379.0" layoutY="200.0" prefHeight="19.0" prefWidth="156.0" promptText="téléphone" style="-fx-background-radius: 20;" />
       <TextField fx:id="tfdescription" layoutX="379.0" layoutY="240.0" prefHeight="25.0" prefWidth="156.0" promptText="description" style="-fx-background-radius: 20;" />
       <Separator layoutX="225.0" orientation="VERTICAL" prefHeight="406.0" prefWidth="15.0" />
-      <TextField fx:id="tfnom" layoutX="379.0" layoutY="125.0" prefHeight="25.0" prefWidth="156.0" promptText="nom du restaurant" style="-fx-background-radius: 20;" />
-      <AnchorPane layoutY="-5.0" prefHeight="411.0" prefWidth="227.0">
+      <HBox layoutX="60.0" layoutY="15.0">
          <children>
-            <ImageView fitHeight="217.0" fitWidth="219.0" layoutX="8.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/Restaurant.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="42.0" fitWidth="34.0" layoutX="9.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/LOGO.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="60.0" layoutY="20.0" text="Nutri">
+            <Label text="Nutri">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="105.0" layoutY="20.0" text="NET" textFill="#007d6e">
+            <Label text="NET" textFill="#007d6e">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
          </children>
-      </AnchorPane>
-      <ButtonBar layoutX="234.0" layoutY="311.0" prefHeight="40.0" prefWidth="355.0">
+      </HBox>
+      <ImageView fitHeight="217.0" fitWidth="219.0" layoutX="8.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Restaurant.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="42.0" fitWidth="34.0" layoutX="9.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/LOGO.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="home" layoutX="8.0" layoutY="364.0" mnemonicParsing="false" onAction="#goToHome" style="-fx-background-color: #007D6E; -fx-background-radius: 20;" text="Home" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <TextField fx:id="tfnom" layoutX="379.0" layoutY="125.0" prefHeight="25.0" prefWidth="156.0" promptText="nom du restaurant" style="-fx-background-radius: 20;" />
+      <ButtonBar layoutX="353.0" layoutY="307.0" prefHeight="40.0" prefWidth="182.0">
         <buttons>
-          <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#addResto" style="-fx-background-color: #EC744A; -fx-background-radius: 9;" text="Valider" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnUpdate" layoutX="247.0" layoutY="18.0" mnemonicParsing="false" onAction="#updateResto" style="-fx-background-color: #EC744A; -fx-background-radius: 9;" text="Modifier" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnDelete" layoutX="162.0" layoutY="18.0" mnemonicParsing="false" onAction="#deleteResto" style="-fx-background-color: #EC744A; -fx-background-radius: 9;" text="Supprimer" textFill="WHITE">
+          <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#addResto" style="-fx-background-color: #EC744A; -fx-background-radius: 9;" text="Ajouter" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -83,5 +81,10 @@
             </Button>
         </buttons>
       </ButtonBar>
+      <Label layoutX="313.0" layoutY="49.0" text="Gestion des restaurants" textFill="#ec744a">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

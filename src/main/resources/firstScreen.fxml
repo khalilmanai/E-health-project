@@ -6,22 +6,27 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.FirstScreenController">
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="226.0">
          <children>
-            <Label layoutX="60.0" layoutY="14.0" text="Nutri">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
-            <Label layoutX="105.0" layoutY="14.0" text="NET" textFill="#007d6e">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
+            <HBox layoutX="60.0" layoutY="14.0">
+               <children>
+                  <Label text="Nutri">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label text="NET" textFill="#007d6e">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <ImageView fitHeight="42.0" fitWidth="34.0" layoutX="9.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/LOGO.png" />
@@ -29,31 +34,36 @@
             </ImageView>
             <ImageView fitHeight="220.0" fitWidth="226.0" layoutX="4.0" layoutY="90.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@images/resto.png" />
+                  <Image url="@images/FirstScreen.png" />
                </image>
             </ImageView>
          </children>
       </AnchorPane>
-      <Separator layoutX="225.0" orientation="VERTICAL" prefHeight="404.0" prefWidth="11.0" />
-      <Button fx:id="ajouterResto" layoutX="333.0" layoutY="82.0" mnemonicParsing="false" style="-fx-background-color: #007D6E; -fx-background-radius: 20;" text="Ajouter un restaurant" textFill="WHITE">
+      <Separator layoutX="227.0" orientation="VERTICAL" prefHeight="404.0" prefWidth="11.0" />
+      <Button fx:id="ajouterResto" layoutX="333.0" layoutY="111.0" mnemonicParsing="false" onAction="#goToAjouter" style="-fx-background-color: #007D6E; -fx-background-radius: 20;" text="Ajouter un restaurant" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="ajouterReservation" layoutX="326.0" layoutY="139.0" mnemonicParsing="false" style="-fx-background-color: #007D6E; -fx-background-radius: 20;" text="Ajouter une réservation" textFill="WHITE">
+      <Button fx:id="ajouterReservation" layoutX="326.0" layoutY="170.0" mnemonicParsing="false" onAction="#goToAjouterReservation" style="-fx-background-color: #007D6E; -fx-background-radius: 20;" text="Ajouter une réservation" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="afficherRestaurant" layoutX="320.0" layoutY="202.0" mnemonicParsing="false" style="-fx-background-color: #007D6E; -fx-background-radius: 20;" text="Consulter des restaurants" textFill="WHITE">
+      <Button fx:id="afficherRestaurant" layoutX="320.0" layoutY="230.0" mnemonicParsing="false" onAction="#goToAfficher" style="-fx-background-color: #007D6E; -fx-background-radius: 20;" text="Consulter des restaurants" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="afficherReservation" layoutX="317.0" layoutY="262.0" mnemonicParsing="false" style="-fx-background-color: #007D6E; -fx-background-radius: 20;" text="Consulter des réservations" textFill="WHITE">
+      <Button fx:id="afficherReservation" layoutX="317.0" layoutY="288.0" mnemonicParsing="false" onAction="#goToAfficherReservation" style="-fx-background-color: #007D6E; -fx-background-radius: 20;" text="Consulter des réservations" textFill="WHITE">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
+      <Label layoutX="308.0" layoutY="48.0" text="Gestion de restauration" textFill="#ec744a">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
