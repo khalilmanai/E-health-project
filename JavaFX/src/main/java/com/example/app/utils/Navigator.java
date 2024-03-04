@@ -1,5 +1,6 @@
 package com.example.app.utils;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -13,7 +14,7 @@ public class Navigator {
 
 
 
-    public static void navigate(String to , MouseEvent event){
+    public static void navigate(String to , ActionEvent event){
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(Navigator.class.getResource(to));
             AnchorPane ForgotPasswordPane = fxmlLoader.load();

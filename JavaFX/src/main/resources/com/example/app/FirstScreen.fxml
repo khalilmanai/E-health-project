@@ -5,11 +5,13 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.LoginPageController">
@@ -45,7 +47,7 @@
             </font>
          </Label>
          <AmbientLight color="CHARTREUSE" lightOn="true" />
-      
+
             <AnchorPane layoutX="511.0" layoutY="-1.0" prefHeight="695.0" prefWidth="505.0">
                <children>
                   <Label alignment="CENTER" layoutX="97.0" layoutY="153.0" text="Bienvenue dans votre allié de bien être">
@@ -67,27 +69,44 @@
                         </Label>
                      </children>
                   </HBox>
-                  <TextField fx:id="emailInput" layoutX="118.0" layoutY="255.0" prefWidth="250.0" promptText="adresse e-mail" style="-fx-background-radius: 25; -fx-pref-width: 300; -fx-pref-height: 45;">
-                     <font>
-                        <Font name="Poppins Light" size="10.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="TEXT" />
-                     </cursor>
-                  </TextField>
-                  <TextField fx:id="passwordInput" layoutX="118.0" layoutY="311.0" prefHeight="16.0" prefWidth="162.0" promptText="password" style="-fx-background-radius: 25; -fx-pref-width: 300; -fx-pref-height: 45;">
-                     <cursor>
-                        <Cursor fx:constant="TEXT" />
-                     </cursor>
-                     <font>
-                        <Font name="Poppins Light" size="10.0" />
-                     </font>
-                  </TextField>
-                  <Button fx:id="connectBtn" alignment="CENTER" layoutX="128.0" layoutY="424.0" mnemonicParsing="false" onMouseClicked="#connectMethod" prefHeight="30.0" prefWidth="292.0" style="-fx-background-color: EC744A; -fx-text-fill: FFFFFF; -fx-background-radius: 25; -fx-pref-width: 300; -fx-pref-height: 45;" text="se Connecter">
-                     <font>
-                        <Font name="Poppins Medium" size="14.0" />
-                     </font>
-                  </Button>
+               <VBox alignment="CENTER" layoutX="118.0" layoutY="223.0" prefHeight="374.0" prefWidth="338.0" spacing="5.0">
+                  <children>
+                        <TextField fx:id="userNameInput" focusTraversable="false" prefWidth="250.0" promptText="nom d'utilisateur" style="-fx-background-radius: 25; -fx-pref-width: 300; -fx-pref-height: 45;">
+                           <font>
+                              <Font name="Poppins Light" size="10.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                        </TextField>
+                     <Label fx:id="emailLabelWarning" prefHeight="18.0" prefWidth="264.0" />
+                        <PasswordField fx:id="passwordInput" focusTraversable="false" prefHeight="16.0" prefWidth="162.0" promptText="password" style="-fx-background-radius: 25; -fx-pref-width: 300; -fx-pref-height: 45;">
+                           <cursor>
+                              <Cursor fx:constant="TEXT" />
+                           </cursor>
+                           <font>
+                              <Font name="Poppins Light" size="10.0" />
+                           </font>
+                        </PasswordField>
+                     <Label fx:id="PasswordLabelWarning" prefHeight="18.0" prefWidth="264.0" />
+                     <Hyperlink fx:id="passwordTrigger" alignment="CENTER" onAction="#togglePasswordVisibility" text="Afficher mot de passe" />
+                        <Hyperlink onMouseClicked="#forgotPassword" text="mot de passe oublié ?" textFill="#7bc7a8">
+                           <font>
+                              <Font name="Poppins Light" size="9.0" />
+                           </font>
+                        </Hyperlink>
+                        <Button fx:id="connectBtn" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#connectMethod" prefHeight="30.0" prefWidth="292.0" style="-fx-background-color: EC744A; -fx-text-fill: FFFFFF; -fx-background-radius: 25; -fx-pref-width: 300; -fx-pref-height: 45;" text="se Connecter">
+                           <font>
+                              <Font name="Poppins Medium" size="14.0" />
+                           </font>
+                        </Button>
+                        <Hyperlink fx:id="acountLink" onMouseClicked="#goToRegistration" text="vous n'avez pas un compte?">
+                           <font>
+                              <Font name="Poppins Medium" size="12.0" />
+                           </font>
+                        </Hyperlink>
+                  </children>
+               </VBox>
                   <Label layoutX="57.0" layoutY="240.0" textFill="#7bc7a8" underline="true">
                      <font>
                         <Font name="Poppins Light" size="10.0" />
@@ -96,16 +115,6 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                   </Label>
-                  <Hyperlink layoutX="123.0" layoutY="370.0" onMouseClicked="#forgotPassword" text="mot de passe oublié ?" textFill="#7bc7a8">
-                     <font>
-                        <Font name="Poppins Light" size="9.0" />
-                     </font>
-                  </Hyperlink>
-                  <Hyperlink fx:id="acountLink" layoutX="196.0" layoutY="488.0" onMouseClicked="#goToRegistration" text="vous n'avez pas un compte?">
-                     <font>
-                        <Font name="Poppins Medium" size="12.0" />
-                     </font>
-                  </Hyperlink>
                </children>
             </AnchorPane>
       </children>

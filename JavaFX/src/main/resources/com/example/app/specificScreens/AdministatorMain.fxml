@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="800.0"
-fx:controller="com.example.app.AdministratorMainController"
->
-    <center>
-        <!-- Admin Dashboard -->
-        <VBox spacing="20" alignment="CENTER">
-            <Button text="User Management"/>
-            <Button text="Data Analytics"/>
-            <Button text="Settings"/>
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 1080; -fx-pref-height: 700; " xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.AdministratorMainController">
+
+    <!-- Left Panel for Options -->
+    <VBox alignment="CENTER" layoutY="-1.0" prefHeight="702.0" prefWidth="218.0" spacing="20.0" style="-fx-background-color: #7bc7a8; -fx-padding: 20px;">
+        <!-- Manage Users Button -->
+        <Button style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="Gérer Utilisateur" onAction="#handleManageUsersButtonClicked" />
+
+        <!-- Manage Products Button -->
+        <Button style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="Gérer Produits" onAction="#handleManageProductsButtonClicked" />
+
+        <!-- Manage Deliveries Button -->
+        <Button style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="Gérer Livraisons" onAction="#handleManageDeliveriesButtonClicked" />
+
+        <!-- Manage Articles Button -->
+        <Button style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="Gérer Articles" onAction="#handleManageArticlesButtonClicked" />
+    </VBox>
+
+    <!-- Content - Scrollable Area -->
+    <ScrollPane fx:id="contentScrollPane" layoutX="218.0" layoutY="-1.0" prefHeight="702.0" prefWidth="873.0" style="-fx-padding: 20px;">
+        <VBox spacing="20.0">
+            <!-- Content will be loaded dynamically here -->
         </VBox>
-    </center>
-    <bottom>
-        <!-- Footer -->
-        <HBox alignment="CENTER">
-            <Button text="Logout"/>
-        </HBox>
-    </bottom>
-</BorderPane>
+    </ScrollPane>
+</AnchorPane>

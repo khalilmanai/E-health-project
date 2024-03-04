@@ -1,56 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF; -fx-pref-width: 1080; -fx-pref-height: 700;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.ClientMainController">
-
-    <!-- Left Panel for Options -->
-    <VBox alignment="CENTER" layoutX="-2.0" layoutY="-1.0" prefHeight="702.0" prefWidth="222.0" spacing="20.0" style="-fx-background-color: #7bc7a8; -fx-padding: 20px;">
-        <Button prefWidth="200.0" style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="Consult a Specialist">
-            <font>
-                <Font name="Poppins Regular" size="12.0" />
-            </font>
-        </Button>
-        <Button prefWidth="200.0" style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="Visit Store">
-            <font>
-                <Font name="Poppins Regular" size="12.0" />
-            </font>
-        </Button>
-        <Button prefWidth="200.0" style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="View Profile">
-            <font>
-                <Font name="Poppins Regular" size="12.0" />
-            </font>
-        </Button>
-        <Button prefWidth="200.0" style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="History of Liked Articles">
-            <font>
-                <Font name="Poppins Regular" size="12.0" />
-            </font>
-        </Button>
-        <Button prefWidth="200.0" style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="Profile">
-            <font>
-                <Font name="Poppins Regular" size="12.0" />
-            </font>
-        </Button>
-        <Button prefWidth="200.0" style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="Settings">
-            <font>
-                <Font name="Poppins Regular" size="12.0" />
-            </font>
-        </Button>
-        <Button prefWidth="200.0" style="-fx-background-color: #7bc7a8; -fx-text-fill: white; -fx-font-size: 16;" text="Logout">
-            <font>
-                <Font name="Poppins Regular" size="12.0" />
-            </font>
-        </Button>
-    </VBox>
-
-    <!-- Content - Scrollable Area -->
-    <ScrollPane layoutX="220.0" layoutY="-1.0" prefHeight="702.0" prefWidth="866.0" style="-fx-padding: 20px;">
-        <VBox spacing="20.0">
-            <!-- Add articles here -->
-        </VBox>
-    </ScrollPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.ClientMainController">
+   <children>
+      <HBox prefHeight="100.0" prefWidth="1618.0" spacing="30.0">
+         <children>
+            <Button onAction="#handleHomeButtonClicked" style="-fx-padding: 10 20 10 20; -fx-background-color: #7bc7a8; -fx-text-fill: white;" text="Acceuil">
+               <font>
+                  <Font name="Poppins Regular" size="16.0" />
+               </font>
+            </Button>
+            <Button onAction="#handleConsultSpecialistButtonClicked" style="-fx-padding: 10 20 10 20; -fx-background-color: #7bc7a8; -fx-text-fill: white;" text="Consulter Specialste">
+               <font>
+                  <Font name="Poppins Regular" size="14.0" />
+               </font>
+            </Button>
+            <Button onAction="#handleRestaurantButtonClicked" style="-fx-padding: 10 20 10 20; -fx-background-color: #7bc7a8; -fx-text-fill: white;" text="Consulter Restaurant">
+               <font>
+                  <Font name="Poppins Regular" size="14.0" />
+               </font>
+            </Button>
+            <Button onAction="#handleStoreButtonClicked" style="-fx-padding: 10 20 10 20; -fx-background-color: #7bc7a8; -fx-text-fill: white;" text="Consulter Boutique">
+               <font>
+                  <Font name="Poppins Regular" size="14.0" />
+               </font>
+            </Button>
+            <Button onAction="#handleArticlesButtonClicked" style="-fx-padding: 10 20 10 20; -fx-background-color: #7bc7a8; -fx-text-fill: white;" text="Articles">
+               <font>
+                  <Font name="Poppins Regular" size="14.0" />
+               </font>
+            </Button>
+            <Button onAction="#handleProfileButtonClicked" style="-fx-padding: 10 20 10 20; -fx-background-color: #7bc7a8; -fx-text-fill: white;" text="Profile">
+               <font>
+                  <Font name="Poppins Black" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
 </AnchorPane>

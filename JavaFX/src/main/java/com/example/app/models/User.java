@@ -53,11 +53,7 @@ public class User implements Iservice {
 
     @Override
     public String toString() {
-        return "User{" +
-                "username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return String.format("ID: %s | Username: %s | Email: %s | Role: %s", id, username, email, role);
     }
 
     @Override
