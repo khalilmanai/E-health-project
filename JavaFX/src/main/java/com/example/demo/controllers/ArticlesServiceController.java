@@ -1,15 +1,13 @@
 package com.example.demo.controllers;
 
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
-import com.example.demo.utils.Navigator;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
+
 import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
 
@@ -19,7 +17,7 @@ import java.io.IOException;
 
 
 public class ArticlesServiceController {
-
+ArtilcesManaging2 art = new ArtilcesManaging2();
 
 
   @FXML
@@ -31,6 +29,7 @@ public class ArticlesServiceController {
       Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
       stage.setScene(articleScene);
       stage.show();
+
 
     } catch (IOException ex) {
       System.out.println(ex.getMessage());

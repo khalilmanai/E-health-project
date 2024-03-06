@@ -7,6 +7,6 @@ public interface Iservice <T>{
     ArrayList<T> getAll();
 
     void update(T t);
-    boolean delete (T t);
+    void delete (T t);
 
 }

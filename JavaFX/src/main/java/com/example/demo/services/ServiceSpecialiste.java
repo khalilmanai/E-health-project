@@ -66,17 +66,17 @@ public class ServiceSpecialiste implements Iservice<Specialiste> {
     }
 
     @Override
-    public boolean delete(Specialiste personne) {
+    public void delete(Specialiste personne) {
         String query = "DELETE  FROM `specialiste` where specialiste_id = ? ";
         try {
             PreparedStatement stm = cnx.prepareStatement(query);
             stm.setInt(1, personne.getId());
             stm.executeUpdate();
             System.out.println("DELETED");
-            return true;
+
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
-            return false;
+
         }
     }
 }

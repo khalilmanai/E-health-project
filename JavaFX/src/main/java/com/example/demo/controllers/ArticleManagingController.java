@@ -116,13 +116,7 @@ public class ArticleManagingController implements Initializable {
 
     @FXML
     void addArtcile(ActionEvent event) {
-//        String titre=tf_titre.getText();
-//        String date_pub=tf_publishdate.getText();
-//        int specia_id=  Integer.parseInt(tf_specialisteid.getText());
-//        String sujet=tf_sujet.getText();
-//        ServiceArticles sa=new ServiceArticles();
-//        sa.add(new Articles(0,titre,sujet, date_pub,0,specia_id));
-//        loadDate();
+
             String titre = tf_titre.getText();
             String date_pub = tf_publishdate.getText();
             String specialiste_id_str = tf_specialisteid.getText();
@@ -144,7 +138,7 @@ public class ArticleManagingController implements Initializable {
 
 
                 ServiceArticles sa = new ServiceArticles();
-                sa.add(new Articles(0, titre, sujet, date_pub, 0, specialiste_id));
+                sa.add(new Articles(0, titre, sujet, date_pub, 0, specialiste_id,""));
                 loadDate();
             } catch (NumberFormatException e) {
 
@@ -183,7 +177,7 @@ public class ArticleManagingController implements Initializable {
     void updateArtcile(ActionEvent event) {
   String query= "UPDATE `articles` SET `title`=?,`topic`=?, `publish_date`=?,`views`=? WHERE `article_id`=?";
         String titre=tf_titre1.getText();
-        String date_pub=tf_publishdate1.getText();
+        String date_pub="SELECT CURRENT_DATE();" ;
          String sujet=tf_sujet1.getText();
         int idtodel= Integer.parseInt(tf_id_todel1.getText());
         try{PreparedStatement stm=con.prepareStatement(query);

@@ -1,6 +1,6 @@
 package com.example.demo.models;
 
-import java.sql.*;
+
 public class Articles {
     private int article_id;
     private String title;
@@ -8,15 +8,18 @@ public class Articles {
     private String date;
     private int views;
     private int specialiste_id;
+
+    private String content;
   public Articles(){}
 
-    public Articles(int article_id, String title, String topic, String date, int views, int specialiste_id) {
+    public Articles(int article_id, String title, String topic, String date, int views, int specialiste_id,String content) {
         this.article_id = article_id;
         this.title = title;
         this.topic = topic;
         this.date = date;
         this.views = views;
         this.specialiste_id = specialiste_id;
+        this.content =content;
     }
 
     public int getArticle_id() {
@@ -66,6 +69,10 @@ public class Articles {
     public void setSpecialiste_id(int specialiste_id) {
         this.specialiste_id = specialiste_id;
     }
+
+    public String getContent(){return content;}
+
+    public void setContent(String content){this.content=content;}
 
     @Override
     public String toString() {

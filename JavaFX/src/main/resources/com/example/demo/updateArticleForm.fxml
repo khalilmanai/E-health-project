@@ -8,12 +8,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="285.0" style="-fx-background-color: cbe69a; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.updateArticleController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="404.0" prefWidth="285.0" style="-fx-background-color: D9D9D9; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controllers.updateArticleController">
    <children>
       <Pane layoutX="8.0" layoutY="343.0" prefHeight="47.0" prefWidth="275.0">
          <children>
             <Button fx:id="buttonupdate" layoutX="115.0" layoutY="7.0" mnemonicParsing="false" onAction="#updateArtcile" prefHeight="33.0" prefWidth="75.0" style="-fx-background-color: EC744A; -fx-background-radius: 25; -fx-pref-width: 70; -fx-pref-height: 30; -fx-text-fill: FFFFFF;" text="Effectuer" />
-            <Button layoutX="202.0" layoutY="7.0" mnemonicParsing="false" onAction="#gobackclick" style="-fx-background-color: EC744A; -fx-background-radius: 25; -fx-pref-height: 30; -fx-pref-width: 70; -fx-text-fill: FFFFFF;" text="Annuler" />
+            <Button fx:id="closebutton" layoutX="202.0" layoutY="7.0" mnemonicParsing="false" onAction="#gobackclick" style="-fx-background-color: EC744A; -fx-background-radius: 25; -fx-pref-height: 30; -fx-pref-width: 70; -fx-text-fill: FFFFFF;" text="Annuler" />
             <ImageView fitHeight="33.0" fitWidth="35.0" layoutX="5.0" layoutY="3.0">
                <image>
                   <Image url="@Images/LOGO.png" />
