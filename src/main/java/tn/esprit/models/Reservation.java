@@ -19,13 +19,13 @@ public class Reservation implements iService {
 
     public Reservation(){}
 
-    public Reservation(String nom_Resto, String nom_Client, int tel_Client, int nbr_Personnes, String date_Reservation, String statut) {
+    public Reservation(String nom_Resto, String nom_Client, int tel_Client, int nbr_Personnes, LocalDateTime date_Reservation, String statut) {
       //  this.id_Reservation = id_Reservation;
         this.nom_Client = nom_Client;
         this.nom_Resto = nom_Resto;
         this.tel_Client = tel_Client;
         this.nbr_Personnes = nbr_Personnes;
-        this.date_Reservation = LocalDateTime.parse(date_Reservation);
+        this.date_Reservation = date_Reservation;
         this.statut = statut;
     }
 

@@ -34,7 +34,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnHome" layoutX="9.0" layoutY="368.0" mnemonicParsing="false" onAction="#goToHome" style="-fx-background-color: #EC744A;" text="Home" textFill="WHITE">
+      <Button fx:id="btnHome" layoutX="9.0" layoutY="368.0" mnemonicParsing="false" onAction="#goToHome" style="-fx-background-color: #007D6E; -fx-background-radius: 20;" text="Home" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
@@ -71,11 +71,11 @@
       <TextField fx:id="tfnbr" layoutX="417.0" layoutY="213.0" />
       <ButtonBar layoutX="370.0" layoutY="335.0" prefHeight="40.0" prefWidth="174.0">
         <buttons>
-          <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#addReservation" style="-fx-background-color: #EC744A;" text="Ajouter" textFill="WHITE">
+          <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#addReservation" style="-fx-background-color: #EC744A; -fx-background-radius: 10;" text="Ajouter" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Button fx:id="btnClear" layoutX="280.0" layoutY="18.0" mnemonicParsing="false" onAction="#clearField" style="-fx-background-color: #EC744A;" text="Annuler" textFill="WHITE">
+            <Button fx:id="btnClear" layoutX="280.0" layoutY="18.0" mnemonicParsing="false" onAction="#clearField" style="-fx-background-color: #EC744A; -fx-background-radius: 10;" text="Annuler" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>

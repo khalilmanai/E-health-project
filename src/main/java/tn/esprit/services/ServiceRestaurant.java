@@ -6,8 +6,10 @@ import tn.esprit.utils.MyDB;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServiceRestaurant implements iService<Restaurant> {
+    private static List<Restaurant> restaurantList = new ArrayList<>();
     @Override
     public void add(Restaurant restaurant) {
         String req="INSERT INTO `restaurant`(`nom_Resto`, `adresse_Resto`, `tel_Resto`, `Description`) VALUES (?,?,?,?)";
@@ -64,6 +66,16 @@ public class ServiceRestaurant implements iService<Restaurant> {
         } catch (SQLException e) {
             System.out.println("Erreur lors de la modification du restaurant : " + e.getMessage());
         }
+    }
+
+    public Restaurant getRestoById(int id) {
+        ArrayList<Restaurant> restaurants = getAll();
+        for (Restaurant restaurant : restaurants) {
+            if (restaurant.getId_Resto() == id) {
+                return restaurant;
+            }
+        }
+        return null;
     }
 
     @Override

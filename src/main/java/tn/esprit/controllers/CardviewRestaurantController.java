@@ -1,78 +1,93 @@
 package tn.esprit.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import tn.esprit.models.Restaurant;
 import tn.esprit.services.ServiceRestaurant;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.Optional;
 
-public class CardviewRestaurantController implements Initializable {
+public class CardviewRestaurantController {
+
     @FXML
-    private FlowPane flowPane;
+    private HBox hboxId;
 
-    private final ServiceRestaurant sr = new ServiceRestaurant();
+    @FXML
+    private Button btnUpdate;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        getAll();
-        loadRestaurants();
-    }
+    @FXML
+    private Button btnDelete;
 
+    @FXML
+    private Button btnHome;
 
-    private void loadRestaurants() {
-        try {
-            ObservableList<Restaurant> restaurantList = getAll();
-            flowPane.setHgap(10);
-            flowPane.setVgap(10);
-            if (restaurantList.isEmpty()) {
-                System.out.println("La liste des restaurants est vide.");
-            } else {
-                System.out.println("Nombre de restaurants récupérés depuis la base de données : " + restaurantList.size());
-                displayRestaurants(restaurantList);
-            }
-        } catch (Exception e) {
-            System.out.println("Erreur lors du chargement des restaurants: " + e.getMessage());
+    @FXML
+    private Label nomR;
+
+    @FXML
+    private Label adresseR;
+
+    @FXML
+    private Label telR;
+
+    @FXML
+    private Label descriptionR;
+
+    private Restaurant restaurant;
+
+    @FXML
+    void updateResto(ActionEvent event) {
+        if (restaurant == null) {
+            return;
         }
     }
 
-    private ObservableList<Restaurant> getAll() {
-        ObservableList<Restaurant> restaurants = FXCollections.observableArrayList();
-        ArrayList<Restaurant> restaurantList = sr.getAll();
-        restaurants.addAll(restaurantList);
-        return restaurants;
-    }
+    @FXML
+    void deleteResto(ActionEvent event) {
+        Restaurant restaurant = new Restaurant();
+        ServiceRestaurant sr = new ServiceRestaurant();
 
-    private void displayRestaurants(ObservableList<Restaurant> restaurantList) {
-        for (Restaurant restaurant : restaurantList) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/cardviewRestaurant.fxml"));
-                Pane cardView = loader.load();
-                CardviewRestaurantController controller = loader.getController();
-                controller.getAll(); // Set data for each card
-                flowPane.getChildren().add(cardView);
-            } catch (IOException e) {
-                System.out.println("Erreur lors du chargement de cardViewRestaurant.fxml: " + e.getMessage());
-            }
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation de suppression");
+        alert.setHeaderText("Êtes-vous sûr de vouloir supprimer ce restaurant?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // Supprimer le restaurant de la base de données
+            ServiceRestaurant serviceRestaurant = new ServiceRestaurant();
+            serviceRestaurant.delete(restaurant);
+
+            // Afficher un message de confirmation
+            Alert confirmationAlert = new Alert(Alert.AlertType.INFORMATION);
+            confirmationAlert.setTitle("Suppression réussie");
+            confirmationAlert.setHeaderText(null);
+            confirmationAlert.setContentText("Le restaurant a été supprimé avec succès.");
+            confirmationAlert.showAndWait();
         }
     }
+
+
+    public void setData(Restaurant restaurant){
+        this.restaurant = restaurant;
+        nomR.setText(restaurant.getNom_Resto());
+        adresseR.setText(restaurant.getAdresse_Resto());
+        telR.setText(String.valueOf(restaurant.getTel_Resto()));
+        descriptionR.setText(restaurant.getDescription());
+        hboxId.setStyle("-fx-background-color:#6c757d; -fx-background-radius: 20; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.3), 10, 0 , 0 ,10);");
+    }
+
 
     @FXML
     void goToHome(ActionEvent event) {
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FirstScreen.fxml"));
             Parent root = fxmlLoader.load();
@@ -81,7 +96,8 @@ public class CardviewRestaurantController implements Initializable {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error" + e.getMessage());
         }
     }
+
 }

@@ -150,11 +150,11 @@ public class AjouterRestaurantController implements Initializable {
     }
 
     private boolean nomResValide() {
-        return validateTextField(tfnom, "[a-zA-Z]+", "nom du restaurant");
+        return validateTextField(tfnom, "[a-zA-Z0-9 \\-']+", "nom du restaurant");
     }
 
     private boolean adresseResValide() {
-        return validateTextField(tfadresse, "[a-zA-Z]+", "adresse");
+        return validateTextField(tfadresse, "[a-zA-Z0-9 \\-']+", "adresse");
     }
 
     private boolean telResValide() {
@@ -162,7 +162,7 @@ public class AjouterRestaurantController implements Initializable {
     }
 
     private boolean descResValide() {
-        return validateTextField(tfdescription, "[a-zA-Z]+", "description");
+        return validateTextField(tfdescription, "[a-zA-Z ]+", "description");
     }
 
     private boolean validateTextField(TextField textField, String regex, String fieldName) {
@@ -185,5 +185,9 @@ public class AjouterRestaurantController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    public void addToList(ActionEvent actionEvent) {
+
     }
 }

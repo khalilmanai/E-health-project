@@ -64,7 +64,7 @@ public class FirstScreenController {
     @FXML
     void goToAfficher(ActionEvent event) {
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/cardViewRestaurant.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/afficherRestaurant.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
@@ -82,7 +82,7 @@ public class FirstScreenController {
     @FXML
     void goToAfficherReservation(ActionEvent event) {
         try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/cardviewReservation.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/afficherReservation.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
