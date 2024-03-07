@@ -54,6 +54,27 @@ public class ServicesItineraire implements TServices<Itineraire>{
 
 
     }
+    public ArrayList<Itineraire> getAlltri(String X) {
+        String qry = "SELECT * FROM `itineraire` ORDER BY "+X+" ASC" ;
+        ArrayList<Itineraire> itineraires = new ArrayList () ;
+        try {
+            Statement stm = cnx.createStatement();
+            ResultSet rs = stm.executeQuery(qry);
+            while(rs.next()){
+                Itineraire i = new Itineraire() ;
+                i.setID_iti(rs.getInt(1));
+                i.setNom(rs.getString("nom"));
+                i.setDistance(rs.getFloat(3));
+                i.setDuree(rs.getInt("duree"));
+                itineraires.add(i);
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return itineraires ;
+
+
+    }
 
     @Override
     public void updateP(Itineraire itineraire) {

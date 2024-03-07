@@ -6,6 +6,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
@@ -13,25 +15,71 @@ import javafx.stage.Stage;
 import models.Itineraire;
 import services.ServicesItineraire;
 import javafx.event.ActionEvent;
+import javafx.scene.control.TextField;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AfficheItineraire implements Initializable {
     ServicesItineraire si = new ServicesItineraire();
     private Itineraire itineraire ;
 
     @FXML
+    private ChoiceBox<String> choix;
+    String []dboptions={"nom","distance","duree"};
+    private static String mychoix="";
+    @FXML
     private AnchorPane AfficheItineraire;
 
     @FXML
     private FlowPane cardlyout;
+    @FXML
+    private TextField search;
+
+    @FXML
+    void rempliser_tablaux(String x) throws IOException {
+
+
+        ArrayList<Itineraire> list = si.getAllP();
+        ArrayList<Itineraire> newlist;
+        newlist = list.stream().filter(i -> i.getNom().contains(x) || Integer.toString(i.getDuree()).contains(x) || Float.toString(i.getDistance()).contains(x)).collect(Collectors.toCollection(ArrayList::new));
+        System.out.println(list);
+        int row = 1;
+        int column = 0;
+        cardlyout.getChildren().clear();
+        ArrayList<Itineraire> listIti = newlist;
+        cardlyout.toFront();
+        cardlyout.setHgap(10);
+        cardlyout.setVgap(10);
+        if (listIti.isEmpty()) {
+            System.out.println("la liste de itinerire est vide ");
+        } else {
+            System.out.println("nombre de itineraire" + listIti.size());
+            for (Itineraire itineraire : listIti) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/CardviewItin.fxml"));
+                    Pane cardView = loader.load();
+                    CardviewItin controller = loader.getController();
+                    controller.setDataItineraire(itineraire); // Appel de la méthode setData
+                    cardlyout.getChildren().add(cardView);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        choix.getItems().addAll(dboptions);
         ArrayList<Itineraire> listIti = si.getAllP();
         cardlyout.toFront();
         cardlyout.setHgap(10);
@@ -51,9 +99,56 @@ public class AfficheItineraire implements Initializable {
                     System.out.println(e.getMessage());
                 }
             }
+            search.setOnKeyReleased(KeyEvent -> {
+                try {
+                    rempliser_tablaux(search.getText());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            choix.setOnAction(event -> {
+                try {
+                    getchoix(event);
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
     }
 
+    void getchoix(ActionEvent event)throws IOException{
+
+        mychoix =choix.getValue();
+        System.out.println("Choice selected: " + choix.getValue()); // Print the selected value for debugging
+        ArrayList<Itineraire> list = si.getAlltri(mychoix);
+        System.out.println(list);
+        int row = 1;
+        int column = 0;
+        cardlyout.getChildren().clear();
+        ArrayList<Itineraire> listIti = list;
+        cardlyout.toFront();
+        cardlyout.setHgap(10);
+        cardlyout.setVgap(10);
+        if (listIti.isEmpty()) {
+            System.out.println("la liste de itinerire est vide ");
+        } else {
+            System.out.println("nombre de itineraire" + listIti.size());
+            for (Itineraire itineraire : listIti) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/CardviewItin.fxml"));
+                    Pane cardView = loader.load();
+                    CardviewItin controller = loader.getController();
+                    controller.setDataItineraire(itineraire); // Appel de la méthode setData
+                    cardlyout.getChildren().add(cardView);
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+
+        }
+    }
     public void loaddata() {
         cardlyout.getChildren().clear();
         ArrayList<Itineraire> listIti = si.getAllP();
