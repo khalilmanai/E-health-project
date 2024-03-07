@@ -17,6 +17,11 @@ public class Itineraire {
         this.duree = duree;
     }
 
+    public Itineraire(String nom, float distance, int duree) {
+        this.nom = nom;
+        this.distance = distance;
+        this.duree = duree;
+    }
 
     public int getID_iti() {
         return ID_iti;

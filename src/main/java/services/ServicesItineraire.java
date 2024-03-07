@@ -72,6 +72,22 @@ public class ServicesItineraire implements TServices<Itineraire>{
 
     }
 
+    public void updateit(Itineraire itineraire,int id) {
+        String qry = "UPDATE `itineraire` SET `nom`=?,`distance`=?,`duree`=? WHERE `ID_iti`=? ";
+        try {
+            PreparedStatement stm = cnx.prepareStatement(qry);
+
+            stm.setString(1,itineraire.getNom());
+            stm.setFloat(2,itineraire.getDistance());
+            stm.setInt(3,itineraire.getDuree());
+            stm.setInt(4,id);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     @Override
     public boolean deleteP(Itineraire itineraire) {
         String qry ="DELETE FROM `itineraire` WHERE ID_iti = ? " ;

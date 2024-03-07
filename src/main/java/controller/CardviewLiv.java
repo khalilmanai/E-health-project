@@ -1,13 +1,28 @@
 package controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import models.Livraison;
 import javafx.event.ActionEvent;
 import services.ServicesLivraison;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+
+
+
+import java.awt.*;
+import java.io.IOException;
 
 public class CardviewLiv {
         @FXML
@@ -23,19 +38,41 @@ public class CardviewLiv {
         private Label numero_id;
 
         private Livraison livraison;
+        @FXML
+        private Button modifier_id;
+        public static AfficheLiv afficheLiv= new AfficheLiv();
+
+
+
 
         @FXML
-        void modifier(ActionEvent event) {
-                // Method for modifying Livraison
+        void GoToMod(ActionEvent event) {
+                try {
+                        System.out.println(livraison);
+                        if (livraison!= null) {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierLivraison.fxml"));
+                                Parent root = loader.load();
+                                ModifierLivraison controller = loader.getController();
+                                controller.setLivraison(livraison); // Passer les données de la livraison à la nouvelle fenêtre
+                                Scene scene = new Scene(root);
+                                Stage stage = new Stage();
+                                stage.setScene(scene);
+                                stage.setTitle("Modifier Livraison");
+                                stage.showAndWait();
+                                afficheLiv.loaddata();
+                        } else {
+                                System.out.println("La livraison sélectionnée est null");
+                        }
+                } catch (IOException ex) {
+                        System.out.println(ex.getMessage());
+                }
         }
+
 
         @FXML
 
         void supprimer(ActionEvent event) {
-
-                Livraison livraison = new Livraison(); // ou quelque chose de similaire
-
-                ServicesLivraison lv = new ServicesLivraison();
+                ServicesLivraison sl = new ServicesLivraison();
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("Confirmation");
                 alert.setHeaderText("Supprimer la livraison");
@@ -43,11 +80,8 @@ public class CardviewLiv {
 
                 alert.showAndWait().ifPresent(response -> {
                         if (response == ButtonType.OK) {
-                                ServicesLivraison sl =new ServicesLivraison();
-                                // Assuming the method name is delete() instead of deleteliv()
+                                boolean deletionResult = sl.delete(livraison, livraison.getCode_liv());
 
-                                this.livraison= livraison;
-                                boolean deletionResult = sl.deleteliv(this.livraison,livraison.getCode_liv()); // Assuming the method name is delete() instead of deleteliv()
                                 if (deletionResult) {
                                         hbox_id.getChildren().clear();
                                         Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -64,15 +98,19 @@ public class CardviewLiv {
                                 }
                         }
                 });
+                afficheLiv.loaddata();
         }
+
+
 
 
         public void setDataLivraison(Livraison livraison) {
                 // Update UI elements with Livraison data
-                adresse_id.setText("Adresse: " + livraison.getAdresse());
+                adresse_id.setText("Adresse : " + livraison.getAdresse());
                 nom_id.setText("Nom: " + livraison.getNom());
                 numero_id.setText("Numéro: " + livraison.getNum_telephone());
                 // Ensure to use appropriate methods of the Livraison class
                 hbox_id.setStyle("-fx-background-color:#6c757d; -fx-background-radius: 20; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.3), 10, 0 , 0 ,10);");
+                this.livraison=livraison;
         }
 }

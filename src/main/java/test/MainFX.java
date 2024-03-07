@@ -10,12 +10,9 @@ import java.io.IOException;
 
 public class MainFX extends Application {
 
-    public static void main(String[] args){
-        launch(args);
-    }
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Livraison.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/client.fxml"));
         try {
             Parent root = loader.load();
             Scene sc = new Scene(root);
@@ -26,4 +23,8 @@ public class MainFX extends Application {
             System.out.println(e.getMessage());
         }
     }
+    public static void main(String[] args){
+        launch(args);
+    }
+
 }

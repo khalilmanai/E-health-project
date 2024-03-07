@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -8,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="hbox_id" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="158.0" prefWidth="302.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CardviewLiv">
+<HBox fx:id="hbox_id" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="158.0" prefWidth="302.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Cardclientliv">
    <children>
       <VBox prefHeight="158.0" prefWidth="300.0" stylesheets="@style.css">
          <children>
@@ -27,10 +26,9 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Button fx:id="modifier_id" mnemonicParsing="false" onAction="#GoToMod" prefHeight="42.0" prefWidth="98.0" text="modifier" />
-            <Button fx:id="suppri_id" mnemonicParsing="false" onAction="#supprimer" text="supprimer" />
          </children>
       </VBox>
+      <ImageView fitHeight="150.0" fitWidth="118.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="73.0" fitWidth="79.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@image/istockphoto-1193451471-612x612.jpg" />

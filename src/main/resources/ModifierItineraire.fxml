@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ModifierItineraire">
+   <children>
+      <Label layoutX="114.0" layoutY="75.0" text="nom" />
+      <Label layoutX="114.0" layoutY="125.0" text="distance" />
+      <Label layoutX="114.0" layoutY="169.0" text="duree" />
+      <TextField fx:id="nomTextField" layoutX="167.0" layoutY="71.0" />
+      <TextField fx:id="distanceTextField" layoutX="168.0" layoutY="121.0" />
+      <TextField fx:id="dureeTextField" layoutX="169.0" layoutY="165.0" />
+      <Button fx:id="enregister_id" layoutX="216.0" layoutY="230.0" mnemonicParsing="false" onAction="#enregistrerModification" stylesheets="@style.css" text="enregistrer" />
+   </children>
+</AnchorPane>

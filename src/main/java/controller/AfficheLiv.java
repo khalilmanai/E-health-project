@@ -3,12 +3,16 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import models.Livraison;
 import services.ServicesLivraison;
-
+import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,6 +34,28 @@ public class AfficheLiv implements Initializable {
         cardlyout.toFront();
         cardlyout.setHgap(10);
         cardlyout.setVgap(10);
+        loaddata();
+    }
+
+
+    @FXML
+    void back(ActionEvent event) {
+        try {
+        Parent root = FXMLLoader.load(getClass().getResource("/Livraison.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    } catch (IOException ex) {
+        ex.printStackTrace();
+    }
+
+    }
+
+    public void loaddata()
+    {
+        cardlyout.getChildren().clear();
+        ArrayList<Livraison> listLiv = sl.getAll();
         if (listLiv.isEmpty()){
             System.out.println("liste vide");
         } else {
@@ -39,6 +65,7 @@ public class AfficheLiv implements Initializable {
             try {
                 FXMLLoader Loader = new FXMLLoader(getClass().getResource("/CardviewLiv.fxml"));
                 Pane cardview = Loader.load();
+                CardviewLiv.afficheLiv=this;
                 CardviewLiv controller = Loader.getController();
                 controller.setDataLivraison(livraison); // Correction de la méthode
                 cardlyout.getChildren().add(cardview);
