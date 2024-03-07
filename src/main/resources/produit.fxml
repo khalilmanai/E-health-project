@@ -5,26 +5,42 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="661.0" prefWidth="792.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddP">
+<AnchorPane prefHeight="672.0" prefWidth="881.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AddP">
    <children>
-      <Label layoutX="28.0" layoutY="74.0" text="nom_prod  :" />
-      <Label layoutX="27.0" layoutY="152.0" text="quantité  :" />
-      <Label layoutX="24.0" layoutY="222.0" text="description  :" />
-      <Label layoutX="27.0" layoutY="303.0" text="prix  :" />
-      <Label layoutX="18.0" layoutY="472.0" text="cotegories  :" />
-      <TextField fx:id="id_nomp" layoutX="152.0" layoutY="67.0" />
-      <TextField fx:id="id_descprod" layoutX="152.0" layoutY="215.0" />
-      <Button fx:id="id_upimg" layoutX="156.0" layoutY="375.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="42.0" prefWidth="188.0" text="Upload Image" />
-      <Spinner fx:id="id_prixProd" layoutX="152.0" layoutY="296.0" />
-      <Spinner fx:id="id_quant" layoutX="152.0" layoutY="145.0" />
-      <ChoiceBox fx:id="id_catigo" layoutX="152.0" layoutY="465.0" prefHeight="41.0" prefWidth="188.0" />
-      <Button fx:id="id_addp" layoutX="27.0" layoutY="545.0" mnemonicParsing="false" onAction="#add_produit" text="Add" />
-      <ImageView fx:id="id_image" fitHeight="150.0" fitWidth="200.0" layoutX="476.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="id_image" fitHeight="213.0" fitWidth="240.0" layoutX="456.0" layoutY="166.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="id_addcatbtn" layoutX="362.0" layoutY="465.0" mnemonicParsing="false" onAction="#ajouter_Cat" text="Add_Categorie" />
-      <Button fx:id="id_afficher" layoutX="101.0" layoutY="545.0" mnemonicParsing="false" onAction="#afficher_prod" text="Afficher" />
+      <ImageView fx:id="id_logo" fitHeight="62.0" fitWidth="75.0" layoutX="30.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/logo1.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="id_img" fitHeight="28.0" fitWidth="128.0" layoutX="116.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/logo2.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="141.0" layoutY="109.0" text="Nom Produit  :" />
+      <Label layoutX="138.0" layoutY="183.0" text="Quantité : " />
+      <Label layoutX="138.0" layoutY="258.0" text="Description :" />
+      <Label layoutX="142.0" layoutY="333.0" text="Prix :" />
+      <Label layoutX="138.0" layoutY="485.0" text="cotegories  :" />
+      <TextField fx:id="id_nomp" layoutX="320.0" layoutY="102.0" prefHeight="42.0" prefWidth="206.0" style="-fx-background-radius: 20;" />
+      <TextField fx:id="id_descprod" layoutX="320.0" layoutY="251.0" prefHeight="42.0" prefWidth="206.0" style="-fx-background-radius: 20;" />
+      <Button fx:id="id_upimg" layoutX="326.0" layoutY="401.0" mnemonicParsing="false" onAction="#uploadImage" prefHeight="42.0" prefWidth="200.0" style="-fx-background-radius: 40;" text="📷">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Spinner fx:id="id_prixProd" layoutX="326.0" layoutY="326.0" style="-fx-background-radius: 20;" />
+      <Spinner fx:id="id_quant" layoutX="326.0" layoutY="176.0" style="-fx-background-radius: 20;" />
+      <ChoiceBox fx:id="id_catigo" layoutX="326.0" layoutY="478.0" prefHeight="42.0" prefWidth="200.0" style="-fx-background-radius: 20;" />
+      <Button fx:id="id_addp" layoutX="203.0" layoutY="590.0" mnemonicParsing="false" onAction="#add_produit" style="-fx-background-radius: 40;" text="Add produit" />
+      <ImageView fx:id="id_image" fitHeight="150.0" fitWidth="200.0" layoutX="591.0" layoutY="211.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="id_image" fitHeight="213.0" fitWidth="240.0" layoutX="616.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="id_addcatbtn" layoutX="554.0" layoutY="478.0" mnemonicParsing="false" onAction="#ajouter_Cat" style="-fx-background-radius: 40;" text="Add_Categorie" />
+      <Button fx:id="id_afficher" layoutX="514.0" layoutY="590.0" mnemonicParsing="false" onAction="#afficher_prod" style="-fx-background-radius: 40;" text="Afficher" />
+      <Button fx:id="id_back" layoutX="807.0" layoutY="23.0" mnemonicParsing="false" onAction="#back_tofront" style="-fx-background-radius: 40;" text="🔙" />
    </children>
 </AnchorPane>

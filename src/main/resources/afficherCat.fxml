@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<AnchorPane fx:id="id_anchor" prefHeight="781.0" prefWidth="1730.0" stylesheets="@frontstyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficherCardCat">
+   <children>
+      <ScrollPane hbarPolicy="ALWAYS" layoutX="2.0" layoutY="43.0" prefHeight="738.0" prefWidth="1530.0" vbarPolicy="ALWAYS">
+         <content>
+            <FlowPane fx:id="cardlayout" prefHeight="658.0" prefWidth="1514.0" />
+         </content>
+      </ScrollPane>
+      <Button fx:id="id_back" layoutY="1.0" mnemonicParsing="false" onAction="#back_to_add" prefHeight="36.0" prefWidth="64.0" style="-fx-background-radius: 40;" text="🔙" />
+      <Button fx:id="id_reload" layoutX="78.0" layoutY="1.0" mnemonicParsing="false" onAction="#reload_page" prefHeight="36.0" prefWidth="64.0" style="-fx-background-radius: 40;" text="🔄" />
+   </children>
+</AnchorPane>

@@ -40,6 +40,12 @@ public class AddP implements Initializable {
 
     @FXML
     private TextField id_nomp;
+    @FXML
+    private ImageView id_imagenut;
+
+    @FXML
+    private ImageView id_logo;
+
 
     @FXML
     private ImageView id_image;
@@ -56,6 +62,14 @@ public class AddP implements Initializable {
     private ServicesCategorie sc;
     private List<Categorie> list_categorie;
 
+    public Button getId_addp() {
+        return id_addp;
+    }
+
+
+    public void setId_logo(ImageView id_logo) {
+        this.id_logo = id_logo;
+    }
 
     @FXML
     void add_produit(ActionEvent event) {
@@ -163,8 +177,8 @@ public class AddP implements Initializable {
         for (Categorie cat : list_categorie) {
             types.add(cat.getNom_cat());
         }
-        SpinnerValueFactory<Double> valueFactory_p = new SpinnerValueFactory.DoubleSpinnerValueFactory(1.0, 99999999.0, 1, 0.25);
-        SpinnerValueFactory<Integer> valueFactory_q = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99999999, 1, 1);
+        SpinnerValueFactory<Double> valueFactory_p = new SpinnerValueFactory.DoubleSpinnerValueFactory(1.0, 9999999.0, 1, 0.25);
+        SpinnerValueFactory<Integer> valueFactory_q = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 9999999, 1, 1);
         id_prixProd.setValueFactory(valueFactory_p);
         id_quant.setValueFactory(valueFactory_q);
         id_catigo.getItems().addAll(types);
@@ -175,7 +189,24 @@ public class AddP implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/AfficherProd.fxml"));
             Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/AfficherProd.fxml"));
             Scene scene = new Scene(root);
-            AfficherCardPord afficherCardPord = loader.getController();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+
+
+
+    @FXML
+    void back_tofront(ActionEvent event) {
+        try {
+
+            Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/frontpage.fxml"));
+            Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();

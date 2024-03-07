@@ -63,6 +63,33 @@ public class AddCategorie implements Initializable {
         }
     }
 
+    @FXML
+    void Afficher_list_cat(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/afficherCat.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    @FXML
+    void back_tofront(ActionEvent event) {
+        try {
+            Parent root = javafx.fxml.FXMLLoader.load(getClass().getResource("/frontpage.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

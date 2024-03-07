@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="400.0" prefWidth="683.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Update_prod">
+   <children>
+      <GridPane hgap="10.0" layoutX="107.0" layoutY="49.0" prefHeight="301.0" prefWidth="343.0" vgap="10.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label text="Neveaux nom" />
+            <Label text="Quantite" GridPane.rowIndex="1" />
+            <Label text="Description:" GridPane.rowIndex="2" />
+            <Label text="Prix" GridPane.rowIndex="3" />
+            <Label text="Image : " GridPane.rowIndex="4" />
+            <TextField fx:id="nom_prod" GridPane.columnIndex="1" />
+            <TextField fx:id="desc_prod" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="upload_image_btn" mnemonicParsing="false" onAction="#upload_image" prefHeight="26.0" prefWidth="159.0" text="Upload Image" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Spinner fx:id="quant_prod" prefHeight="26.0" prefWidth="175.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Spinner fx:id="prix_cat" prefHeight="26.0" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Categorie :" GridPane.rowIndex="5" />
+            <ChoiceBox fx:id="categorie_choice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+         </children>
+      </GridPane>
+      <Button fx:id="redirect_id" layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#redirectToListProduit" text="Back" />
+      <Button fx:id="update_id" layoutX="450.0" layoutY="351.0" mnemonicParsing="false" onAction="#update_produit" text="Update" />
+      <ImageView fx:id="image_produit" fitHeight="150.0" fitWidth="200.0" layoutX="469.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true" />
+   </children>
+</AnchorPane>

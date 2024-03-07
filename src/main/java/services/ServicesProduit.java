@@ -75,6 +75,31 @@ public class ServicesProduit implements IProduit<Produit> {
 
         return produits;
     }
+    public ArrayList<Produit> getprod(int idcat) {
+        String qry = "SELECT * FROM `produit` WHERE  id_cat = ?";
+        ArrayList<Produit> produits = new ArrayList<>();
+        try {
+            PreparedStatement stm = cnx.prepareStatement(qry);
+            stm.setInt(1, idcat);
+            ResultSet rs =stm.executeQuery(qry);
+            while(rs.next()){
+                Produit p =new Produit();
+                p.setRef_prod(rs.getInt(1));
+                p.setNom_prod(rs.getString(2));
+                p.setQuantite(rs.getInt(3));
+                p.setProd_desc(rs.getString("description"));
+                p.setPrix(rs.getFloat(5));
+                p.setImage(rs.getString("image"));
+                p.setCategorie(rs.getInt(7));
+                produits.add(p);
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(produits);
+        return produits;
+    }
 
     @Override
     public void update(Produit produit) {
@@ -168,7 +193,22 @@ public class ServicesProduit implements IProduit<Produit> {
         return mylist;
     }
 
-
+    public  void modifier_produit_card(Produit produit){
+        try {
+            String qry = "UPDATE produit SET nom_prod =?, quantite = ?, description = ?, prix = ?,image = ? WHERE ref_prod=?";
+            PreparedStatement stm = cnx.prepareStatement(qry);
+            stm.setString(1,produit.getNom_prod());
+            stm.setInt(2,produit.getQuantite());
+            stm.setString(3,produit.getProd_desc());
+            stm.setFloat(4,produit.getPrix());
+            stm.setString(5,produit.getImage());
+            stm.setInt(6,produit.getRef_prod());
+            stm.executeUpdate();
+            System.out.println("Produit modifiÃ© !");
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
     public  void modifier_produit(Produit produit){
         try {
             String qry = "UPDATE produit SET nom_prod =?, quantite = ?, description = ?, prix = ?,image = ?,id_cat = ?  WHERE ref_prod=?";
@@ -211,13 +251,15 @@ public class ServicesProduit implements IProduit<Produit> {
             conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gestionproduit", "root", "");
 
             // Créer la requête SQL pour mettre à jour les informations du produit
-            String query = "UPDATE produit SET nom_prod=?, description=?, quantite=?, prix=? WHERE  ref_prod=?";
+            String query = "UPDATE produit SET nom_prod =?, quantite = ?, description = ?, prix = ?,image = ? WHERE ref_prod="+ref_prod;
             stmt = conn.prepareStatement(query);
             stmt.setString(1, produit.getNom_prod());
-            stmt.setString(2, produit.getProd_desc());
-            stmt.setInt(3, produit.getQuantite());
-            stmt.setFloat(4, produit.getQuantite());
-            stmt.setInt(5, ref_prod);
+            stmt.setString(3, produit.getProd_desc());
+            stmt.setInt(2, produit.getQuantite());
+            stmt.setFloat(4, produit.getPrix());
+            stmt.setString(5,produit.getImage());
+
+
 
 
             // Exécuter la requête

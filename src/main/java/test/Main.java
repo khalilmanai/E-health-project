@@ -14,9 +14,10 @@ public class Main {
         /*sp.add(p1);*/
         ServicesCategorie sc = new ServicesCategorie();
         Categorie c1 = new Categorie("saif22");
-        System.out.println(sp.getAll());
+        /*System.out.println(sp.getAll());*/
+       /* System.out.println(sc.getProduitByCategorie(3));*/
         /*sc.modifier_categorie(1,"saiffff");*/
-        /*System.out.println(sc.getAllCat());*/
+        System.out.println(sc.getAllCat());
         /*sc.addCat(c1);*/
         /*sc.supprimer_categorie(1);*/
         /*sp.supprimer_produit(p1);*/

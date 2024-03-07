@@ -53,6 +53,39 @@ public class ServicesCategorie implements ICategorie<Categorie, Produit> {
     @Override
     public void updateCat(Categorie categorie) {
 
+        Connection conn = null;
+        PreparedStatement stmt = null;
+
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gestionproduit", "root", "");
+            String qry = "UPDATE `catégorie` SET  `nom_cat` = ?  WHERE `id_cat` = ";
+            stmt = conn.prepareStatement(qry);
+            stmt.setString(1, categorie.getNom_cat());
+            stmt.setInt(2, categorie.getId_cat());
+
+            int rowsAffected = stmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Categorie mis à jour avec succès dans la base de données.");
+            } else {
+                System.out.println("Échec de la mise à jour du categorie dans la base de données.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour du categorie dans la base de données : " + e.getMessage());
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     @Override
@@ -103,24 +136,39 @@ public class ServicesCategorie implements ICategorie<Categorie, Produit> {
         }
         return produits;
     }
-
-    public void modifier_categorie(int id, String newNom){
-
+    public void modifier_categorie(int id, String newNom) {
         try {
             ServicesCategorie cc = new ServicesCategorie();
-            Categorie c =cc.trouver_cat_par_id(id);
-            String qry = "UPDATE `catégorie` SET `nom_cat`= ? WHERE `id_cat`= ? ";
-            PreparedStatement stm = cnx.prepareStatement(qry);
-            stm.setString(1,newNom);
-            stm.setInt(2,id);
-            stm.executeUpdate();
+            Categorie c = cc.trouver_categorie_par_id(id);
+            String requete = "UPDATE catégorie SET nom_cat = ? WHERE id_cat ="+id;
+            PreparedStatement pst = cnx.prepareStatement(requete);
+            pst.setString(1, newNom);
+
+
+            pst.executeUpdate();
             System.out.println("CatÃ©gorie modifiÃ©e !");
             System.out.println(c.getNom_cat());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
-
     }
+
+    public Categorie trouver_categorie_par_id(int id) {
+        Categorie c = null;
+        try {
+            String requete = "SELECT * FROM catégorie WHERE id_cat = ?";
+            PreparedStatement pst = cnx.prepareStatement(requete);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                c = new Categorie(rs.getInt("id_cat"), rs.getString("nom_cat"));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return c;
+    }
+
 
     public void supprimer_categorie(int id) {
         // Supprimer d'abord les produits associés à la catégorie
