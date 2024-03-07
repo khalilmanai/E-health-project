@@ -16,6 +16,7 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class AfficheLiv implements Initializable {
@@ -36,6 +37,18 @@ public class AfficheLiv implements Initializable {
         cardlyout.setVgap(10);
         loaddata();
     }
+
+    @FXML
+    void onClickedExport(ActionEvent event) {
+        entities.ExcelExporter excelExporter = new entities.ExcelExporter();
+        List <Livraison> livraisonList = sl.getAll(); // Assuming this fetches the necessary data
+        //String filePath = System.getProperty("USER.Bureau") + "/debats.xlsx";
+
+        String filePath = "path_to_your_excel_file.xlsx"; // Provide the file path here
+        excelExporter.exportToExcel(livraisonList, filePath);
+    }
+
+
 
 
     @FXML

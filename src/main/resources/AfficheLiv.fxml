@@ -13,5 +13,6 @@
          </content>
       </ScrollPane>
       <Button fx:id="back_id" layoutX="14.0" layoutY="81.0" mnemonicParsing="false" onAction="#back" text="Back" />
+      <Button layoutY="145.0" mnemonicParsing="false" onAction="#onClickedExport" prefHeight="45.0" prefWidth="72.0" text="Export" />
    </children>
 </AnchorPane>
