@@ -17,8 +17,6 @@ import java.util.Optional;
 
 public class CardviewRestaurantController {
 
-    @FXML
-    private HBox hboxId;
 
     @FXML
     private Button btnUpdate;
@@ -46,9 +44,67 @@ public class CardviewRestaurantController {
     @FXML
     void updateResto(ActionEvent event) {
         if (restaurant == null) {
-            return;
+            return; // No restaurant data loaded, cannot update
         }
+
+        // Create a dialog for updating restaurant information
+        Dialog<Restaurant> dialog = new Dialog<>();
+        dialog.setTitle("Modifier Restaurant");
+        dialog.setHeaderText("Modifier les informations du restaurant");
+
+        // Set the button types (OK and Cancel)
+        ButtonType updateButtonType = new ButtonType("Update", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(updateButtonType, ButtonType.CANCEL);
+
+        // Create form fields for updating restaurant information
+        TextField nomField = new TextField(restaurant.getNom_Resto());
+        TextField adresseField = new TextField(restaurant.getAdresse_Resto());
+        TextField telField = new TextField(String.valueOf(restaurant.getTel_Resto()));
+        TextArea descriptionArea = new TextArea(restaurant.getDescription());
+
+        // Add form fields to the dialog
+        dialog.getDialogPane().setContent(new ScrollPane(new HBox(10, new Label("Nom: "), nomField,
+                new Label("Adresse: "), adresseField,
+                new Label("Tél: "), telField,
+                new Label("Description: "), descriptionArea)));
+
+        // Request focus on the nom field by default
+        dialog.getDialogPane().lookupButton(updateButtonType).setDisable(true);
+
+        // Enable the Update button when the nom field is not empty
+        nomField.textProperty().addListener((observable, oldValue, newValue) ->
+                dialog.getDialogPane().lookupButton(updateButtonType).setDisable(newValue.trim().isEmpty()));
+
+        // Convert the result to a restaurant object when the Update button is clicked
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == updateButtonType) {
+                return new Restaurant(
+                        nomField.getText(),
+                        adresseField.getText(),
+                        Integer.parseInt(telField.getText()),
+                        descriptionArea.getText());
+            }
+            return null;
+        });
+
+        // Show the dialog and handle the update action
+        Optional<Restaurant> result = dialog.showAndWait();
+        result.ifPresent(updatedRestaurant -> {
+            // Update the restaurant object
+            restaurant.setNom_Resto(updatedRestaurant.getNom_Resto());
+            restaurant.setAdresse_Resto(updatedRestaurant.getAdresse_Resto());
+            restaurant.setTel_Resto(updatedRestaurant.getTel_Resto());
+            restaurant.setDescription(updatedRestaurant.getDescription());
+
+            // Update the restaurant in the database
+            ServiceRestaurant serviceRestaurant = new ServiceRestaurant();
+            serviceRestaurant.update(restaurant);
+
+            // Refresh the UI
+            setData(restaurant);
+        });
     }
+
 
     @FXML
     void deleteResto(ActionEvent event) {
@@ -79,9 +135,8 @@ public class CardviewRestaurantController {
         this.restaurant = restaurant;
         nomR.setText(restaurant.getNom_Resto());
         adresseR.setText(restaurant.getAdresse_Resto());
-        telR.setText(String.valueOf(restaurant.getTel_Resto()));
+        telR.setText(Integer.toString(restaurant.getTel_Resto()));
         descriptionR.setText(restaurant.getDescription());
-        hboxId.setStyle("-fx-background-color:#6c757d; -fx-background-radius: 20; -fx-effect: dropShadow(three-pass-box, rgba(0,0,0,0.3), 10, 0 , 0 ,10);");
     }
 
 

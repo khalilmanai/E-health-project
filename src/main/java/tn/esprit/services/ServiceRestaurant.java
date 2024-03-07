@@ -51,22 +51,63 @@ public class ServiceRestaurant implements iService<Restaurant> {
     @Override
     public void update(Restaurant restaurant) {
         String req ="UPDATE `restaurant` SET `nom_Resto`=?,`adresse_Resto`=?,`tel_Resto`=?,`Description`=? WHERE id_Resto=?";
-        PreparedStatement pst = null;
         try {
-            pst = MyDB.getInstance().getCnx().prepareStatement(req);
+           PreparedStatement pst = MyDB.getInstance().getCnx().prepareStatement(req);
 
             pst.setString(1, restaurant.getNom_Resto());
             pst.setString(2, restaurant.getAdresse_Resto());
             pst.setInt(3, restaurant.getTel_Resto());
             pst.setString(4, restaurant.getDescription());
             pst.setInt(5, restaurant.getId_Resto());
-
+            System.out.println(restaurant.getId_Resto());
             pst.executeUpdate();
             System.out.println("Restaurant a été bien modifié");
         } catch (SQLException e) {
             System.out.println("Erreur lors de la modification du restaurant : " + e.getMessage());
         }
     }
+
+
+/*    public void updateR(Restaurant restaurant) {
+        Connection con = null;
+        PreparedStatement pst = null;
+
+        try {
+            String req ="UPDATE `restaurant` SET `nom_Resto`=?,`adresse_Resto`=?,`tel_Resto`=?,`Description`=? WHERE id_Resto=?";
+            pst = con.prepareStatement(req);
+            con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/nutrinet", "root", "");
+            pst.setString(1, restaurant.getNom_Resto());
+            pst.setString(2, restaurant.getAdresse_Resto());
+            pst.setInt(3, restaurant.getTel_Resto());
+            pst.setString(4, restaurant.getDescription());
+            pst.setInt(5, restaurant.getId_Resto());
+            int rowsAffected = pst.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Categorie mis à jour avec succès dans la base de données.");
+            } else {
+                System.out.println("Échec de la mise à jour du categorie dans la base de données.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la mise à jour du categorie dans la base de données : " + e.getMessage());
+        } finally {
+            try {
+                if (pst != null) {
+                    pst.close();
+                }
+                if (con != null) {
+                    con.close();
+                }
+
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }    }
+
+
+ */
+
 
     public Restaurant getRestoById(int id) {
         ArrayList<Restaurant> restaurants = getAll();

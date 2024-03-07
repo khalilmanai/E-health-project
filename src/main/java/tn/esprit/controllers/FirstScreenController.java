@@ -7,12 +7,16 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import tn.esprit.test.MainFX;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class FirstScreenController {
-
+    @FXML
+    private AnchorPane APfirstscreen;
     @FXML
     private Button afficherReservation;
 
@@ -27,7 +31,7 @@ public class FirstScreenController {
 
     @FXML
     void goToAjouter(ActionEvent event) {
-        try{
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ajouterRestaurant.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
@@ -36,16 +40,15 @@ public class FirstScreenController {
             stage.show();
 
 
-        }catch(IOException e){
+        } catch(IOException e){
             System.out.println(e.getMessage());
         }
-
 
     }
 
     @FXML
     void goToAjouterReservation(ActionEvent event) {
-        try{
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ajouterReservation.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
@@ -54,16 +57,15 @@ public class FirstScreenController {
             stage.show();
 
 
-        }catch(IOException e){
+        } catch(IOException e){
             System.out.println(e.getMessage());
         }
-
 
     }
 
     @FXML
     void goToAfficher(ActionEvent event) {
-        try{
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/afficherRestaurant.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
@@ -72,17 +74,17 @@ public class FirstScreenController {
             stage.show();
 
 
-        }catch(IOException e){
+        } catch(IOException e){
             System.out.println(e.getMessage());
         }
-
 
     }
 
     @FXML
-    void goToAfficherReservation(ActionEvent event) {
-        try{
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/afficherReservation.fxml"));
+    void goToAfficherReservation(ActionEvent event) throws IOException {
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/afficherRes.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
@@ -90,10 +92,9 @@ public class FirstScreenController {
             stage.show();
 
 
-        }catch(IOException e){
+        } catch(IOException e){
             System.out.println(e.getMessage());
         }
-
 
     }
 

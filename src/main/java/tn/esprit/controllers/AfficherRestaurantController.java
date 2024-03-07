@@ -10,13 +10,14 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import tn.esprit.models.Restaurant;
 import tn.esprit.utils.MyDB;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -25,6 +26,7 @@ import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 public class AfficherRestaurantController implements Initializable {
+
     @FXML
     private AnchorPane restoForm;
 
@@ -34,9 +36,13 @@ public class AfficherRestaurantController implements Initializable {
     @FXML
     private ScrollPane restoScrollPane;
 
+    @FXML
+    private Button btnBack;
+
+    @FXML
+    private Button btnReload;
 
     private final ObservableList<Restaurant> cardListData = FXCollections.observableArrayList();
-    // private final ObservableList<Product> list = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -58,8 +64,8 @@ public class AfficherRestaurantController implements Initializable {
             while (rs.next()) {
                 resto = new Restaurant(
                         rs.getString("nom_Resto"),
-                        rs.getString("tel_Resto"),
-                        rs.getInt("id_Resto"),
+                        rs.getString("adresse_Resto"),
+                        rs.getInt("tel_Resto"),
                         rs.getString("description")
                 );
 
@@ -80,36 +86,87 @@ public class AfficherRestaurantController implements Initializable {
     public void restoDisplayCard() {
         try {
             cardListData.clear();
+            System.out.println("resto get data method :"+restoGetData());
+
             cardListData.addAll(restoGetData());
 
             restoGridPane.getChildren().clear(); // Clear existing children
             restoGridPane.getRowConstraints().clear();
             restoGridPane.getColumnConstraints().clear();
+            System.out.println("this CardListData :"+ cardListData);
 
 
             int column = 0;
             int row = 0;
 
-            for (Restaurant productData : cardListData) {
+            System.out.println(cardListData);
+
+            for (Restaurant restaurantData : cardListData) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/CardviewRestaurant.fxml"));
-                AnchorPane pane = loader.load();
-                CardviewRestaurantController cardController = loader.getController();
-                cardController.setData(productData);
 
-                restoGridPane.add(pane, column, row);
-                GridPane.setMargin(pane,new Insets(10));
+                try {
+                    VBox pane = loader.load();
+                    CardviewRestaurantController cardController = loader.getController();
+                    System.out.println("testing before set "+restaurantData);
+                    cardController.setData(restaurantData);
 
-                // Increment the column index
-                column++;
+                    restoGridPane.add(pane, column, row);
+                    GridPane.setMargin(pane,new Insets(10));
+                    System.out.println("this is restaurant data"+restaurantData);
 
-                if (column == 3) {
-                    column = 0;
-                    row++;
+                    // Increment the column index
+                    column++;
+
+                    if (column == 1) {
+                        column = 0;
+                        row++;
+                    }
+
+                } catch (IOException e) {
+                    // Handle FXML loading exception
+                    e.printStackTrace();
+                    System.out.println("Error loading FXML: " + e.getMessage());
                 }
             }
-        } catch (IOException e) {
+            System.out.println(cardListData);
+        } catch (Exception e) {
+            // Handle any other exceptions
             e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
         }
+    }
 
+
+
+    @FXML
+    void backAdd(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ajouterRestaurant.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    void reloadR(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../afficherRestaurant.fxml"));
+            Parent root = fxmlLoader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 }
