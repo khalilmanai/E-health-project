@@ -4,6 +4,9 @@ module x.nutri {
 
     requires com.dlsc.formsfx;
     requires java.sql;
+    requires stripe.java;
+    requires twilio;
+    requires java.mail;
     exports x.nutri;
     opens x.nutri to javafx.fxml;
     exports x.nutri.test;

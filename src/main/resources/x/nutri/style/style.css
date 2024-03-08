@@ -31,3 +31,37 @@
     -fx-background-color: #FFFFFF;
     -fx-background-radius: 30;
 }
+.Hbox-Panier {
+    -fx-background-color: #3CB371;
+}
+.btn{
+    -fx-background-color: #3CB371;
+}
+.white{
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 30;}
+.border{
+    -fx-background-color:white;
+    -fx-background-radius:5.0;
+    -fx-background-insets: 0.0 5.0 0.0 5.0;
+    -fx-padding: 10;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+
+}
+.color{
+    -fx-background-color: rgb(192,192,192);
+}
+.color2{
+    -fx-background-color: white;
+}
+.color3{
+   -fx-border-color: black;
+}
+.card{
+    -fx-background-color: #fff;
+    -fx-background-radius: 5px;
+}
+.color4{
+    -fx-background-color: #F2F3F4;
+}

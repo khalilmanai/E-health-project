@@ -2,19 +2,21 @@ package x.nutri.models;
 
 import java.time.LocalDateTime;
 
-public class CartData {
+public class CommandeData {
     private int id;
     private  int cart_code;
     private Double total;
     private LocalDateTime date;
 
-    public CartData(int id, int cart_code, Double total, LocalDateTime date) {
+    public CommandeData(int id, int cart_code, Double total, LocalDateTime date) {
         this.id = id;
         this.cart_code = cart_code;
         this.total = total;
         this.date = date;
     }
+public CommandeData(){
 
+}
     public int getId() {
         return id;
     }
