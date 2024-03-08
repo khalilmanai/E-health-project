@@ -15,8 +15,8 @@ public class Restaurant implements iService {
 
         }
 
-    public Restaurant(String nom_Resto, String adresse_Resto, int tel_Resto, String description) {
-     //   this.id_Resto = id_Resto;
+    public Restaurant(int id_Resto, String nom_Resto, String adresse_Resto, int tel_Resto, String description) {
+        this.id_Resto = id_Resto;
         this.nom_Resto = nom_Resto;
         this.adresse_Resto = adresse_Resto;
         this.tel_Resto = tel_Resto;

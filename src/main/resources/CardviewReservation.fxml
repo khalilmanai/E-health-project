@@ -9,8 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="tn.esprit.controllers.CardviewReservationController">
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.esprit.controllers.CardviewReservationController">
    <children>
       <AnchorPane prefHeight="405.0" prefWidth="604.0">
          <children>
@@ -44,7 +43,7 @@
             <Label fx:id="nbrP" layoutX="81.0" layoutY="203.0" text="Nombre de personnes :" />
             <Label fx:id="dateR" layoutX="81.0" layoutY="237.0" text="Date du réservation :" />
             <Label fx:id="stat" layoutX="81.0" layoutY="270.0" text="Statut :" />
-          <Button fx:id="btnUpdate" layoutX="159.0" layoutY="321.0" mnemonicParsing="false" onAction="#updateRs" style="-fx-background-color: #EC744A; -fx-background-radius: 10;" text="Modifier" textFill="WHITE">
+          <Button fx:id="btnModifier" layoutX="159.0" layoutY="321.0" mnemonicParsing="false" onAction="#updateRs" style="-fx-background-color: #EC744A; -fx-background-radius: 10;" text="Modifier" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

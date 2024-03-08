@@ -6,6 +6,7 @@ import tn.esprit.models.Restaurant;
 import tn.esprit.services.ServiceReservation;
 import tn.esprit.services.ServiceRestaurant;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import java.util.ArrayList;
@@ -20,12 +21,12 @@ public class Main {
 
         // add new reservation
 
-        Reservation r1 = new Reservation();
+       /* Reservation r1 = new Reservation();
         r1.setNom_Resto("Slayta");
         r1.setNom_Client("Abir");
         r1.setTel_Client(22222222);
         r1.setNbr_Personnes(2);
-        r1.setDate_Reservation(LocalDateTime.of(2024, 12, 16, 19, 0, 0));
+        r1.setDate_Reservation(2024, 12, 16, 19, 0, 0););
         r1.setStatut("réservé");
         sr.add(r1);
 
@@ -45,10 +46,10 @@ public class Main {
         r3.setNom_Client("Mariem");
         r3.setTel_Client(33333333);
         r3.setNbr_Personnes(4);
-        r3.setDate_Reservation(LocalDateTime.of(2024, 1, 16, 12, 0, 0));
+        r3.setDate_Reservation(Date.(2024, 1, 16, 12, 0, 0));
         r3.setStatut("réservé");
         sr.add(r3);
-
+*/
 
         // add new restaurant
 
@@ -104,14 +105,14 @@ public class Main {
         service.update(rest2);
 
         // Update reservation
-        sr.update(r3);
+      //  sr.update(r3);
 
 
         // Delete restaurant
         service.delete(rest4);
 
         // Delete reservation
-        sr.delete(r2);
+       // sr.delete(r2);
 
     }
 }

@@ -2,10 +2,8 @@ package tn.esprit.models;
 
 import tn.esprit.interfaces.iService;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
+import java.sql.Date;
 
 
 public class Reservation implements iService {
@@ -14,13 +12,13 @@ public class Reservation implements iService {
     private String nom_Client;
     private int tel_Client;
     private int nbr_Personnes;
-    private LocalDateTime date_Reservation;
+    private Date date_Reservation;
     private String statut;
 
     public Reservation(){}
 
-    public Reservation(String nom_Resto, String nom_Client, int tel_Client, int nbr_Personnes, LocalDateTime date_Reservation, String statut) {
-      //  this.id_Reservation = id_Reservation;
+    public Reservation(int id_Reservation, String nom_Resto, String nom_Client, int tel_Client, int nbr_Personnes, Date date_Reservation, String statut) {
+        this.id_Reservation = id_Reservation;
         this.nom_Client = nom_Client;
         this.nom_Resto = nom_Resto;
         this.tel_Client = tel_Client;
@@ -69,11 +67,11 @@ public class Reservation implements iService {
         this.nbr_Personnes = nbr_Personnes;
     }
 
-    public LocalDateTime getDate_Reservation() {
+    public Date getDate_Reservation() {
         return date_Reservation;
     }
 
-    public void setDate_Reservation(LocalDateTime date_Reservation) {
+    public void setDate_Reservation(Date date_Reservation) {
         this.date_Reservation = date_Reservation;
     }
 

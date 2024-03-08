@@ -62,7 +62,8 @@ public class AfficherRestaurantController implements Initializable {
             ResultSet rs = pst.executeQuery();
             Restaurant resto;
             while (rs.next()) {
-                resto = new Restaurant(
+                resto = new Restaurant (
+                        rs.getInt("id_Resto"),
                         rs.getString("nom_Resto"),
                         rs.getString("adresse_Resto"),
                         rs.getInt("tel_Resto"),
@@ -86,7 +87,7 @@ public class AfficherRestaurantController implements Initializable {
     public void restoDisplayCard() {
         try {
             cardListData.clear();
-            System.out.println("resto get data method :"+restoGetData());
+            System.out.println("resto get data method :" + restoGetData());
 
             cardListData.addAll(restoGetData());
 
@@ -108,7 +109,9 @@ public class AfficherRestaurantController implements Initializable {
                     VBox pane = loader.load();
                     CardviewRestaurantController cardController = loader.getController();
                     System.out.println("testing before set "+restaurantData);
+                    System.out.println("helloaaaaaaaa   : " + restaurantData.getId_Resto());
                     cardController.setData(restaurantData);
+                    cardController.setId_Resto(restaurantData.getId_Resto());
 
                     restoGridPane.add(pane, column, row);
                     GridPane.setMargin(pane,new Insets(10));
@@ -130,7 +133,6 @@ public class AfficherRestaurantController implements Initializable {
             }
             System.out.println(cardListData);
         } catch (Exception e) {
-            // Handle any other exceptions
             e.printStackTrace();
             System.out.println("Error: " + e.getMessage());
         }
@@ -157,7 +159,7 @@ public class AfficherRestaurantController implements Initializable {
     @FXML
     void reloadR(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../afficherRestaurant.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/afficherRestaurant.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();

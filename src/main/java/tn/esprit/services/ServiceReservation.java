@@ -6,6 +6,7 @@ import tn.esprit.utils.MyDB;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ServiceReservation implements iService<Reservation> {
     @Override
@@ -18,7 +19,7 @@ public class ServiceReservation implements iService<Reservation> {
             pst.setString(2, reservation.getNom_Client());
             pst.setInt(3, reservation.getTel_Client());
             pst.setInt(4, reservation.getNbr_Personnes());
-            pst.setTimestamp(5, Timestamp.valueOf(reservation.getDate_Reservation()));
+            pst.setDate(5, reservation.getDate_Reservation());
             pst.setString(6, reservation.getStatut());
             pst.executeUpdate();
             System.out.println("La réservation a été bien ajoutée");
@@ -41,7 +42,7 @@ public class ServiceReservation implements iService<Reservation> {
                 r.setNom_Client(rs.getString(3));
                 r.setTel_Client(rs.getInt(4));
                 r.setNbr_Personnes(rs.getInt(5));
-                r.setDate_Reservation(rs.getTimestamp(6).toLocalDateTime());
+                r.setDate_Reservation(rs.getDate(6));
                 r.setStatut(rs.getString(7));
                 reservations.add(r);
             }
@@ -62,9 +63,11 @@ public class ServiceReservation implements iService<Reservation> {
             pst.setString(2, reservation.getNom_Client());
             pst.setInt(3, reservation.getTel_Client());
             pst.setInt(4, reservation.getNbr_Personnes());
-            pst.setTimestamp(5, Timestamp.valueOf(reservation.getDate_Reservation()));
+            pst.setDate(5, reservation.getDate_Reservation());
             pst.setString(6, reservation.getStatut());
+            pst.setInt(7, reservation.getId_Reservation());
             System.out.println("Réservation a été bien modifiée");
+            pst.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Erreur lors de la modification du réservation : " + ex.getMessage());
         }
@@ -73,17 +76,15 @@ public class ServiceReservation implements iService<Reservation> {
     @Override
     public boolean delete(Reservation reservation) {
 
-        String req = "DELETE FROM `reservation` WHERE id_Reservation=?";
-        PreparedStatement pst = null;
+        String req = "DELETE FROM reservation WHERE id_Reservation =?";
         try {
-            pst = MyDB.getInstance().getCnx().prepareStatement(req);
+            PreparedStatement pst = MyDB.getInstance().getCnx().prepareStatement(req);
             pst.setInt(1, reservation.getId_Reservation());
             pst.executeUpdate();
             System.out.println("Réservation a été bien supprimée!");
-            return true;
         } catch (SQLException e) {
             System.err.println("Erreur lors de la suppression du réservation : " + e.getMessage());
-            return false;
         }
+        return false;
     }
 }

@@ -13,6 +13,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import tn.esprit.services.SmsTwilio;
 import tn.esprit.utils.MyDB;
 import java.io.IOException;
 import java.net.URL;
@@ -66,7 +67,8 @@ public class AjouterReservationController implements Initializable {
                 pst.setDate(5, java.sql.Date.valueOf(tfdate.getValue()));
                 pst.setString(6, tfstatut.isSelected() ? "selected" : "not selected");
                 pst.executeUpdate();
-
+                SmsTwilio sms=new SmsTwilio();
+                sms.SendSms();
                 showAlert(Alert.AlertType.INFORMATION, "Ajout réussi", "La réservation a été ajoutée avec succès.");
 
                 clearField(null); // Clear the fields after successful addition
@@ -107,8 +109,8 @@ public class AjouterReservationController implements Initializable {
     }
 
     private boolean validateInput() {
-        return validateTextField(tfnomR, "[a-zA-Z]+", "nom du restaurant")
-                && validateTextField(tfnomC, "[a-zA-Z]+", "nom du client")
+        return validateTextField(tfnomR, "[a-zA-Z0-9 \\-']+", "nom du restaurant")
+                && validateTextField(tfnomC, "[a-zA-Z0-9 \\-']+", "nom du client")
                 && validateTextField(tftel, "\\d{8}", "numéro de téléphone")
                 && validateTextField(tfnbr, "\\d+", "nombre de personnes")
                 && validateDatePicker(tfdate, "date de réservation")

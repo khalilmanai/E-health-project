@@ -33,105 +33,70 @@ public class AfficherReservationController implements Initializable {
     private AnchorPane reservForm;
 
     @FXML
-    private GridPane reservGridPane;
+    private GridPane reservation_container;
 
     @FXML
     private ScrollPane reservScrollPane;
 
-    private final ObservableList<Reservation> cardListData = FXCollections.observableArrayList();
+    private final ServiceReservation Sr=new ServiceReservation();
 
-
+    private  ArrayList<Reservation>listreservation;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-               reservDisplayCard();
+        int column = 0;
+        int row = 1;
 
-    }
-    public ObservableList<Reservation> reservGetData() {
 
-        ObservableList<Reservation> cardListData = FXCollections.observableArrayList();
-        String sql = "SELECT * FROM reservation";
-        Connection con = MyDB.getInstance().getCnx();
 
-        try {
-            System.out.println("Connected!");
-            PreparedStatement pst = con.prepareStatement(sql);
-            ResultSet rs = pst.executeQuery();
-            Reservation reserv;
-            while (rs.next()) {
-                reserv = new Reservation(
-                        rs.getString("nom_Resto"),
-                        rs.getString("nom_Client"),
-                        rs.getInt("tel_Client"),
-                        rs.getInt("nbr_Personnes"),
-                        rs.getTimestamp("date_Reservation").toLocalDateTime(),
-                        rs.getString("Statut")
-                );
-                System.out.println("Nom du restaurant : " + reserv.getNom_Resto());
-                System.out.println("Nom du client : " + reserv.getNom_Client());
+        //listFactures=B.gettri(recherche,mychoix);
 
-                cardListData.add(reserv);
-                System.out.println("reserv" + reserv);
-
+        listreservation = Sr.getAll();
+        for(Reservation i : listreservation)
+        {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("../afficherReservation.fxml"));
+            VBox cardBox = null;
+            try {
+                cardBox = loader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-        return cardListData;
-    }
+            CardviewReservationController cardController = loader.getController();
+            System.out.println("id  :" +i.getId_Reservation());
+            cardController.setData(i);
 
-    public void reservDisplayCard() {
-        try {
-            cardListData.clear();
-            System.out.println("resto get data method :"+reservGetData());
-
-            cardListData.addAll(reservGetData());
-
-            reservGridPane.getChildren().clear(); // Clear existing children
-            reservGridPane.getRowConstraints().clear();
-            reservGridPane.getColumnConstraints().clear();
-            System.out.println("this CardListData :"+ cardListData);
+            cardController.setId_Reservation( i.getId_Reservation());
 
 
-            int column = 0;
-            int row = 0;
 
-            System.out.println(cardListData);
+            VBox finalCardBox = cardBox;
+            cardBox.setOnMouseEntered(mouseDragEvent -> {
 
-            for (Reservation restaurantData : cardListData) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/CardviewReservation.fxml"));
+                finalCardBox.setScaleX(finalCardBox.getScaleX() + 0.1);
+                finalCardBox.setScaleY(finalCardBox.getScaleY() + 0.1);
+            });
+            cardBox.setOnMouseExited(mouseDragEvent -> {
 
-                try {
-                    VBox pane = loader.load();
-                    CardviewReservationController cardController = loader.getController();
-                    System.out.println("testing before set "+restaurantData);
-                    cardController.setData(restaurantData);
-
-                    reservGridPane.add(pane, column, row);
-                    GridPane.setMargin(pane,new Insets(10));
-                    System.out.println("this is restaurant data"+restaurantData);
-
-                    // Increment the column index
-                    column++;
-
-                    if (column == 1) {
-                        column = 0;
-                        row++;
-                    }
-
-                } catch (IOException e) {
-                    // Handle FXML loading exception
-                    e.printStackTrace();
-                    System.out.println("Error loading FXML: " + e.getMessage());
-                }
+                finalCardBox.setScaleX(finalCardBox.getScaleX() - 0.1);
+                finalCardBox.setScaleY(finalCardBox.getScaleY() - 0.1);
+            });
+            if(column == 2)
+            {
+                column = 0;
+                row++;
             }
-            System.out.println(cardListData);
-        } catch (Exception e) {
-            // Handle any other exceptions
-            e.printStackTrace();
-            System.out.println("Error: " + e.getMessage());
+            reservation_container.add(cardBox,column++,row);
+            GridPane.setMargin(cardBox, new Insets(10));
+
+
         }
+
+
+
     }
+
+
+
 
 
 
@@ -139,7 +104,7 @@ public class AfficherReservationController implements Initializable {
     @FXML
     void backAdd(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ajouterRestaurant.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ajouterReservation.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
@@ -155,7 +120,7 @@ public class AfficherReservationController implements Initializable {
     @FXML
     void reloadR(ActionEvent event) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../afficherRestaurant.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/afficherReservation.fxml"));
             Parent root = fxmlLoader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();

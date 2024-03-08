@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import tn.esprit.models.Restaurant;
+import tn.esprit.utils.EmailSender;
 import tn.esprit.utils.MyDB;
 
 import java.io.IOException;
@@ -76,6 +77,7 @@ public class AjouterRestaurantController implements Initializable {
 
             String req = "INSERT INTO restaurant (`nom_Resto`, `adresse_Resto`, `tel_Resto`, `Description`) VALUES (?,?,?,?)";
             con = MyDB.getInstance().getCnx();
+            String to = "bahraouiabir4@gmail.com";
             try {
                 pst = con.prepareStatement(req);
                 pst.setString(1, tfnom.getText());
@@ -85,10 +87,12 @@ public class AjouterRestaurantController implements Initializable {
                 pst.executeUpdate();
                 showAlert(Alert.AlertType.INFORMATION, "Ajout réussi", "Le restaurant a été ajouté avec succès.");
                 clearField(null); // Clear the fields after successful addition
+
             } catch (SQLException e) {
                 System.out.println("Error");
                 System.out.println(e.getMessage());
             }
+            EmailSender.VerificationCodeSender(to);
         }
     }
 
