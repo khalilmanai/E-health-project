@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="574.0" prefWidth="785.0" xmlns="http://javafx.com/javafx/21"  xmlns:fx="http://javafx.com/fxml/1" >
+    <children>
+        <TabPane prefHeight="574.0" prefWidth="785.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="reclamation">
+                    <content>
+                        <fx:include source="afficherReclamation.fxml"/>
+                    </content>
+                </Tab>
+                <Tab text="factures">
+                    <content>
+                       <fx:include source="afficherFacture.fxml"></fx:include>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>

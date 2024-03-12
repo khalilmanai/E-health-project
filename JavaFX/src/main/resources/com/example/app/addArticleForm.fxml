@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane prefHeight="512.0" prefWidth="401.0" style="-fx-background-color: cbe69a;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.Articles_Ehealth.Controller.AddArticleForm">
+   <children>
+      <Pane layoutX="5.0" layoutY="55.0" prefHeight="36.0" prefWidth="276.0">
+         <children>
+            <Label layoutX="21.0" layoutY="6.0" prefHeight="23.0" prefWidth="54.0" text="Titre" />
+            <TextField fx:id="tf_titre3" layoutX="127.0" layoutY="5.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="5.0" layoutY="97.0" prefHeight="36.0" prefWidth="276.0">
+         <children>
+            <Label layoutX="21.0" layoutY="7.0" prefHeight="23.0" prefWidth="35.0" text="Sujet" />
+            <TextField fx:id="tf_sujet3" layoutX="127.0" layoutY="2.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="5.0" layoutY="140.0" prefHeight="29.0" prefWidth="276.0">
+         <children>
+            <Label layoutX="14.0" layoutY="6.0" text="Specialiste_id" />
+            <TextField fx:id="tf_id_spec" layoutX="127.0" layoutY="2.0" />
+         </children>
+      </Pane>
+      <ImageView fitHeight="47.0" fitWidth="44.0" layoutX="14.0" layoutY="451.0">
+         <image>
+            <Image url="@Images/LOGO.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="36.0" fitWidth="82.0" layoutX="305.0" layoutY="14.0">
+         <image>
+            <Image url="@Images/beep.PNG" />
+         </image>
+      </ImageView>
+      <Button fx:id="addbtn" layoutX="114.0" layoutY="462.0" mnemonicParsing="false" onAction="#addarticle" style="-fx-background-color: EC744A; -fx-text-fill: FFFFFF; -fx-background-radius: 25; -fx-pref-width: 70; -fx-pref-height: 30;" text="Ajouter" />
+      <Button fx:id="closerbtn" layoutX="205.0" layoutY="462.0" mnemonicParsing="false" onAction="#annuler" style="-fx-background-color: EC744A; -fx-text-fill: FFFFFF; -fx-background-radius: 25; -fx-pref-width: 70; -fx-pref-height: 30;" text="Annuler" />
+      <TextArea fx:id="content" layoutX="127.0" layoutY="180.0" prefHeight="271.0" prefWidth="268.0" />
+      <Label layoutX="23.0" layoutY="227.0" text="Contenu d'article" />
+   </children>
+</AnchorPane>

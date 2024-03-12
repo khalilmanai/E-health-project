@@ -1,0 +1,61 @@
+.root {
+    -fx-background-color: #ffff;
+    -fx-font-family: 'Sofia Sans Condensed SemiBold', sans-serif;
+    -fx-font-size: 18px;
+}
+
+/* Button styles */
+/* Button styles */
+/* Button styles */
+.button {
+    -fx-background-color: #EC744A;
+    -fx-background-radius: 8px; /* Reduce background radius */
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px; /* Reduce font size */
+    -fx-padding: 8px 16px; /* Reduced padding */
+    -fx-border-radius: 3px; /* Reduce border radius */
+    -fx-cursor: pointer;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1); /* Reduced shadow */
+    -fx-transition: all 0.3s;
+}
+
+.button:hover {
+    -fx-background-color: #d05d3d;
+}
+
+/* Label styles */
+.label {
+    -fx-text-fill: #ffff; /* Couleur du texte en noir */
+    -fx-font-size: 19px;
+}
+#cat_hbox {
+    -fx-pref-width: 355px;
+    -fx-pref-height: 200px;
+    -fx-background-color: #ffffff; /* Card background color */
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.1) , 10,0,0,1 ); /* Shadow effect */
+    -fx-padding: 20px; /* Add padding inside the card */
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+    -fx-transition: all 0.3s ease; /* Add smooth transition */
+}
+
+#cat_hbox:hover {
+    -fx-scale-x: 1.05; /* Add hover effect */
+    -fx-scale-y: 1.05; /* Add hover effect */
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.2) , 20,0,0,1 ); /* Increase shadow on hover */
+}
+
+/* Additional styles for content inside the card */
+#cat_hbox .Label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px;
+    -fx-text-fill: #333333;
+}
+
+#cat_hbox .Button {
+    -fx-font-style: italic;
+    -fx-font-size: 18px;
+    -fx-padding: 5px 10px;
+}

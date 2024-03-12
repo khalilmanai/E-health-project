@@ -1,0 +1,30 @@
+.root {
+    -fx-background-color: #ffff;
+    -fx-font-family: 'Sofia Sans Condensed SemiBold', sans-serif;
+    -fx-font-size: 18px;
+}
+
+/* Button styles */
+/* Button styles */
+/* Button styles */
+.button {
+    -fx-background-color: #EC744A;
+    -fx-background-radius: 8px; /* Reduce background radius */
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 14px; /* Reduce font size */
+    -fx-padding: 8px 16px; /* Reduced padding */
+    -fx-border-radius: 3px; /* Reduce border radius */
+    -fx-cursor: pointer;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 1); /* Reduced shadow */
+    -fx-transition: all 0.3s;
+}
+
+.button:hover {
+    -fx-background-color: #d05d3d;
+}
+
+/* Label styles */
+.label {
+     /* Couleur du texte en noir */
+    -fx-font-size: 19px;
+}

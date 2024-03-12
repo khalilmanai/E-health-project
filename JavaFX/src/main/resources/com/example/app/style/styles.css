@@ -1,0 +1,26 @@
+.title {
+    -fx-font-size : 2em;
+    -fx-font-family: Poppins;
+}
+
+.form_container Label {
+    -fx-font-family: Poppins;
+    -fx-text-fill: #007d6e;
+}
+
+.form_container TextField {
+    -fx-background-radius: 20;
+}
+
+.ajouterResto .afficherRestaurant .ajouterReservation .afficherReservation {
+    -fx-background-color: #007D6E;
+    -fx-background-radius: 20;
+    -fx-text-fill: #ffff;
+}
+
+.btnAdd .btnUpdate .btnDelete .btnClear {
+    -fx-background-color: #EC744A;
+    -fx-background-radius: 9;
+    -fx-text-fill: #ffff;
+}
+

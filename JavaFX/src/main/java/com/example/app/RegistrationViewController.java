@@ -3,24 +3,27 @@ package com.example.app;
 import com.example.app.models.User;
 import com.example.app.utils.DBConnection;
 import javafx.animation.PauseTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.Stack;
 
 import static com.example.app.utils.PasswordHasher.passwordHash;
@@ -28,16 +31,23 @@ import static com.example.app.utils.PasswordHasher.passwordHash;
 public class RegistrationViewController {
 
     @FXML
+    private Label alertLabel;
+
+
+
+    @FXML
     private TextField emailInput;
 
     @FXML
-    private TextField passwordInput;
+    private PasswordField passwordInput;
+
+    @FXML
+    private Hyperlink showPasswordButton;
 
     @FXML
     private TextField userNameInput;
 
-    @FXML
-    private Label alertLabel;
+    private boolean passwordVisible =false;
 
     private final Stack<Scene> sceneStack = new Stack<>();
     private final DBConnection dbConnection = DBConnection.getInstance();
@@ -147,4 +157,19 @@ public class RegistrationViewController {
         visiblePause.setOnFinished(event -> alertLabel.setText(""));
         visiblePause.play();
     }
+
+    @FXML
+    private void togglePasswordVisibility() {
+        passwordVisible = !passwordVisible;
+     if(passwordVisible){
+         passwordInput.setPromptText(passwordInput.getText());
+         passwordInput.setText("");
+
+     }else {
+         passwordInput.setText(passwordInput.getPromptText());
+         passwordInput.setPromptText(""); // Clear prompt text
+     }
+    }
+
+
 }

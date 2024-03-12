@@ -34,6 +34,9 @@ public class DBConnection {
         return cnx;
     }
 
+    public Connection getCnx() {
+        return cnx;
+    }
     public void closeConnection() {
         try {
             if (cnx != null && !cnx.isClosed()) {

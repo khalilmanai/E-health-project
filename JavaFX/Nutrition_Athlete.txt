@@ -1,0 +1,24 @@
+    //SQL part
+        String query2 = "SELECT `content` FROM `articles` WHERE `article_id` = " +idart + " LIMIT 1";
+        try {
+            Statement stm = con.createStatement();
+            ResultSet result = stm.executeQuery(query2);
+            while (result.next()){content = result.getString("content");
+            }
+        } catch (SQLException ex) {System.out.println(ex.getMessage());}
+
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDate = currentDate.format(formatter);
+String fileContent = "Specialiste : " + userName + "\n" +
+ "Date de publication : " + formattedDate + "\n" +
+  "Titre  : " + article.getTitle() + "\n" +
+ "Sujet : " + content;
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(label_titre.getText()+".txt"));
+
+            writer.write(fileContent);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }

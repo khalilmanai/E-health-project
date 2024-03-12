@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="487.0" prefWidth="646.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.controllers.CartPanierController">
+   <children>
+      <AnchorPane fx:id="Panier_Form" layoutX="10.0" layoutY="13.0" prefHeight="488.0" prefWidth="656.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane layoutX="16.0" layoutY="12.0" prefHeight="456.0" prefWidth="623.0" stylesheets="@style/style.css">
+               <children>
+                  <ScrollPane fx:id="PanierScroll_Pane" layoutX="294.0" layoutY="8.0" prefHeight="438.0" prefWidth="313.0">
+                     <content>
+                        <AnchorPane fx:id="productAnchorPane" prefHeight="422.0" prefWidth="307.0">
+                           <children>
+                              <GridPane fx:id="Cart_grid_pane" layoutY="14.0" prefHeight="26.0" prefWidth="92.0" styleClass="border" stylesheets="@style/style.css">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints />
+                                 </rowConstraints>
+                              </GridPane>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+                  <ImageView fitHeight="59.0" fitWidth="82.0" layoutX="6.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/nutrinet.png" />
+                     </image>
+                  </ImageView>
+                  <HBox alignment="CENTER" layoutX="11.0" layoutY="76.0" prefHeight="50.0" prefWidth="252.0" stylesheets="@style/style.css">
+                     <children>
+                        <Label prefHeight="22.0" prefWidth="90.0" text="Total Panier:" textFill="#233b29">
+                           <font>
+                              <Font name="Arial Black" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="total_panier" prefHeight="23.0" prefWidth="97.0" stylesheets="@style/style.css">
+                           <font>
+                              <Font name="Cambria" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <styleClass>
+                        <String fx:value="search-box" />
+                        <String fx:value="shadow" />
+                     </styleClass></HBox>
+                  <Button fx:id="CommanderProd" layoutX="100.0" layoutY="228.0" mnemonicParsing="false" onAction="#Commander" prefHeight="50.0" prefWidth="186.0" text="Commander">
+                     <styleClass>
+                        <String fx:value="add-btn" />
+                        <String fx:value="shadow" />
+                        <String fx:value="btn" />
+                     </styleClass>
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="108.0" layoutY="145.0" prefHeight="18.0" prefWidth="67.0" text="Amount :" textFill="#2e4e3e">
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font></Label>
+                  <TextField fx:id="menu_amount" layoutX="189.0" layoutY="141.0" onAction="#menuAmount" prefHeight="26.0" prefWidth="90.0">
+                     <styleClass>
+                        <String fx:value="search-box" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                  </TextField>
+
+                  <Label layoutX="113.0" layoutY="180.0" text="Change :" textFill="#213825">
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font></Label>
+                  <ImageView fitHeight="86.0" fitWidth="98.0" layoutX="188.0" layoutY="356.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/429703902_400676112555524_9121297242509751958_n.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="26.0" fitWidth="28.0" layoutX="116.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/png-transparent-health-lifestyle-computer-icons-healthy-lifestyle-hand-logo-nutrition-thumbnail.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="menu_change" layoutX="172.0" layoutY="179.0" prefHeight="18.0" prefWidth="111.0" stylesheets="@style/style.css">
+                     <styleClass>
+                        <String fx:value="color" />
+                        <String fx:value="add-btn" />
+                        <String fx:value="btn" />
+                        <String fx:value="white" />
+                        <String fx:value="Hbox-Panier" />
+                        <String fx:value="color2" />
+                     </styleClass></Label>
+                  <Button fx:id="Supprimer" layoutX="7.0" layoutY="308.0" mnemonicParsing="false" onAction="#DeleteAllCards" prefHeight="42.0" prefWidth="186.0" text="Supprimer  Panier">
+                     <styleClass>
+                        <String fx:value="add-btn" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/del.jpg" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+               <styleClass>
+                  <String fx:value="shadow" />
+                  <String fx:value="color" />
+                  <String fx:value="white" />
+               </styleClass>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

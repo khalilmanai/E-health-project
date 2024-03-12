@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="commande_card" prefHeight="180.0" prefWidth="275.0" styleClass="shadow" stylesheets="@style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.controllers.CardCommandeController">
+   <children>
+      <VBox layoutX="102.0" layoutY="-20.0" prefHeight="180.0" prefWidth="230.0" styleClass="color3" stylesheets="@style/style.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="36.0" prefWidth="230.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="18.0" prefWidth="184.0" text="Carte Code:">
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin></Label>
+                  <Label fx:id="carte_code" prefHeight="18.0" prefWidth="144.0" />
+                  <Label prefHeight="18.0" prefWidth="98.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="38.0" prefWidth="274.0">
+               <children>
+                  <Label prefHeight="24.0" prefWidth="91.0" text="Total:">
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="Carte_total" layoutX="10.0" layoutY="10.0" prefHeight="14.0" prefWidth="91.0" />
+               </children>
+            </HBox>
+            <HBox fx:id="Carte_code" alignment="CENTER" layoutX="10.0" layoutY="46.0" prefHeight="30.0" prefWidth="230.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="39.0" text="Date:">
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font></Label>
+                  <Label fx:id="Date_comm" layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="140.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="41.0" prefWidth="165.0">
+               <children>
+                  <Button fx:id="btn_code" mnemonicParsing="false" onAction="#supp_commande" prefHeight="33.0" prefWidth="118.0" stylesheets="@style/style.css" text="Supprimer">
+                     <styleClass>
+                        <String fx:value="add-btn" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <graphic>
+                        <ImageView fitHeight="26.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/del.jpg" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Arial Black" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

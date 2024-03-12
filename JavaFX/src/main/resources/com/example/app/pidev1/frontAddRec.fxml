@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="APfrontAddRec" prefHeight="550.0" prefWidth="760.0" style="-fx-background-color: FCF8F4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.app.frontController.Add_Reclamation">
+   <ImageView fitHeight="323.0" fitWidth="383.0" layoutX="459.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@images/1.png" />
+      </image>
+   </ImageView>
+   <TextField fx:id="id_client" layoutX="71.0" layoutY="110.0" prefHeight="26.0" prefWidth="164.0" promptText="votre id" />
+   <TextField fx:id="id_facture" layoutX="71.0" layoutY="183.0" prefHeight="26.0" prefWidth="164.0" promptText="id facture" />
+   <TextArea fx:id="Fraison" layoutX="71.0" layoutY="262.0" prefHeight="200.0" prefWidth="348.0" promptText="message" />
+   <Button layoutX="235.0" layoutY="509.0" mnemonicParsing="false" onAction="#confirm" prefHeight="26.0" prefWidth="78.0" style="-fx-background-color: EB744A;" text="Envoyer" textFill="WHITE" />
+   <TextField fx:id="refundAmount" layoutX="271.0" layoutY="183.0" prefHeight="26.0" promptText="refundAmount" />
+   <Label layoutX="71.0" layoutY="86.0" prefHeight="18.0" prefWidth="164.0" textFill="#a42323">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </Label>
+   <Label fx:id="message_label" layoutX="71.0" layoutY="238.0" prefHeight="22.0" prefWidth="324.0" textFill="#a42323">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </Label>
+   <Label fx:id="id_factureLabel" layoutX="71.0" layoutY="159.0" prefHeight="18.0" prefWidth="164.0" textFill="#a42323">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </Label>
+   <Label fx:id="refundAmount_Label" layoutX="271.0" layoutY="159.0" prefHeight="18.0" prefWidth="150.0" textFill="#a42323">
+      <font>
+         <Font size="15.0" />
+      </font>
+   </Label>
+
+
+</AnchorPane>
